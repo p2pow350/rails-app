@@ -1,0 +1,6 @@
+<% c = controller.controller_name %>
+			
+<div class="ui icon buttons">
+  <%= link_to '<i class="edit icon"></i>'.html_safe, {:controller => c }, class: "ui button" %> 
+  <%= link_to '<i class="delete icon"></i>'.html_safe, {:controller => c, method: :delete, data: { confirm: 'Are you sure?' }}, class: "ui button red" %> 
+</div>

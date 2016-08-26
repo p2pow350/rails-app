@@ -1,0 +1,18 @@
+<!-- Left Sidebar -->
+<div class="ui visible inverted left vertical sidebar menu navy">
+    <a class="item"><i class="home icon"></i>Home</a>
+    <a><%= link_to 'Carriers', carriers_path, class: 'item' %></a>
+
+	<% (1..5).each do |i| %>
+	  <a class="item">Page <%= i %></a>
+	<% end %>    
+
+    <a><%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: 'item' %></a>    
+</div>
+
+<!--
+<div class="ui menu">
+  <a class="active item">Home</a>
+</div>
+-->
+

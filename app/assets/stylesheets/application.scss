@@ -1,0 +1,49 @@
+$font-url: 'http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
+@import 'semantic-ui';
+
+
+$pageBackground : #333;
+
+body {
+  background-color: #ededed; //Light Gray
+}
+
+.ui.menu {
+    border-radius: 0px !important;
+}
+
+//blue Application Title
+#app_title {
+    border-radius: 0px !important;
+}
+
+//Top menu
+#app_bar {
+    border-radius: 0px !important;
+    height: 47px;
+    margin-left: 260px;
+}
+
+#sidebar_menu_items {
+  margin-top: -14px !important;
+}
+
+
+/* CONTENT */
+//too wide pusher content
+.ui.sidebar.visible ~ .pusher {
+  margin-top: 10px;
+  margin-left: 10px;
+  width: calc(100% - 280px);
+}
+
+/* TABLE */
+.ui.table thead tr th {
+    background-color: #4863A0; //Steel Blue
+    color: white;
+}
+
+.ui.table tbody tr {
+  line-height: 10px !important;
+}
+
