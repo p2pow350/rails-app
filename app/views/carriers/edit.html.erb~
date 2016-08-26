@@ -1,5 +1,0 @@
-<div class="ui secondary pointing fluid menu">
-	<h2 class="ui header">Editing Carriers</h2>
-</div>
-
-<%= render 'form' %>
