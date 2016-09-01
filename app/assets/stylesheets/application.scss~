@@ -40,7 +40,6 @@ body {
 .ui.table thead tr th {
     background-color: #4863A0; //Steel Blue
     color: white;
-    font-size: 12px;
 }
 
 .ui.table tbody tr {

@@ -3,8 +3,7 @@ class CarriersController < ApplicationController
   semantic_breadcrumb :index, :carriers_path
 
   def index    
-    #@carriers = Carrier.all.page(params[:page])
-    @carriers = Carrier.all.paginate(:page => params[:page])
+    @carriers = Carrier.all.page(params[:page])
     
     respond_to do |format|
 		format.html

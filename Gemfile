@@ -12,7 +12,8 @@ gem 'data-confirm-modal-semantic-ui', github: 'kntmrkm/data-confirm-modal-semant
 gem 'simple_form', github: 'plataformatec/simple_form'
 gem 'to_xls-rails'
 gem 'to_csv-rails'
-gem 'kaminari'
+gem 'will_paginate', '~> 3.1.0'
+gem "will_paginate_semantic_ui"
 
 
 # Use Uglifier as compressor for JavaScript assets
