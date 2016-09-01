@@ -1,38 +1,30 @@
-
-<!-- Top Menu -->
-<div class="ui menu" id="app_bar">
-  <a class="item" id="toggle_menu"><i class="sidebar icon"></i></a>
-  
-  <!-- user menu -->
-  <div class="right menu">
-    <div class="ui dropdown item">
-      <i class="user icon"></i> <%= current_user.email %> <i class="dropdown icon"></i>
-      <div class="menu">
-        <a class="item">Settings</a>
-        <a><%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: 'item' %></a>    
-      </div>
-    </div>  
-  </div>  
-  
-</div>
-
 <!-- Left Sidebar -->
-<div class="ui visible inverted left vertical sidebar menu navy">
-	<div class="ui blue inverted segment" id="app_title"><i class="setting icon"></i><b>Control Panel</b></div>
-
-	<div class="sidebar_menu_items">
-		<a class="item"><i class="home icon"></i>Home</a>
-		<a><%= link_to 'Carriers', carriers_path, class: 'item' %></a>
-	
-		<% (1..5).each do |i| %>
-		  <a class="item">Page <%= i %></a>
-		<% end %>    
-	
-		<a><%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: 'item' %></a>
-	</div>
-	
+<div class="ui vertical inverted left visible sidebar menu"> 
+  <div class="ui blue inverted segment" id="app_title"><i class="setting icon"></i><b>Control Panel</b></div>
+  <!--<a class="item"><i class="home icon"></i>Dashboard</a>-->
+  <a><%= link_to 'Dashboard', dashboards_path, class: "item #{active_class('/dashboards')}" %></a>
+  <a><%= link_to 'Carriers', carriers_path, class: "item #{active_class('/carriers')}" %></a>
+  
+  <% (1..5).each do |i| %>
+	<a class="item">Page <%= i %></a>
+  <% end %>    
+  
+  <a><%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: 'item' %></a>
 </div>
 
 
-
-
+<!-- Top Fixed Menu -->
+<div class="ui top fixed menu">
+	<a class="item menu-trigger"><span  data-tooltip="Show/Hide menu" data-position="bottom left" data-variation="inverted"><i class="sidebar blue icon"></i></span></a>
+	
+    <!-- user menu -->
+    <div class="right menu">
+      <div class="ui dropdown item">
+        <i class="user icon"></i> <%= current_user.email %> <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item">Settings</a>
+          <a><%= link_to 'Logout', destroy_user_session_path, :method => :delete, class: 'item' %></a>    
+        </div>
+      </div>  
+    </div>  
+</div>

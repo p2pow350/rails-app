@@ -1,4 +1,5 @@
 $font-url: 'http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
+// $font-url: 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
 @import 'semantic-ui';
 
 
@@ -8,34 +9,32 @@ body {
   background-color: #ededed; //Light Gray
 }
 
-.ui.menu {
-    border-radius: 0px !important;
-}
-
 //blue Application Title
 #app_title {
     border-radius: 0px !important;
 }
 
-//Top menu
-#app_bar {
-    border-radius: 0px !important;
-    height: 47px;
-    margin-left: 260px;
-}
-
-#sidebar_menu_items {
-  margin-top: -14px !important;
+.top.menu {
+  height: 49px !important;
 }
 
 
 /* CONTENT */
 //too wide pusher content
 .ui.sidebar.visible ~ .pusher {
-  margin-top: 10px;
-  margin-left: 10px;
-  width: calc(100% - 280px);
+  width: calc(100% - 260px);
 }
+
+.pusher {
+  margin-top: 48px;
+  padding: 10px;
+}
+
+
+.ui.sidebar.visible {
+  background-color: #333C44;
+}
+
 
 /* TABLE */
 .ui.table thead tr th {
@@ -45,5 +44,12 @@ body {
 
 .ui.table tbody tr {
   line-height: 10px !important;
+}
+
+
+
+.right.menu {
+padding-right: 270px;
+
 }
 

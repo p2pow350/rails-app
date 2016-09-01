@@ -6,7 +6,9 @@
 # Turbolinks compatible
 ready = undefined
 ready = ->
-  
+	
+	$('.ui.sidebar').sidebar dimPage: false
+	
 	dataConfirmModal.setDefaults
 	  title: 'Confirm your action'
 	  commit: 'Continue'
@@ -19,8 +21,8 @@ ready = ->
 		  return
 
 	$ ->
-      $('#toggle_menu').click ->
-      	  $('.menu.sidebar').sidebar 'toggle'
+      $('.menu-trigger').click ->
+      	  $('.ui.sidebar').sidebar 'toggle'
       	  return
 		  
 		  
