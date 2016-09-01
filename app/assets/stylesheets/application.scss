@@ -1,5 +1,5 @@
-$font-url: 'http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
-// $font-url: 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
+// $font-url: 'http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
+$font-url: 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
 @import 'semantic-ui';
 
 
@@ -43,7 +43,7 @@ body {
 }
 
 .ui.table tbody tr {
-  line-height: 10px !important;
+  font-size: 11px;
 }
 
 

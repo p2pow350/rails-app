@@ -15,18 +15,18 @@
  		  </div>
  		</div>
  	  </div>
- 
+ 	  
  	  <div class="field">
- 		<div class="ui icon input">
- 		  <input type="text" placeholder="Search...">
- 		  <i class="search icon"></i>
- 		</div>
+		<div class="ui action input">
+		  <input type="text" placeholder="Search...">
+		  <button class="ui blue button">Search</button>
+		</div> 	 
  	  </div>
+ 	  
  	</div>
    </div>
  </div>
 </div>
-
 
 
 
@@ -51,23 +51,29 @@
 	  </thead>
 	
 	  <tbody>	  
-		<%  @carriers.each do |record| %>
+		<% @carriers.each do |record| %>
 		  <tr class="collapsing">
 			<td><%= record.name %></td>
 			<td><%= record.is_customer %></td>
 			<td><%= record.is_supplier %></td>
-			<td>                                                                                                                                                                
-				<div class="ui tiny icon buttons">                                                                                                                                   
-				  <%= link_to '<i class="edit icon"></i>'.html_safe, edit_carrier_path(record), class: 'ui button' %>                                                          
-				  <%= link_to '<i class="delete icon"></i>'.html_safe, record, method: :delete, data: { confirm: "Are you sure to delete '#{record.name}' ?" }, class: 'ui button red' %>                  
-				</div>                                                                                                                                                          
+			<td> 
+			  <div class="ui tiny icon buttons">                                                                                                                                   
+			    <%= link_to '<i class="edit icon"></i>'.html_safe, edit_carrier_path(record), class: 'ui button' %>                                                          
+			    <%= link_to '<i class="delete icon"></i>'.html_safe, record, method: :delete, data: { confirm: "Are you sure to delete '#{record.name}' ?" }, class: 'ui button red' %>                  
+			  </div>                                                                                                                                                          
 			</td> 			
 		  </tr>
 		<% end %>
 	  </tbody>
 	  <tfoot>
-		  <tr><th colspan="4"><%= paginate @carriers %></th></tr>
-		  <tr><th colspan="4"><%= page_entries_info @carriers %></th></tr>
+         <tr>
+           <th> <%= page_entries_info @carriers %> </th>
+           <th colspan="<%= @carriers.columns.count - 3 %>">
+             <nav class="ui right floated pagination small">
+			 	<%= paginate @carriers %>
+			 </nav>
+           </th>
+         </tr>
 	  </tfoot>
 	</table>
 	<!-- end page content -->
