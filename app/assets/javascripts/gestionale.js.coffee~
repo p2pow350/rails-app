@@ -25,8 +25,7 @@ ready = ->
       	  $('.ui.sidebar').sidebar 'toggle'
       	  return
 		  
-	$ ->
-      $('table').tablesort()  	  
+		  
   return
 
 #$(document).ready(ready)
