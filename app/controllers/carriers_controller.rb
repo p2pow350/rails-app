@@ -2,7 +2,7 @@ class CarriersController < ApplicationController
   before_action :set_carrier, only: [:show, :edit, :update, :destroy]
   semantic_breadcrumb :index, :carriers_path
 
-  
+
   def index
   	s_filter = params[:q]
   	s_criteria = params[:search_criteria]
@@ -18,22 +18,19 @@ class CarriersController < ApplicationController
 		format.xls { send_data(@carriers.to_xls(:except => [:created_at, :updated_at, :id])) }
 		format.csv { send_data(@carriers.to_csv(:except => [:created_at, :updated_at, :id])) }
     end    
-    
   end
 
-
-  def show
-  	  @carrier = Carrier.find params[:id]
-  end  
   
   def new
     @carrier = Carrier.new
   end
 
+  
   def edit
-  	  semantic_breadcrumb @carrier.name, carrier_path(@carrier)  	  
+  	 semantic_breadcrumb @carrier.name, carrier_path(@carrier)  	  
   end
 
+  
   def create
     @carrier = Carrier.new(carrier_params)
 
@@ -42,16 +39,15 @@ class CarriersController < ApplicationController
     else
       render :new, alert: @carrier.errors.full_messages  
     end
-    
   end
 
+  
   def update
     if @carrier.update(carrier_params)
       redirect_to carriers_url, notice: "'#{@carrier.name}' was successfully updated."
     else
       render :edit, alert: @carrier.errors.full_messages  
     end
-  	  
   end
 
   def destroy
