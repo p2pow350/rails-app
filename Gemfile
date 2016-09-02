@@ -7,15 +7,6 @@ gem 'rails', '4.2.6'
 gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
-gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
-gem 'data-confirm-modal-semantic-ui', github: 'kntmrkm/data-confirm-modal-semantic-ui'
-gem 'simple_form', github: 'plataformatec/simple_form'
-gem 'to_xls-rails'
-gem 'to_csv-rails'
-gem 'will_paginate', '~> 3.1.0'
-gem "will_paginate_semantic_ui"
-
-
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -37,17 +28,33 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Unicorn as the app server
 # gem 'unicorn'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+
+
+
+# ------------------------------------------------------------------------------
+# Additional Gems
 gem 'devise'
 gem 'awesome_print'
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'	# Semantic UI gem (easy)
+gem 'data-confirm-modal-semantic-ui', github: 'kntmrkm/data-confirm-modal-semantic-ui'	#Convert any alert into a Modal Window
+gem 'simple_form', github: 'plataformatec/simple_form'	#Easy Form generation
+gem 'to_xls-rails'	#Export XLS
+gem 'to_csv-rails'	#Export CSV
+gem 'will_paginate', '~> 3.1.0'		#Pagination gem
+gem "will_paginate_semantic_ui"		#Semantic Pagination Styled
+
+gem 'baby_squeel', github: 'rzane/baby_squeel'		#ActiveRecord enhancements
+#gem 'ransack', github: 'activerecord-hackery/ransack'		#Search Form
+
 
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'quiet_assets'
+  gem 'quiet_assets'	#Stop filling logs with CSS/JS loading
   gem 'rails_layout'
   gem 'pry-rails'
 end

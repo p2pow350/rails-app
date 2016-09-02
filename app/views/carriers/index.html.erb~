@@ -1,28 +1,33 @@
 <div class="nine wide column">
  <div class="ui form">
+ 	
    <div class="ui basic segment">
-
-	<%= form_tag(carriers_path, :method => "get") do %>
-
- 	  <div class="two fields">
-	  	  
-	  	  <div class="field">
-	  		  <select name="search_criteria" class="ui selection dropdown">
-	  			<option value="name">Filter by Name</option>
-	  		  </select> 	  
-	  	  </div>
-	  	  
-	  	  <div class="field">
-	  		<div class="ui action input">
-	  		  <input type="text" name="q" placeholder="Search...">
-	  		  <button class="ui blue button">Search</button>
-	  		</div> 	 
-	  	  </div>	
+   
+ 	<div class="two fields">
+ 	  <div class="field">
+ 		<div class="ui selection dropdown">
+ 		  <input type="hidden" name="categories">
+ 		  <i class="dropdown icon"></i>
+ 		  <div class="default text">Categories</div>
+ 		  <div class="menu">
+ 			<div class="item" data-value="1">Home</div>
+ 			<div class="item" data-value="0">Bathroom</div>
+ 		  </div>
+ 		</div>
  	  </div>
-	<% end %> 	
+ 	  
+ 	  <div class="field">
+		<div class="ui action input">
+		  <input type="text" placeholder="Search...">
+		  <button class="ui blue button">Search</button>
+		</div> 	 
+ 	  </div>
+ 	  
+ 	</div>
    </div>
  </div>
 </div>
+
 
 
 <div class="ui clearing segments">
@@ -64,7 +69,7 @@
          <tr>
            <th> <%= page_entries_info @carriers %> </th>
            <th colspan="<%= @carriers.columns.count - 3 %>">
-			 	<%= will_paginate @carriers, renderer: WillPaginateSemanticUi::ActionView::Renderer, class: "right floated mini", inner_window: 3 %> 
+			 	<%= will_paginate @carriers, renderer: WillPaginateSemanticUi::ActionView::Renderer, class: "right floated", inner_window: 3 %> 
            </th>
          </tr>
 	  </tfoot>

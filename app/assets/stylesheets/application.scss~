@@ -9,10 +9,6 @@ body {
   background-color: #ededed; //Light Gray
 }
 
-body.pushable > .pusher {
-  background-color: #ededed; //Light Gray
-}
-
 //blue Application Title
 #app_title {
     border-radius: 0px !important;
@@ -47,39 +43,14 @@ body.pushable > .pusher {
     font-size: 12px;
 }
 
-.ui.table.sortable thead tr th {
-    background-color: #4863A0; //Steel Blue
-    color: white;
-    font-size: 12px;
-}
-
-.ui.table.sortable thead th:hover {
-    background-color: #405990; //Light Steel Blue
-    color: white;
-}
-
-.ui.table.sortable th.sorted.ascending {
-    background-color: #7e91bc; //Light Steel Blue
-    color: white;
-}
-
-.ui.table.sortable th.sorted.descending {
-    background-color: #7e91bc; //Light Steel Blue
-    color: white;
-}
-
-
-
-
 .ui.table tbody tr {
   font-size: 11px;
 }
 
 
 
+.right.menu {
+padding-right: 270px;
 
-
-.logout {
-	padding-right: 260px;
 }
 
