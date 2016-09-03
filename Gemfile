@@ -50,6 +50,10 @@ gem 'baby_squeel', github: 'rzane/baby_squeel'		#ActiveRecord enhancements
 #gem 'ransack', github: 'activerecord-hackery/ransack'		#Search Form
 
 
+gem "chartkick"
+#gem "groupdate", github: 'ankane/groupdate' #Mysql + Postgres
+gem 'dateslices', github: 'HappyFunCorp/dateslices' #SQLITE
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

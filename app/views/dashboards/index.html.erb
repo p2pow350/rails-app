@@ -12,21 +12,30 @@
 		</div>
 	  </div>
 
-	  <div class="four wide sales column">
-		<div class="ui secondary vertical menu">
-		  <a class="active item">
-			Sales Report #1
-		  </a>
-		  <a class="item">
-			Sales Report #2
-		  </a>
-		  <a class="item">
-			Sales Report #3
-		  </a>
-		  <a class="disabled item">
-			Sales Report #4
-		  </a>
-		</div>
-	  </div>
+	  
+	  
+	  <div class="ui grid">
+		  <div class="four wide sales column">
+			<div class="ui secondary vertical menu">
+			  <a class="active item">
+				Sales Report #1
+			  </a>
+			  <a class="item">
+				Sales Report #2
+			  </a>
+			  <a class="item">
+				Sales Report #3
+			  </a>
+			  <a class="disabled item">
+				Sales Report #4
+			  </a>
+			</div>
+		  </div>
+		  
+		  
+		  <div class="twelve wide sales column">
+		  	<%= line_chart Carrier.group_by_day(:created_at) %>
+		  </div>
+	</div>
 </div>
 

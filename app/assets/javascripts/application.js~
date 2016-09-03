@@ -18,7 +18,5 @@
 // Loads all Semantic javascripts
 //= require semantic-ui
 //= require data-confirm-modal-semantic-ui
-//= require tablesort
-//= require highcharts
-//= require chartkick
 //= require gestionale
+//= require tablesort

@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/HappyFunCorp/dateslices.git
+  revision: c3b195b67106201bbb9868683792ed8bfdeb1eeb
+  specs:
+    dateslices (0.0.4)
+      rails (> 4)
+
+GIT
   remote: git://github.com/doabit/semantic-ui-sass.git
   revision: 94b14c605c16fe433a0fe9e1fa5907f9a9604f4e
   specs:
@@ -72,6 +79,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (9.0.5)
+    chartkick (2.0.0)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -212,8 +220,10 @@ DEPENDENCIES
   awesome_print
   baby_squeel!
   byebug
+  chartkick
   coffee-rails (~> 4.1.0)
   data-confirm-modal-semantic-ui!
+  dateslices!
   devise
   jbuilder (~> 2.0)
   jquery-rails
