@@ -45,16 +45,13 @@ gem 'to_xls-rails'	#Export XLS
 gem 'to_csv-rails'	#Export CSV
 gem 'will_paginate', '~> 3.1.0'		#Pagination gem
 gem "will_paginate_semantic_ui"		#Semantic Pagination Styled
+gem 'default_value_for', github: 'FooBarWidget/default_value_for'
 
 gem 'baby_squeel', github: 'rzane/baby_squeel'		#ActiveRecord enhancements
-#gem 'ransack', github: 'activerecord-hackery/ransack'		#Search Form
-
 
 gem "chartkick"
 #gem "groupdate", github: 'ankane/groupdate' #Mysql + Postgres
 gem 'dateslices', github: 'HappyFunCorp/dateslices' #SQLITE
-
-gem 'default_value_for', github: 'FooBarWidget/default_value_for'
 
 
 group :development, :test do
