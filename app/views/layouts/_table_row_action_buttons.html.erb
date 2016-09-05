@@ -1,6 +1,8 @@
 <% c = controller.controller_name %>
 			
-<div class="ui icon mini buttons">
-  <%= link_to '<i class="edit icon"></i>'.html_safe, {:controller => c }, :id => "news" , class: "ui button" %> 
-  <%= link_to '<i class="delete icon"></i>'.html_safe, {:controller => c, method: :delete, data: { confirm: "Are you sure ?" }}, class: "ui button red" %>
-</div>
+<td> 
+  <div class="ui mini icon buttons">                                                                                                                                   
+	<%= link_to '<i class="edit icon"></i>'.html_safe, edit_polymorphic_path(row), class: 'ui button' %>                                                            
+	<%= link_to '<i class="delete icon"></i>'.html_safe, row, method: :delete, data: { confirm: "Are you sure to delete '#{row.name}' ?" }, class: 'ui button red' %>                  
+  </div>                                                                                                                                                          
+</td> 			

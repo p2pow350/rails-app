@@ -1,31 +1,7 @@
-<div class="nine wide column">
- <div class="ui form">
-   <div class="ui basic segment">
-
-	<%= form_tag(carriers_path, :method => "get") do %>
-
- 	  <div class="two fields">
-	  	  
-	  	  <div class="field">
-	  		  <select name="search_criteria" class="ui selection dropdown">
-	  			<option value="name">Filter by Name</option>
-	  		  </select> 	  
-	  	  </div>
-	  	  
-	  	  <div class="field">
-	  		<div class="ui action input">
-	  		  <input type="text" name="q" placeholder="Search...">
-	  		  <button class="ui blue button">Search</button>
-	  		</div> 	 
-	  	  </div>	
- 	  </div>
-	<% end %> 	
-   </div>
- </div>
-</div>
-
+<%= render 'layouts/page_search_form', search_criteria: ['name'] %>
 
 <div class="ui clearing segments">
+
   <div class="ui segment">
     <h3>Listing <%= controller.controller_name.titleize %> 
     	<%= render 'layouts/page_action_buttons' %>
@@ -33,7 +9,6 @@
   </div>
 
   <div class="ui secondary segment">
-  		
   	<!-- page content -->
 	<table class="ui sortable very compact striped table">
 	  <thead>
@@ -51,26 +26,15 @@
 			<td><%= record.name %></td>
 			<td><%= record.is_customer %></td>
 			<td><%= record.is_supplier %></td>
-			<td> 
-			  <div class="ui mini icon buttons">                                                                                                                                   
-			    <%= link_to '<i class="edit icon"></i>'.html_safe, edit_carrier_path(record), class: 'ui button' %>                                                          
-			    <%= link_to '<i class="delete icon"></i>'.html_safe, record, method: :delete, data: { confirm: "Are you sure to delete '#{record.name}' ?" }, class: 'ui button red' %>                  
-			  </div>                                                                                                                                                          
-			</td> 			
+			<%= render 'layouts/table_row_action_buttons', collection: @carriers, row: record %>
 		  </tr>
 		<% end %>
 	  </tbody>
-	  <tfoot>
-         <tr>
-           <th> <%= page_entries_info @carriers %> </th>
-           <th colspan="<%= @carriers.columns.count - 3 %>">
-			 	<%= will_paginate @carriers, renderer: WillPaginateSemanticUi::ActionView::Renderer, class: "right floated mini", inner_window: 3 %> 
-           </th>
-         </tr>
-	  </tfoot>
+	  <%= render 'layouts/table_paging', collection: @carriers %>
+	  
 	</table>
 	<!-- end page content -->
-		
   </div>
+  
 </div>
 

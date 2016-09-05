@@ -1,0 +1,27 @@
+<div class="nine wide column">
+ <div class="ui form">
+   <div class="ui basic segment">
+
+	<%= form_tag({}, :method => "get") do %>
+
+ 	  	  <div class="two fields">
+	  	    <div class="field">
+	  		  <select name="search_criteria" class="ui selection dropdown">
+			   <% search_criteria.each do |s|%>
+				 <option value="<%= s %>">Filter by <%= s.titleize %></option>
+			   <% end %> 	  
+	  		  </select> 	  
+	  	  </div>
+	  	  <div class="field">
+	  		<div class="ui action input">
+	  		  <input type="text" name="q" value="<%= params[:q] %>" placeholder="Search...">
+	  		  <button class="ui blue button">Search</button>
+	  		</div> 	 
+	  	  </div>	
+ 	  </div>
+ 	  
+	<% end %> 
+	
+   </div>
+ </div>
+</div>
