@@ -1,9 +1,0 @@
-<%= simple_form_for(@carrier) do |f| %>
-
-  <%= f.input :name %>
-  <%= f.input :is_customer, as: :boolean, wrapper: :ui_checkbox %>
-  <%= f.input :is_supplier, as: :boolean, wrapper: :ui_checkbox %>
-  <%= f.button :button, "Save" %>
-  <%= link_to 'Back', carriers_path, class: "ui button" %>
-
-<% end %>
