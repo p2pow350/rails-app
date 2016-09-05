@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/FooBarWidget/default_value_for.git
+  revision: b53779da93df9bfc78f1ac051d4477f8337bbe1d
+  specs:
+    default_value_for (3.0.2)
+      activerecord (>= 3.2.0, < 5.1)
+
+GIT
   remote: git://github.com/HappyFunCorp/dateslices.git
   revision: c3b195b67106201bbb9868683792ed8bfdeb1eeb
   specs:
@@ -224,6 +231,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   data-confirm-modal-semantic-ui!
   dateslices!
+  default_value_for!
   devise
   jbuilder (~> 2.0)
   jquery-rails

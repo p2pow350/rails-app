@@ -54,6 +54,8 @@ gem "chartkick"
 #gem "groupdate", github: 'ankane/groupdate' #Mysql + Postgres
 gem 'dateslices', github: 'HappyFunCorp/dateslices' #SQLITE
 
+gem 'default_value_for', github: 'FooBarWidget/default_value_for'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

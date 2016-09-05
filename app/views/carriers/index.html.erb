@@ -16,6 +16,7 @@
 		  <th>Name</th>
 		  <th>Is customer</th>
 		  <th>Is supplier</th>
+		  <th>Email</th>
 		  <th width="30px"></th>
 		</tr>
 	  </thead>
@@ -26,6 +27,7 @@
 			<td><%= record.name %></td>
 			<td><%= record.is_customer %></td>
 			<td><%= record.is_supplier %></td>
+			<td><%= record.email %></td>
 			<%= render 'layouts/table_row_action_buttons', collection: @carriers, row: record %>
 		  </tr>
 		<% end %>
