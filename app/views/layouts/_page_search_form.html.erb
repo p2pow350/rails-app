@@ -8,7 +8,7 @@
 	  	    <div class="field">
 	  		  <select name="search_criteria" class="ui selection dropdown">
 			   <% search_criteria.each do |s|%>
-				 <option value="<%= s %>">Filter by <%= s.titleize %></option>
+				 <option value="<%= s %>" <%= 'selected' if s==params[:search_criteria] %> >Filter by <%= s.titleize %></option>
 			   <% end %> 	  
 	  		  </select> 	  
 	  	  </div>
