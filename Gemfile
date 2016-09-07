@@ -43,6 +43,9 @@ gem 'data-confirm-modal-semantic-ui', github: 'kntmrkm/data-confirm-modal-semant
 gem 'simple_form', github: 'plataformatec/simple_form'	#Easy Form generation
 gem 'to_xls-rails'	#Export XLS
 gem 'to_csv-rails'	#Export CSV
+gem 'roo', github: 'roo-rb/roo'
+gem 'roo-xls'
+
 gem 'will_paginate', '~> 3.1.0'		#Pagination gem
 gem "will_paginate_semantic_ui"		#Semantic Pagination Styled
 gem 'default_value_for', github: 'FooBarWidget/default_value_for'
@@ -58,8 +61,10 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'quiet_assets'	#Stop filling logs with CSS/JS loading
+  gem 'quiet_safari'	#If you don’t care about /apple-touch-icon.png being a 404
   gem 'rails_layout'
   gem 'pry-rails'
+  gem 'faker'
 end
 
 group :development do

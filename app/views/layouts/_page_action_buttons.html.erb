@@ -1,14 +1,25 @@
 <% c = controller.controller_name %>
 
-<div class="ui tiny green right floated buttons">
-  <div class="ui button">Export</div>
-  <div class="ui dropdown icon button">
-	<i class="dropdown icon"></i>
+
+<button class="ui tiny right floated orange button" id="upload-button">
+  <i class="upload icon"></i>Import
+</button>
+
+<div class="ui labeled icon dropdown right floated tiny green button">
+  <i class="dropdown icon"></i>
+  <span class="text">Export</span>
 	<div class="menu">
 	  <%= link_to '<i class="download icon"></i> XLS'.html_safe, {:controller => c, :action => "index", :format => :xls }, class: "item" %> 
 	  <%= link_to '<i class="download icon"></i> CSV'.html_safe, {:controller => c, :action => "index", :format => :csv }, class: "item" %> 
 	</div>
-  </div>
 </div>
 
-<%= link_to '<i class="plus icon"></i> New'.html_safe, {:controller => c, :action => "new" }, class: "ui tiny primary right floated button" %>
+<%= link_to '<i class="plus icon"></i> New'.html_safe, {:controller => c, :action => "new" }, class: "ui tiny right floated primary button" %>
+
+
+
+<%= form_tag({action: :upload}, :id => "upload-form", multipart: true) do %>
+	<%= file_field_tag 'file', :id => "upload-input", style: "display:none;" %>
+<% end %>
+
+ 

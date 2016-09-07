@@ -1,0 +1,8 @@
+	  <tfoot>
+         <tr>
+           <th> <%= page_entries_info @carriers %> </th>
+           <th colspan="<%= @carriers.columns.count - 3 %>">
+			 	<%= will_paginate @carriers, renderer: WillPaginateSemanticUi::ActionView::Renderer, class: "right floated mini", inner_window: 3 %> 
+           </th>
+         </tr>
+	  </tfoot>

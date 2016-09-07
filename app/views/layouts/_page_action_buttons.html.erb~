@@ -1,0 +1,14 @@
+<% c = controller.controller_name %>
+
+<div class="ui tiny green right floated buttons">
+  <div class="ui button">Export</div>
+  <div class="ui dropdown icon button">
+	<i class="dropdown icon"></i>
+	<div class="menu">
+	  <%= link_to '<i class="download icon"></i> XLS'.html_safe, {:controller => c, :action => "index", :format => :xls }, class: "item" %> 
+	  <%= link_to '<i class="download icon"></i> CSV'.html_safe, {:controller => c, :action => "index", :format => :csv }, class: "item" %> 
+	</div>
+  </div>
+</div>
+
+<%= link_to '<i class="plus icon"></i> New'.html_safe, {:controller => c, :action => "new" }, class: "ui tiny primary right floated button" %>

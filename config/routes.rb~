@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
-  
-  resources :carriers do
-    collection { post :upload }
-  end  
-  
+  resources :carriers
   resources :dashboards
   devise_for :users
   

@@ -35,6 +35,14 @@ GIT
       activemodel (> 4, < 5.1)
 
 GIT
+  remote: git://github.com/roo-rb/roo.git
+  revision: 33e20b202d9c6d6c8ec97e132a67059de7ef45c8
+  specs:
+    roo (2.5.1)
+      nokogiri (~> 1)
+      rubyzip (~> 1.1, < 2.0.0)
+
+GIT
   remote: git://github.com/rzane/baby_squeel.git
   revision: d49149270259504db877617c373d7def3a6a14d0
   specs:
@@ -105,6 +113,8 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.7.0)
+    faker (1.6.6)
+      i18n (~> 0.5)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -140,6 +150,8 @@ GEM
       pry (>= 0.9.10)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
+    quiet_safari (1.0.0)
+      railties (>= 3.1.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -173,7 +185,12 @@ GEM
       json (~> 1.4)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    roo-xls (1.0.0)
+      nokogiri
+      roo (>= 2.0.0beta1, < 3)
+      spreadsheet (> 0.9.0)
     ruby-ole (1.2.12)
+    rubyzip (1.2.0)
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -233,12 +250,16 @@ DEPENDENCIES
   dateslices!
   default_value_for!
   devise
+  faker
   jbuilder (~> 2.0)
   jquery-rails
   pry-rails
   quiet_assets
+  quiet_safari
   rails (= 4.2.6)
   rails_layout
+  roo!
+  roo-xls
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   semantic-ui-sass!

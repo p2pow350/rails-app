@@ -6,19 +6,17 @@ class CarriersController < ApplicationController
   def index
   	s_filter = params[:q]
   	s_criteria = params[:search_criteria]
-  	
-  	@per_page = params[:per_page] || WillPaginate.per_page
   	  
     if s_filter
-      @carriers = Carrier.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+      @carriers = Carrier.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:page => params[:page])
     else
-      @carriers = Carrier.all.paginate(:per_page => @per_page, :page => params[:page])
+      @carriers = Carrier.all.paginate(:page => params[:page])
     end    
     
     respond_to do |format|
-	  format.html
-	  format.xls { send_data(@carriers.to_xls(:except => [:created_at, :updated_at, :id])) }
-	  format.csv { send_data(@carriers.to_csv(:except => [:created_at, :updated_at, :id])) }
+		format.html
+		format.xls { send_data(@carriers.to_xls(:except => [:created_at, :updated_at, :id])) }
+		format.csv { send_data(@carriers.to_csv(:except => [:created_at, :updated_at, :id])) }
     end    
   end
 
@@ -60,17 +58,6 @@ class CarriersController < ApplicationController
     end
   end
 
-  
-  def upload
-    file = Uploader.upload(params[:file])
-    if Carrier.from_file(file)    	    
-      redirect_to carriers_url, notice: "File '#{params[:file].original_filename}' succesfully imported."
-    else                           
-      redirect_to carriers_url, alert: "File '#{params[:file].original_filename}' not imported."
-    end
-  end   
-  
-  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_carrier

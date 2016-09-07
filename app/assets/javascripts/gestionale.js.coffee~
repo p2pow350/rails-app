@@ -26,16 +26,7 @@ ready = ->
       	  return
 		  
 	$ ->
-      $('table').tablesort()  
-	  
-      
-    $('#upload-button').on 'click', ->
-      $('#upload-input').click()
-      return
-    $('#upload-input').change ->
-      $('#upload-form').submit()
-      return      
-      
+      $('table').tablesort()  	  
   return
 
 #$(document).ready(ready)
