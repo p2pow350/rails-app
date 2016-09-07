@@ -63,8 +63,9 @@ class CarriersController < ApplicationController
   
   def upload
     file = Uploader.upload(params[:file])
-    if Carrier.from_file(file)    	    
-      redirect_to carriers_url, notice: "File '#{params[:file].original_filename}' succesfully imported."
+    @imported_rows = Carrier.from_file(file)
+    if @imported_rows > 0
+      redirect_to carriers_url, notice: "File '#{params[:file].original_filename}' succesfully imported. #{@imported_rows} new record(s) added"
     else                           
       redirect_to carriers_url, alert: "File '#{params[:file].original_filename}' not imported."
     end
