@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 	
+  resources :users_admin, :controller => 'users'
+	
   resources :codes do
     collection { post :upload }
   end  	
@@ -14,10 +16,7 @@ Rails.application.routes.draw do
   
   resources :dashboards
   devise_for :users
-  resources :users do
-    collection { post :upload }
-  end  	
-  
+
   root 'dashboards#index'
   
 end

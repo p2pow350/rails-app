@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  semantic_breadcrumb :index, :users_path
+  semantic_breadcrumb :index, :users_admin_index_path
 
 
   def index
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   end
   
   def edit
-  	 semantic_breadcrumb @user.name, user_path(@user)  	  
+  	 semantic_breadcrumb @user.email, users_admin_path(@user)  	  
   end
 
   
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   
   def update
     if @user.update(user_params)
-      redirect_to users_url, notice: "'#{@user.name}' was successfully updated."
+      redirect_to users_admin_index_path, notice: "'#{@user.email}' was successfully updated."
     else
       render :edit, alert: @user.errors.full_messages  
     end
@@ -54,23 +54,12 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "'#{@user.name}' was successfully deleted." }
+      format.html { redirect_to users_admin_index_path, notice: "'#{@user.email}' was successfully deleted." }
       format.json { head :no_content }
     end
   end
 
-  
-  def upload
-    file = Uploader.upload(params[:file])
-    @imported_rows = User.from_file(file)
-    if @imported_rows > 0
-      redirect_to users_url, notice: "File '#{params[:file].original_filename}' succesfully imported. #{@imported_rows} new record(s) added"
-    else                           
-      redirect_to users_url, alert: "File '#{params[:file].original_filename}' not imported."
-    end
-  end   
-  
-  
+    
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -79,6 +68,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :password, :default_locale, :search_criteria, :q)
+      params.require(:user).permit(:email, :name, :password, :default_locale, :search_criteria, :q)
     end
 end

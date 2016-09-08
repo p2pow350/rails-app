@@ -25,7 +25,7 @@
       <div class="ui dropdown item">
         <i class="user icon"></i> <%= current_user.email %> <i class="dropdown icon"></i>
         <div class="menu">
-          <a><%= link_to '<i class="users icon"></i> Accounts'.html_safe, users_path , class: 'item' %></a>
+          <a><%= link_to '<i class="users icon"></i> Accounts'.html_safe, users_admin_index_path, class: 'item' %></a>
           <a><%= link_to '<i class="options icon"></i> Settings'.html_safe, edit_user_registration_path , class: 'item' %></a>
           <a><%= link_to '<i class="eject icon"></i> Logout'.html_safe, destroy_user_session_path, :method => :delete, class: 'item' %></a>
         </div>

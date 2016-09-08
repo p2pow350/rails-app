@@ -1,8 +1,8 @@
-<%= simple_form_for(@user) do |f| %>
+<%= simple_form_for(@user, url: (@user.new_record? ? users_admin_index_path(@user) : users_admin_path(@user)), method: (@user.new_record? ? :post : :patch)) do |f| %>
 
   <%= f.input :email %>
+  <%= f.input :password %>  
   <%= f.input :name %>
-  <%= f.input :password %>
   <%= f.input :default_locale, priority: [ "it" ], collection: [ "it", "en"], input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Locale" %>
   
   <%= f.button :button, "Save" %>
