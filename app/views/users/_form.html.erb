@@ -1,0 +1,10 @@
+<%= simple_form_for(@user) do |f| %>
+
+  <%= f.input :email %>
+  <%= f.input :name %>
+  <%= f.input :password %>
+  <%= f.input :default_locale, priority: [ "it" ], collection: [ "it", "en"], input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Locale" %>
+  
+  <%= f.button :button, "Save" %>
+  <%= link_to 'Back', url_for(:back), class: "ui button" %>
+<% end %>

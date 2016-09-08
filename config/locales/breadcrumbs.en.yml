@@ -1,0 +1,20 @@
+en:
+  
+  breadcrumbs:
+    application:
+      index: Home
+
+    carriers:
+      index: Carriers
+
+    dashboards:
+      index: Dashboard
+
+    zones:
+      index: Zones
+
+    codes:
+      index: Codes
+
+    users:
+      index: Users

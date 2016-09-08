@@ -4,7 +4,10 @@
   <!--<a class="item"><i class="home icon"></i>Dashboard</a>-->
   <a><%= link_to '<i class="home icon"></i> Dashboard'.html_safe, dashboards_path, class: "item #{active_class('/dashboards')}" %></a>
   <a><%= link_to '<i class="exchange icon"></i> Carriers'.html_safe, carriers_path, class: "item #{active_class('/carriers')}" %></a>
-    
+  <a><%= link_to '<i class="world icon"></i> Zones'.html_safe, zones_path, class: "item #{active_class('/zones')}" %></a>
+  <a><%= link_to '<i class="unordered list icon"></i> Codes'.html_safe, codes_path, class: "item #{active_class('/codes')}" %></a>
+
+  
   <% (1..5).each do |i| %>
 	<a class="item">Page <%= i %></a>
   <% end %>    
@@ -22,6 +25,7 @@
       <div class="ui dropdown item">
         <i class="user icon"></i> <%= current_user.email %> <i class="dropdown icon"></i>
         <div class="menu">
+          <a><%= link_to '<i class="users icon"></i> Accounts'.html_safe, users_path , class: 'item' %></a>
           <a><%= link_to '<i class="options icon"></i> Settings'.html_safe, edit_user_registration_path , class: 'item' %></a>
           <a><%= link_to '<i class="eject icon"></i> Logout'.html_safe, destroy_user_session_path, :method => :delete, class: 'item' %></a>
         </div>

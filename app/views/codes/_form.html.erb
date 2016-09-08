@@ -1,0 +1,10 @@
+<%= simple_form_for(@code) do |f| %>
+
+  <%= f.association :zone, collection: Zone.order(:name), input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Choose a Zone" %>
+  
+  <%= f.input :name %>    
+  <%= f.input :prefix %>
+  
+  <%= f.button :button, "Save" %>
+  <%= link_to 'Back', url_for(:back), class: "ui button" %>
+<% end %>

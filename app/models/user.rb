@@ -4,5 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :timeoutable
          
-  default_value_for :default_locale, 'it'       
+  validates :email, presence: true
+  validates :email, uniqueness: true
+  default_scope { order('name ASC') }
+  default_value_for :default_locale, 'it'
+  
 end

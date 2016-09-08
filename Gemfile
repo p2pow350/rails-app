@@ -36,6 +36,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # ------------------------------------------------------------------------------
 # Additional Gems
+gem 'highline'
 gem 'devise'
 gem 'awesome_print'
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'	# Semantic UI gem (easy)
@@ -56,12 +57,15 @@ gem "chartkick"
 #gem "groupdate", github: 'ankane/groupdate' #Mysql + Postgres
 gem 'dateslices', github: 'HappyFunCorp/dateslices' #SQLITE
 
+# Useful Log changes
+gem "lograge"
+gem 'quiet_assets'	#Stop filling logs with CSS/JS loading
+gem 'quiet_safari'	#If you don’t care about /apple-touch-icon.png being a 404
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'quiet_assets'	#Stop filling logs with CSS/JS loading
-  gem 'quiet_safari'	#If you don’t care about /apple-touch-icon.png being a 404
   gem 'rails_layout'
   gem 'pry-rails'
   gem 'faker'

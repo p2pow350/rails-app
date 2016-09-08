@@ -1,0 +1,7 @@
+<%= simple_form_for(@zone) do |f| %>
+
+  <%= f.input :name %>
+  
+  <%= f.button :button, "Save" %>
+  <%= link_to 'Back', url_for(:back), class: "ui button" %>
+<% end %>

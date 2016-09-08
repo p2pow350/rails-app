@@ -207,14 +207,3 @@ it:
       long: "%d %B %Y %H:%M"
       short: "%d %b %H:%M"
     pm: pm
-
-
-  breadcrumbs:
-    application:
-      index: Home
-
-    carriers:
-      index: Carriers
-
-    dashboards:
-      index: Dashboard

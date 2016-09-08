@@ -1,4 +1,4 @@
-<%= render 'layouts/page_search_form', search_criteria: ['name', 'email'] %>
+<%= render 'layouts/page_search_form', search_criteria: ['name'] %>
 
 <div class="ui clearing segments">
 
@@ -13,22 +13,20 @@
 	<table class="ui sortable very compact striped table">
 	  <thead>
 		<tr>
-		  <th>Name</th>
-		  <th>Is customer</th>
-		  <th>Is supplier</th>
 		  <th>Email</th>
+		  <th>Name</th>
+		  <th>Locale</th>
 		  <th width="30px"></th>
 		</tr>
 	  </thead>
 	
 	  <tbody>
-	  	<% @records = @carriers %>
-		<% @carriers.each do |record| %>
+	  	<% @records = @users %>
+		<% @records.each do |record| %>
 		  <tr class="collapsing">
+		  	<td><%= record.email %></td>
 			<td><%= record.name %></td>
-			<td><%= record.is_customer %></td>
-			<td><%= record.is_supplier %></td>
-			<td><%= record.email %></td>
+			<td><%= record.default_locale %></td>
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
 		  </tr>
 		<% end %>

@@ -1,7 +1,8 @@
 class Carrier < ActiveRecord::Base
 	validates :name, :presence => true
+	validates :name, uniqueness: true
 	default_value_for :is_supplier, true
-	
+	default_scope { order('name ASC') }
 	
 	def self.from_file(file)
 		imported_rows = 0
