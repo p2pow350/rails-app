@@ -14,6 +14,7 @@
 	  <thead>
 		<tr>
 		  <th>Name</th>
+		  <th>ID</th>
 		  <th width="30px"></th>
 		</tr>
 	  </thead>
@@ -22,7 +23,8 @@
 	  	<% @records = @zones %>
 		<% @zones.each do |record| %>
 		  <tr class="collapsing">
-			<td><%= record.name %></td>
+			<td><%= record.name %></td>		  
+		    <td><%= record.id %></td>
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
 		  </tr>
 		<% end %>

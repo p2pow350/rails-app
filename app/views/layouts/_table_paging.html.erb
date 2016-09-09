@@ -4,7 +4,7 @@
       	<%= select_tag :per_page, options_for_select([15,30,60], params[:per_page].to_i), :class=> "ui compact dropdown", :onchange => "if(this.value){window.location='?per_page='+this.value;}" %> 
       	<%= page_entries_info @records %> 
   	  </th>
-      <th colspan="<%= @records.columns.count - 3 %>">
+      <th colspan="<%= @records.columns.count - 2 %>">
       	<%= will_paginate @records, renderer: WillPaginateSemanticUi::ActionView::Renderer, class: "right floated mini", inner_window: 3 %> 
       </th>
     </tr>

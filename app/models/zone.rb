@@ -1,5 +1,5 @@
 class Zone < ActiveRecord::Base
-  has_many :codes
+  has_many :codes, dependent: :destroy
   
   validates :name, :presence => true
   validates :name, uniqueness: true
@@ -13,5 +13,5 @@ class Zone < ActiveRecord::Base
       end
       return imported_rows
   end	
-	
+	  
 end

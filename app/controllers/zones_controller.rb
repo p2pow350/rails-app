@@ -17,8 +17,8 @@ class ZonesController < ApplicationController
     
     respond_to do |format|
 	  format.html
-	  format.xls { send_data(@zones.to_xls(:except => [:created_at, :updated_at, :id])) }
-	  format.csv { send_data(@zones.to_csv(:except => [:created_at, :updated_at, :id])) }
+	  format.xls { send_data(@zones.to_xls(:except => [:created_at, :updated_at])) }
+	  format.csv { send_data(@zones.to_csv(:except => [:created_at, :updated_at])) }
     end    
   end
 
