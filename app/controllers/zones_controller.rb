@@ -63,12 +63,13 @@ class ZonesController < ApplicationController
   
   def upload
     file = Uploader.upload(params[:file])
-    @imported_rows = Zone.from_file(file)
-    if @imported_rows > 0
-      redirect_to zones_url, notice: "File '#{params[:file].original_filename}' succesfully imported. #{@imported_rows} new record(s) added"
-    else                           
-      redirect_to zones_url, alert: "File '#{params[:file].original_filename}' not imported."
-    end
+    @imported_rows = Zone.delay.from_file(file)
+    #if @imported_rows > 0
+    #  redirect_to zones_url, notice: "File '#{params[:file].original_filename}' succesfully imported. #{@imported_rows} new record(s) added"
+    #else                           
+    #  redirect_to zones_url, alert: "File '#{params[:file].original_filename}' not imported."
+    #end
+    redirect_to zones_url, notice: "File '#{params[:file].original_filename}' will be imported in background"
   end   
   
   
