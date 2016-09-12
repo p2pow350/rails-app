@@ -28,16 +28,20 @@
 			<td><%= record.name %></td>
 			<td><%= record.default_locale %></td>
 			
-			<% unless record.email == current_user.email %>
+			<% if record.email != current_user.email %>
+			    
+				<td> 
+				  <div class="ui mini icon buttons">                                                                                                                                   
+					<%= link_to '<i class="edit icon"></i>'.html_safe, edit_users_admin_path(record), class: 'ui button' %>                                                            
+					<%= link_to '<i class="delete icon"></i>'.html_safe, users_admin_path(record), method: :delete, data: { confirm: "Are you sure to delete '#{record.email}' ?" }, class: 'ui button red' %>     
+				  </div>                                                                                                                                                          
+				</td>
+				
+			<% else %>
 			
-					<td> 
-					  <div class="ui mini icon buttons">                                                                                                                                   
-						<%= link_to '<i class="edit icon"></i>'.html_safe, edit_users_admin_path(record), class: 'ui button' %>                                                            
-						<%= link_to '<i class="delete icon"></i>'.html_safe, users_admin_path(record), method: :delete, data: { confirm: "Are you sure to delete '#{record.email}' ?" }, class: 'ui button red' %>     
-					  </div>                                                                                                                                                          
-					</td>
-			
-			 <% end %>
+				<td>&nbsp;</td>
+				
+			<% end %>
 
 		 </tr>
 		 

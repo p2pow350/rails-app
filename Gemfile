@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+# Bundle edge Rails instead: gem 'rails', :git => 'https://github.com/rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -52,25 +52,25 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # ------------------------------------------------------------------------------
 # Additional Gems
 gem 'highline'
-gem 'devise', github: 'plataformatec/devise'
+gem 'devise', :git => 'https://github.com/plataformatec/devise.git'
 gem 'awesome_print'
-gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'	# Semantic UI gem (easy)
-gem 'data-confirm-modal-semantic-ui', github: 'kntmrkm/data-confirm-modal-semantic-ui'	#Convert any alert into a Modal Window
-gem 'simple_form', github: 'plataformatec/simple_form'	#Easy Form generation
+gem 'semantic-ui-sass', :git => 'https://github.com/doabit/semantic-ui-sass.git'	# Semantic UI gem (easy)
+gem 'data-confirm-modal-semantic-ui', :git => 'https://github.com/kntmrkm/data-confirm-modal-semantic-ui.git'	#Convert any alert into a Modal Window
+gem 'simple_form', :git => 'https://github.com/plataformatec/simple_form.git'	#Easy Form generation
 gem 'to_xls-rails'	#Export XLS
 gem 'to_csv-rails'	#Export CSV
-gem 'roo', github: 'roo-rb/roo'
+gem 'roo', :git => 'https://github.com/roo-rb/roo.git'
 gem 'roo-xls'
 
 gem 'will_paginate', '~> 3.1.0'		#Pagination gem
 gem "will_paginate_semantic_ui"		#Semantic Pagination Styled
-gem 'default_value_for', github: 'FooBarWidget/default_value_for'
+gem 'default_value_for', :git => 'https://github.com/FooBarWidget/default_value_for.git'
 
-gem 'baby_squeel', github: 'rzane/baby_squeel'		#ActiveRecord enhancements
+gem 'baby_squeel', :git => 'https://github.com/rzane/baby_squeel.git'		#ActiveRecord enhancements
 
 gem "chartkick"
-#gem "groupdate", github: 'ankane/groupdate' #Mysql + Postgres
-gem 'dateslices', github: 'HappyFunCorp/dateslices' #SQLITE
+#gem "groupdate", :git => 'https://github.com/ankane/groupdate.git' #Mysql + Postgres
+gem 'dateslices', :git => 'https://github.com/HappyFunCorp/dateslices.git' #SQLITE
 
 # Useful Log changes
 gem "lograge"
