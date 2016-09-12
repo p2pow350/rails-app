@@ -63,7 +63,7 @@ class CodesController < ApplicationController
   
   def upload
     file = Uploader.upload(params[:file])
-    @imported_rows = Code.delay.from_file(file)
+    @imported_rows = Code.delay.from_file(file, current_user.email)
     # if @imported_rows > 0
     #   redirect_to codes_url, notice: "File '#{params[:file].original_filename}' succesfully imported. #{@imported_rows} new record(s) added"
     # else                           

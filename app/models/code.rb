@@ -7,7 +7,7 @@ class Code < ActiveRecord::Base
   
   default_scope { order('name ASC') }
   
-  def self.from_file(file)
+  def self.from_file(file, current_user)
   	 imported_rows = 0
      spreadsheet = Xls.get_spreadsheet(file);
       header = spreadsheet.row(1)
@@ -20,7 +20,8 @@ class Code < ActiveRecord::Base
 		imported_rows +=1 if Code.new_record?
 	  end
 	  
-	  return imported_rows
+	  #return imported_rows
+	  JobNotificationMailer.job_status("Code Import", current_user , "Success", "Subject", "Task completed, imported rows #{imported_rows}").deliver_now
   end
   
   
