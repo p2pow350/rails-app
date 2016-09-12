@@ -78,6 +78,7 @@ gem 'quiet_safari'	#If you don’t care about /apple-touch-icon.png being a 404
 
 gem "daemons"
 gem 'delayed_job_active_record'
+gem "figaro"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -16,8 +16,8 @@ class Code < ActiveRecord::Base
 		#code = find_by_prefix(row["prefix"]) || new
         #code.attributes = row.to_hash.slice(*row.to_hash.keys)
         
-        c = Code.create_with(:name => row["name"].to_s, :prefix => row["prefix"].to_s, :zone_id => row["zone"].to_i).find_or_create_by(prefix: row["prefix"].to_s)
-		imported_rows +=1 if c
+        Code.create_with(:name => row["name"].to_s, :prefix => row["prefix"].to_s, :zone_id => row["zone"].to_i).find_or_create_by(prefix: row["prefix"].to_s)
+		imported_rows +=1 if Code.new_record?
 	  end
 	  
 	  return imported_rows
