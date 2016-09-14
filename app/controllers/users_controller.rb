@@ -17,8 +17,8 @@ class UsersController < ApplicationController
     
     respond_to do |format|
 	  format.html
-	  format.xls { send_data(@users.to_xls(:except => [:created_at, :updated_at, :id])) }
-	  format.csv { send_data(@users.to_csv(:except => [:created_at, :updated_at, :id])) }
+	  format.xls { send_data(@users.to_a.to_xls(:except => [:created_at, :updated_at, :id])) }
+	  format.csv { send_data(@users.to_a.to_csv(:except => [:created_at, :updated_at, :id])) }
     end    
   end
 

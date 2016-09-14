@@ -1,6 +1,7 @@
 <% c = controller.controller_name %>
+<% exclude_controller_actions = [ 'users', 'options' ] %>
 
-<% unless c=="users" %>
+<% unless exclude_controller_actions.include? c %>
 
   <button class="ui tiny right floated orange button" id="upload-button">
     <i class="upload icon"></i>Import
@@ -24,7 +25,7 @@
 
 
 
-<% unless c=="users" %>
+<% unless exclude_controller_actions.include? c %>
   <%= form_tag({action: :upload}, :id => "upload-form", multipart: true) do %>
   	<%= file_field_tag 'file', :id => "upload-input", style: "display:none;" %>
   <% end %>

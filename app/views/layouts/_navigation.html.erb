@@ -12,6 +12,7 @@
 	<a class="item">Page <%= i %></a>
   <% end %>    
   
+  <a><%= link_to '<i class="settings icon"></i> Options'.html_safe, options_path, class: "item #{active_class('/options')}" %></a>
   <a><%= link_to '<i class="eject icon"></i> Logout'.html_safe, destroy_user_session_path, :method => :delete, class: 'item' %></a>
 </div>
 

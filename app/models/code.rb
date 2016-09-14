@@ -1,5 +1,5 @@
 class Code < ActiveRecord::Base
-  belongs_to :zone
+  belongs_to :zone, counter_cache: true
   
   validates :name, :prefix, :zone_id, :presence => true
   validates :name, :prefix, uniqueness: true
@@ -16,8 +16,10 @@ class Code < ActiveRecord::Base
 		#code = find_by_prefix(row["prefix"]) || new
         #code.attributes = row.to_hash.slice(*row.to_hash.keys)
         
-        Code.create_with(:name => row["name"].to_s, :prefix => row["prefix"].to_s, :zone_id => row["zone"].to_i).find_or_create_by(prefix: row["prefix"].to_s)
-		imported_rows +=1 if Code.new_record?
+        if Code.create_with(:name => row["name"].to_s, :prefix => row["prefix"].to_s, :zone_id => row["zone"].to_i).find_or_create_by(prefix: row["prefix"].to_s)
+        	imported_rows +=1
+        end
+        
 	  end
 	  
 	  #return imported_rows

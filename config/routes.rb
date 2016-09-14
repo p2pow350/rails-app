@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 	
+  resources :options
+	
   resources :users_admin, :controller => 'users'
 	
   resources :codes do

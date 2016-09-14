@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912115223) do
+ActiveRecord::Schema.define(version: 20160914100049) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(version: 20160912115223) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "options", force: :cascade do |t|
+    t.string   "area"
+    t.string   "key"
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -66,8 +74,9 @@ ActiveRecord::Schema.define(version: 20160912115223) do
 
   create_table "zones", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "codes_count", default: 0
   end
 
 end

@@ -17,8 +17,8 @@ class CarriersController < ApplicationController
     
     respond_to do |format|
 	  format.html
-	  format.xls { send_data(@carriers.to_xls(:except => [:created_at, :updated_at, :id])) }
-	  format.csv { send_data(@carriers.to_csv(:except => [:created_at, :updated_at, :id])) }
+	  format.xls { send_data(@carriers.to_a.to_xls(:except => [:created_at, :updated_at, :id])) }
+	  format.csv { send_data(@carriers.to_a.to_csv(:except => [:created_at, :updated_at, :id])) }
     end    
   end
 
