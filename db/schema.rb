@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914100049) do
+ActiveRecord::Schema.define(version: 20160915105102) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
     t.boolean  "is_customer"
     t.boolean  "is_supplier"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.string   "email"
+    t.integer  "rates_count", default: 0
   end
 
   create_table "codes", force: :cascade do |t|
@@ -51,6 +52,21 @@ ActiveRecord::Schema.define(version: 20160914100049) do
     t.string   "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "rates", force: :cascade do |t|
+    t.integer  "zone_id"
+    t.integer  "carrier_id"
+    t.string   "name"
+    t.string   "prefix"
+    t.decimal  "price_min"
+    t.integer  "step"
+    t.datetime "start_date"
+    t.integer  "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["carrier_id"], name: "index_rates_on_carrier_id"
+    t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  zone: one
+  carrier: one
+  name: MyString
+  prefix: MyString
+  price_min: 9.99
+  step: 1
+  start_date: 2016-09-15 12:50:16
+  status: 1
+
+two:
+  zone: two
+  carrier: two
+  name: MyString
+  prefix: MyString
+  price_min: 9.99
+  step: 1
+  start_date: 2016-09-15 12:50:16
+  status: 1

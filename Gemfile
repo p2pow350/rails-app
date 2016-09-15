@@ -51,7 +51,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # ------------------------------------------------------------------------------
 # Additional Gems
-gem 'highline'
+gem 'highline' #A higher level command-line oriented interface.
 gem 'devise', :git => 'https://github.com/plataformatec/devise.git'
 gem 'awesome_print'
 gem 'semantic-ui-sass', :git => 'https://github.com/doabit/semantic-ui-sass.git'	# Semantic UI gem (easy)
@@ -78,7 +78,6 @@ gem 'quiet_safari'	#If you don’t care about /apple-touch-icon.png being a 404
 
 gem "daemons"
 gem 'delayed_job_active_record'
-#gem "figaro"
 gem 'rufus-scheduler'
 
 

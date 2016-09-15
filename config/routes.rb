@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 	
+  resources :rates do
+    collection { post :upload }
+  end  	
+	
   resources :options
 	
   resources :users_admin, :controller => 'users'
