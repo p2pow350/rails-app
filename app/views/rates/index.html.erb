@@ -1,4 +1,4 @@
-<%= render 'layouts/page_search_form', search_criteria: ['key'] %>
+<%= render 'layouts/page_search_form', search_criteria: ['name', 'prefix'] %>
 
 <div class="ui clearing segments">
 
@@ -13,20 +13,20 @@
 	<table class="ui sortable very compact striped table">
 	  <thead>
 		<tr>
-		  <th>Area</th>
-		  <th>Key</th>
-		  <th>Value</th>
+		  <th>Name</th>
+		  <th>Prefix</th>
+		  <th>Zone</th>
 		  <th width="30px"></th>
 		</tr>
 	  </thead>
 	
 	  <tbody>
-	  	<% @records = @options %>
-		<% @options.each do |record| %>
+	  	<% @records = @rates %>
+		<% @rates.each do |record| %>
 		  <tr class="collapsing">
-			<td><%= record.area %></td>
-			<td><%= record.key %></td>
-			<td><%= record.value %></td>
+			<td><%= record.name %></td>
+			<td><%= record.prefix %></td>
+			<td><%= record.zone.name %></td>
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
 		  </tr>
 		<% end %>

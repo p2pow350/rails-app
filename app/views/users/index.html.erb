@@ -48,7 +48,7 @@
 		 
 		<% end %>
 	  </tbody>
-	  <%= render 'layouts/table_paging', collection: @records %>
+	  <%= render 'layouts/table_paging', collection: @records, :locals => {:colspan => 3} %>
 	  
 	</table>
 	<!-- end page content -->
