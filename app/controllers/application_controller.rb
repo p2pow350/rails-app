@@ -38,14 +38,16 @@ private
 
     ActionMailer::Base.raise_delivery_errors = true    
     ActionMailer::Base.smtp_settings = {
+      :from 				=> @smtp_settings["user_name"],	
       :address              => @smtp_settings["address"],
       :port                 => @smtp_settings["port"],
       :domain               => @smtp_settings["domain"],
       :user_name            => @smtp_settings["user_name"],
       :password             => @smtp_settings["password"],
-      :authentication       => @smtp_settings["authentication.name"],
+      :authentication       => @smtp_settings["authentication"],
       :enable_starttls_auto => @smtp_settings["enable_starttls_auto"]
-    }    
+    } 
+    
   end
   
   

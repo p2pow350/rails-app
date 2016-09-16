@@ -16,7 +16,7 @@ u=User.new(:email => admin_email, :password=> admin_password)
 u.save!
 
 puts "Creating Fake data..."
-(1..200).each do |i|
+(1..5).each do |i|
 	Carrier.create :name => Faker::Company.name, :email => Faker::Internet.email
 end
 

@@ -14,7 +14,8 @@
 	  	  </div>
 	  	  <div class="field">
 	  		<div class="ui action input">
-	  		  <input type="text" name="q" value="<%= params[:q] %>" placeholder="Search...">
+	  		  <input type="text" name="q" value="<%= params[:q] %>" placeholder="Value...">
+	  		    <%= select_tag 'search_type', options_for_select([['Contain', "contain"], ['Start', "start"], ['Equal', "equal"]]), :class => 'ui compact selection dropdown', :selected => params[:search_type] %>
 	  		  <button class="ui blue button">Search</button>
 	  		</div> 	 
 	  	  </div>	

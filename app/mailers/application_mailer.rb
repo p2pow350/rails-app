@@ -1,5 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: ENV["GMAIL_USERNAME"]
+	
+  default :from => Option.where(:area => 'mail_out').find_by_key("user_name").value
   
 end
 

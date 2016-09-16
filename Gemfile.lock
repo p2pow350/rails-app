@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: https://github.com/plataformatec/devise.git
-  revision: 9c0dccfec1b44b29ba63f8b74ddf655371597eda
+  revision: 88724e10adaf9ffd1d8dbfbaadda2b9d40de756a
   specs:
     devise (4.2.0)
       bcrypt (~> 3.0)
@@ -101,12 +101,12 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    arel (7.1.1)
+    arel (7.1.2)
     awesome_print (1.7.0)
     bcrypt (3.1.11)
     builder (3.2.2)
     byebug (9.0.5)
-    chartkick (2.1.0)
+    chartkick (2.1.1)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)

@@ -16,7 +16,7 @@
 		  <th>Name</th>
 		  <th>Is customer</th>
 		  <th>Is supplier</th>
-		  <th>Count</th>
+		  <th>Rates Count</th>
 		  <th width="30px"></th>
 		</tr>
 	  </thead>
@@ -28,7 +28,16 @@
 			<td><%= record.name %></td>
 			<td><%= record.is_customer %></td>
 			<td><%= record.is_supplier %></td>
-			<td> <a class="ui brown circular label"> <%= record.rates_count %> </a> </td>
+			<td> 
+				<a class="ui brown circular label"> <%= record.rates_count %> </a> 
+
+				<%= form_tag upload_rates_path, multipart: true do %>
+				<%= file_field_tag :file %>
+				<%= hidden_field_tag :carrier_id, record.id %>
+				<%= submit_tag "Import" %>
+				<% end %>				
+				
+			</td>
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
 		  </tr>
 		<% end %>

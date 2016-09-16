@@ -6,11 +6,22 @@ class CarriersController < ApplicationController
   def index
   	s_filter = params[:q]
   	s_criteria = params[:search_criteria]
+  	s_type = params[:search_type]
   	
   	@per_page = params[:per_page] || WillPaginate.per_page
   	  
+  	
     if s_filter
-      @carriers = Carrier.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+
+	  case s_criteria
+		  when "contain"
+			@carriers = Carrier.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+		  when "start"
+			@carriers = Carrier.where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+		  else
+			@carriers = Carrier.where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
+	  end    	
+      
     else
       @carriers = Carrier.all.paginate(:per_page => @per_page, :page => params[:page])
     end    
@@ -80,6 +91,6 @@ class CarriersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def carrier_params
-      params.require(:carrier).permit(:name, :is_customer, :is_supplier, :email, :search_criteria, :q)
+      params.require(:carrier).permit(:name, :is_customer, :is_supplier, :email)
     end
 end

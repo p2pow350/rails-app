@@ -1,5 +1,5 @@
 class JobNotificationMailer < ApplicationMailer
-  
+	
   def job_status(source, destination, status, subject, body)
   	@source = source  
   	@status = status
