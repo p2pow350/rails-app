@@ -1,4 +1,6 @@
 class Carrier < ActiveRecord::Base
+	has_many :rates, dependent: :destroy
+	
 	validates :name, :presence => true
 	validates :name, uniqueness: true
 	default_value_for :is_supplier, true

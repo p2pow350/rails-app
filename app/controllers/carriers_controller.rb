@@ -10,10 +10,8 @@ class CarriersController < ApplicationController
   	
   	@per_page = params[:per_page] || WillPaginate.per_page
   	  
-  	
     if s_filter
-
-	  case s_criteria
+	  case s_type
 		  when "contain"
 			@carriers = Carrier.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
 		  when "start"
@@ -24,7 +22,7 @@ class CarriersController < ApplicationController
       
     else
       @carriers = Carrier.all.paginate(:per_page => @per_page, :page => params[:page])
-    end    
+    end
     
     respond_to do |format|
 	  format.html

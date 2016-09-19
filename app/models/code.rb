@@ -27,5 +27,27 @@ class Code < ActiveRecord::Base
   end
   
   
+  def self.find_our_zone(prefix)
+  	  
+  	  # MySQL
+  	#Code.find_by_sql "
+  	#	SELECT zone_id, name, prefix
+	#FROM codes
+	#-- POSITION(prefix IN '#{dialled_number}') = 1
+	#ORDER BY LENGTH(prefix) DESC
+	#LIMIT 1"
+  	  
+  	  # Sqlite
+  	  Code.find_by_sql "
+  	  	SELECT zone_id, name, prefix
+		FROM codes
+		WHERE '#{prefix}' LIKE prefix||'%'
+		ORDER BY LENGTH(prefix) DESC
+		LIMIT 1"
+  	  
+  	  
+  end
+  
+  
   
 end

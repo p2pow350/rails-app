@@ -29,7 +29,7 @@
 		    <td><%= record.carrier_id %></td>
 			<td><%= record.name %></td>
 			<td><%= record.prefix %></td>
-			<td><%= record.zone_id %></td>
+			<td><%= record.zone.name unless record.zone_id.nil? %></td>
 			<td><%= record.price_min %></td>
 			<!--<td><%#= record.zone.name %></td>-->
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>

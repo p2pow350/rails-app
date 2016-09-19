@@ -6,22 +6,24 @@ class CodesController < ApplicationController
   def index
   	s_filter = params[:q]
   	s_criteria = params[:search_criteria]
+  	s_type = params[:search_type]
   	
   	@per_page = params[:per_page] || WillPaginate.per_page
   	  
     if s_filter
-      @codes = Code.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+	  case s_type
+		  when "contain"
+			@codes = Code.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+		  when "start"
+			@codes = Code.where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+		  else
+			@codes = Code.where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
+	  end
+      
     else
       @codes = Code.all.paginate(:per_page => @per_page, :page => params[:page])
-    end    
-    
-    respond_to do |format|
-	  format.html
-	  format.xls { send_data(@codes.to_a.to_xls(:except => [:created_at, :updated_at, :id])) }
-	  format.csv { send_data(@codes.to_a.to_csv(:except => [:created_at, :updated_at, :id])) }
-    end    
+    end
   end
-
   
   def new
     @code = Code.new
@@ -82,6 +84,6 @@ class CodesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def code_params
-      params.require(:code).permit(:name, :prefix, :zone_id, :search_criteria, :q)
+      params.require(:code).permit(:name, :prefix, :zone_id)
     end
 end

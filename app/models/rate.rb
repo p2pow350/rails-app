@@ -35,4 +35,20 @@ class Rate < ApplicationRecord
   end
   
   
+  
+  def self.spada
+  	  
+	Rate.all.each do |r|
+	c = Code.find_zone(r.prefix).pluck(:zone_id)
+	r.zone_id = c[0]
+	r.save!
+	end  
+  	  
+  
+  
+  end
+  
+  
+  
+  
 end

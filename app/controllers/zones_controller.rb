@@ -6,20 +6,23 @@ class ZonesController < ApplicationController
   def index
   	s_filter = params[:q]
   	s_criteria = params[:search_criteria]
+  	s_type = params[:search_type]
   	
   	@per_page = params[:per_page] || WillPaginate.per_page
   	  
     if s_filter
-      @zones = Zone.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+	  case s_type
+		  when "contain"
+			@zones = Zone.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+		  when "start"
+			@zones = Zone.where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+		  else
+			@zones = Zone.where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
+	  end
+      
     else
       @zones = Zone.all.paginate(:per_page => @per_page, :page => params[:page])
-    end    
-    
-    respond_to do |format|
-	  format.html
-	  format.xls { send_data(@zones.to_a.to_xls(:except => [:created_at, :updated_at])) }
-	  format.csv { send_data(@zones.to_a.to_csv(:except => [:created_at, :updated_at])) }
-    end    
+    end
   end
 
   
@@ -81,6 +84,6 @@ class ZonesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def zone_params
-      params.require(:zone).permit(:name, :search_criteria, :q)
+      params.require(:zone).permit(:name)
     end
 end
