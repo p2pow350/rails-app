@@ -3,4 +3,7 @@
 bundle  
 rails db:migrate  
 rails db:seed  
+<<<<<<< HEAD
 
+=======
+>>>>>>> 95f5f8e03314322a0c065c7344985f14c70c671a
