@@ -1,5 +1,5 @@
 ## Installation
 
-bundle
-rails db:migrate
-rails db:seed
+bundle  
+rails db:migrate  
+rails db:seed  
