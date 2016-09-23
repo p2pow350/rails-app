@@ -202,7 +202,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (11.2.2)
-    rb-fsevent (0.9.7)
+    rb-fsevent (0.9.4)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
     responders (2.3.0)
@@ -289,6 +289,7 @@ DEPENDENCIES
   quiet_safari
   rails (~> 5.0.0, >= 5.0.0.1)
   rails_layout
+  rb-fsevent (<= 0.9.4)
   roo!
   roo-xls
   rufus-scheduler
@@ -308,4 +309,4 @@ DEPENDENCIES
   will_paginate_semantic_ui
 
 BUNDLED WITH
-   1.13.0
+   1.13.1

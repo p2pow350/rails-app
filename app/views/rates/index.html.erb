@@ -26,7 +26,7 @@
 	  	<% @records = @rates %>
 		<% @rates.each do |record| %>
 		  <tr class="collapsing">
-		    <td><%= record.carrier_id %></td>
+		    <td><%= record.carrier.name %></td>
 			<td><%= record.name %></td>
 			<td><%= record.prefix %></td>
 			<td><%= record.zone.name unless record.zone_id.nil? %></td>
