@@ -1,2 +1,0 @@
-# Logfile created on 2016-09-23 14:24:44 +0200 by logger.rb/53141
-I, [2016-09-23T14:24:46.177489 #94065]  INFO -- : 2016-09-23T14:24:46+0200: [Worker(delayed_job host:new-host.station pid:94065)] Starting job worker
