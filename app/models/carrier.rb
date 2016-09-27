@@ -3,9 +3,19 @@ class Carrier < ActiveRecord::Base
 	
 	validates :name, :presence => true
 	validates :name, uniqueness: true
+validate :one_must_be_checked
+	
 	default_value_for :is_supplier, true
 	default_value_for :currency, :eur
 	default_scope { order('name ASC') }
+	
+	
+
+	def one_must_be_checked
+  unless is_supplier || is_customer
+    errors.add(:message, "One of the Checkboxes must be accpeted")
+  end
+end
 	
 	def self.from_file(file)
 		imported_rows = 0
@@ -15,5 +25,5 @@ class Carrier < ActiveRecord::Base
 	    end
 	    return imported_rows
 	end	
-	
+
 end

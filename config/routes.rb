@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 	
   resources :rates do
     collection { post :upload }
+    get 'generate', :on => :collection
   end  	
 	
   resources :options

@@ -27,6 +27,9 @@ class RatesController < ApplicationController
     @rate = Rate.new
   end
 
+  def generate
+    
+  end 
   
   def edit
   	 semantic_breadcrumb @rate.name, rate_path(@rate)  	  

@@ -4,6 +4,7 @@
 
   <div class="ui segment">
     <h3>Listing <%= controller.controller_name.titleize %> 
+    	<%= link_to '<i class="shipping icon"></i> Generate Sell Rates'.html_safe, {:controller => "rates", :action => "generate" }, class: "ui tiny right floated green button" %>
     	<%= render 'layouts/page_action_buttons' %>
     </h3>
   </div>

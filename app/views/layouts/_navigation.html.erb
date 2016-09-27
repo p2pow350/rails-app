@@ -6,7 +6,8 @@
   <a><%= link_to '<i class="exchange icon"></i> Carriers'.html_safe, carriers_path, class: "item #{active_class('/carriers')}" %></a>
   <a><%= link_to '<i class="world icon"></i> Zones'.html_safe, zones_path, class: "item #{active_class('/zones')}" %></a>
   <a><%= link_to '<i class="unordered list icon"></i> Codes'.html_safe, codes_path, class: "item #{active_class('/codes')}" %></a>
-  <a><%= link_to '<i class="euro icon"></i> Rates'.html_safe, rates_path, class: "item #{active_class('/rates')}" %></a>
+  <a><%= link_to '<i class="euro icon"></i> Buy Rates'.html_safe, rates_path, class: "item #{active_class('/rates')}" %></a>
+  <a><%= link_to '<i class="euro icon"></i> Sell Rates'.html_safe, rates_path, class: "item #{active_class('/rates')}" %></a>
 
   
   <% (1..5).each do |i| %>

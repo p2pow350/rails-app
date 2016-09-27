@@ -1,0 +1,14 @@
+<div class="ui secondary pointing fluid menu">
+	<h2 class="ui header">Generate Sell Rates</h2>
+</div>
+
+<%= simple_form_for :rate do |f| %>
+
+  <%= f.input :currency, collection: Currency.major_currencies(Money::Currency.table), input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Choose a Currency" %>
+  <%= f.input :carriers, collection: Carrier.order(:name), input_html: { class: "ui multiple dropdown", maxlength: 60 }, prompt: "Choose a Carrier" %>
+  <%= f.input :zones, collection: Zone.order(:name), input_html: { class: "ui multiple dropdown", maxlength: 60 }, prompt: "Choose a Zone" %>
+  <%= f.input :markup %>
+  
+  <%= f.button :button, "Generate" %>
+  <%= link_to 'Back', url_for(:back), class: "ui button" %>
+<% end %>
