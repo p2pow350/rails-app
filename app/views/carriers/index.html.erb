@@ -14,6 +14,7 @@
 	  <thead>
 		<tr>
 		  <th>Name</th>
+		  <th>Currency</th>
 		  <th>Is customer</th>
 		  <th>Is supplier</th>
 		  <th>Rates Count</th>
@@ -26,6 +27,7 @@
 		<% @carriers.each do |record| %>
 		  <tr class="collapsing">
 			<td><%= record.name %></td>
+			<td><%= record.currency %></td>
 			<td><%= record.is_customer %></td>
 			<td><%= record.is_supplier %></td>
 			<td> 

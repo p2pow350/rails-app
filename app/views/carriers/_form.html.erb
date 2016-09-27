@@ -1,6 +1,7 @@
 <%= simple_form_for(@carrier) do |f| %>
 
   <%= f.input :name %>
+  <%= f.input :currency, collection: Currency.major_currencies(Money::Currency.table), input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Choose a Currency" %>
   <%= f.input :email %>  
   <%= f.input :is_customer, as: :boolean, wrapper: :ui_checkbox %>
   <%= f.input :is_supplier, as: :boolean, wrapper: :ui_checkbox %>
