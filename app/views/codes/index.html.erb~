@@ -13,9 +13,9 @@
 	<table class="ui sortable very compact striped table">
 	  <thead>
 		<tr>
-		  <th>Zone</th>
 		  <th>Name</th>
 		  <th>Prefix</th>
+		  <th>Zone</th>
 		  <th width="30px"></th>
 		</tr>
 	  </thead>
@@ -24,9 +24,9 @@
 	  	<% @records = @codes %>
 		<% @codes.each do |record| %>
 		  <tr class="collapsing">
-			<td><%= record.zone.name %></td>
 			<td><%= record.name %></td>
 			<td><%= record.prefix %></td>
+			<td><%= record.zone.name %></td>
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
 		  </tr>
 		<% end %>

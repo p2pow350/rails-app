@@ -1,6 +1,6 @@
 class Carrier < ActiveRecord::Base
 	has_many :rates, dependent: :destroy
-		
+	
 	validates :name, :presence => true
 	validates :name, uniqueness: true
 	
