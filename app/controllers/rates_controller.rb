@@ -30,6 +30,23 @@ class RatesController < ApplicationController
   def generate
     
   end 
+
+  def comparison
+  	 #@rates = Rate.all.paginate(:per_page => @per_page, :page => params[:page]) 
+  	 
+  	 #@zones = Zone.order(:name)
+  	 @zones = Hash[Zone.pluck(:id, :name)]
+  	   	 
+	 @carriers = Hash[Carrier.pluck(:id, :name)]
+	 
+	 @rates = Rate.all.map{ |r| [r.zone_id.to_s +'-'+ r.carrier_id.to_s, r.price_min] }.to_h
+	 
+	 #@data = Hash[Rate.pluck(:search_key :price_min)]
+	 #
+	 #
+	 #@result carrier_h.map { |c| @data.find { |h| h["zone_id"] == zone_id} }
+  	 
+  end
   
   def edit
   	 semantic_breadcrumb @rate.name, rate_path(@rate)  	  
@@ -85,6 +102,6 @@ class RatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rate_params
-      params.require(:rate).permit(:name, :prefix, :zone_id, :carrier_id, :search_criteria, :q)
+      params.require(:rate).permit(:name, :prefix, :price_min, :zone_id, :carrier_id, :search_criteria, :q)
     end
 end

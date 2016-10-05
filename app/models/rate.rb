@@ -6,7 +6,6 @@ class Rate < ApplicationRecord
   
   default_scope { order('name ASC') }
   
-  
   def price_min=(num)
     num.gsub!(',','.') if num.is_a?(String)
     self[:price_min] = num.to_d

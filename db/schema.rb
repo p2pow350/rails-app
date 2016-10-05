@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929221601) do
+ActiveRecord::Schema.define(version: 20161005230839) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -61,12 +61,12 @@ ActiveRecord::Schema.define(version: 20160929221601) do
     t.integer  "carrier_id"
     t.string   "name"
     t.string   "prefix"
-    t.decimal  "price_min"
+    t.decimal  "price_min",  precision: 5, scale: 6
     t.integer  "step"
     t.datetime "start_date"
     t.integer  "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.index ["carrier_id"], name: "index_rates_on_carrier_id"
     t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
