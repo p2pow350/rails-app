@@ -39,7 +39,7 @@ class RatesController < ApplicationController
   	   	 
 	 @carriers = Hash[Carrier.pluck(:id, :name)]
 	 
-	 @rates = Rate.all.map{ |r| [r.zone_id.to_s +'-'+ r.carrier_id.to_s, r.price_min] }.to_h
+	 @rates = Rate.all.map{ |r| [r.zone_id.to_s+'-'+r.carrier_id.to_s,r.price_min] }.to_h
 	 
 	 #@data = Hash[Rate.pluck(:search_key :price_min)]
 	 #
