@@ -3,7 +3,8 @@ class Carrier < ActiveRecord::Base
 		
 	validates :name, :presence => true
 	validates :name, uniqueness: true
-	
+		
+	default_value_for :status, 1
 	default_value_for :is_supplier, true
 	default_value_for :currency, :eur
 	default_scope { order('name ASC') }

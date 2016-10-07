@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005230839) do
+ActiveRecord::Schema.define(version: 20161007151226) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20161005230839) do
     t.integer  "rates_count", default: 0
     t.string   "currency"
     t.integer  "type"
+    t.boolean  "status"
   end
 
   create_table "codes", force: :cascade do |t|

@@ -89,6 +89,6 @@ class CarriersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def carrier_params
-      params.require(:carrier).permit(:name, :currency, :is_customer, :is_supplier, :email)
+      params.require(:carrier).permit(:name, :status, :currency, :is_customer, :is_supplier, :email)
     end
 end
