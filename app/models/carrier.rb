@@ -8,7 +8,9 @@ class Carrier < ActiveRecord::Base
 	default_value_for :is_supplier, true
 	default_value_for :currency, :eur
 	default_scope { order('name ASC') }
-	
+
+    scope :enabled, -> { where(status: true) }
+    scope :disabled, -> { where(status: false) }
 	
 	def self.from_file(file)
 		imported_rows = 0

@@ -37,7 +37,7 @@ class RatesController < ApplicationController
   	 #@zones = Zone.order(:name)
   	 @zones = Hash[Zone.pluck(:id, :name)]
   	   	 
-	 @carriers = Hash[Carrier.pluck(:id, :name)]
+	 @carriers = Hash[Carrier.enabled.pluck(:id, :name)]
 	 
 	 @rates = Rate.all.map{ |r| [r.zone_id.to_s+'-'+r.carrier_id.to_s,r.price_min] }.to_h
 	 
