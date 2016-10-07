@@ -1,3 +1,5 @@
+<%= javascript_include_tag params[:controller] %>
+
 <%= render 'layouts/page_search_form', search_criteria: ['name', 'prefix'] %>
 
 <div class="ui clearing segments">
@@ -13,6 +15,7 @@
 	  <thead>
 		<tr>
 		  <th>Zone</th>
+		  <th>Best</th>
 		  <% @carriers.each do |c| %>
 		    <th><%= c[1] %></th>
 		  <% end %>
@@ -24,6 +27,7 @@
 		<% @zones.each do |z| %>
 		  <tr class="collapsing">
 			<td><%= z[1] %></td>
+			<td></td>
 		  </tr>
 		<% end %>
 	  </tbody>

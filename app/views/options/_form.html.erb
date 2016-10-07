@@ -1,6 +1,6 @@
 <%= simple_form_for(@option) do |f| %>
 
-  <%= f.input :area, collection: [ "mail_out", "mail_in"], input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Area" %>
+  <%= f.input :area, collection: [ "mail_out", "mail_in"], input_html: { class: "ui search selection dropdown", maxlength: 60 }, prompt: "Area" %>
   <%= f.input :key %>  
   <%= f.input :value %>  
   

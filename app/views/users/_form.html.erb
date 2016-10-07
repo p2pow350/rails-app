@@ -3,7 +3,7 @@
   <%= f.input :email %>
   <%= f.input :password %>  
   <%= f.input :name %>
-  <%= f.input :default_locale, priority: [ "it" ], collection: [ "it", "en"], input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Locale" %>
+  <%= f.input :default_locale, priority: [ "it" ], collection: [ "it", "en"], input_html: { class: "ui search selection dropdown", maxlength: 60 }, prompt: "Locale" %>
   
   <%= f.button :button, "Save" %>
   <%= link_to 'Back', url_for(:back), class: "ui button" %>

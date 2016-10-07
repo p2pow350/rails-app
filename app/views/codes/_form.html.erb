@@ -1,6 +1,6 @@
 <%= simple_form_for(@code) do |f| %>
 
-  <%= f.association :zone, collection: Zone.order(:name), input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Choose a Zone" %>
+  <%= f.association :zone, collection: Zone.order(:name), input_html: { class: "ui search selection dropdown", maxlength: 60 }, prompt: "Choose a Zone" %>
   
   <%= f.input :name %>    
   <%= f.input :prefix %>
