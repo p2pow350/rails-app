@@ -25,9 +25,15 @@
 		<% @zones.each do |z| %>
 		  <tr class="collapsing">
 			<td><%= z[1] %></td>
-			<td></td>
+			<td><%= @best_rates["#{z[0]}".to_i] %></td>
+						
+			<% @carriers.each do |k,v| %>
+				<td><%= @rates["#{z[0]}-#{k}"] %></td>
+			<% end %>
+			
 		  </tr>
 		<% end %>
+				
 	  </tbody>
 	  
 	</table>

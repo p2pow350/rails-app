@@ -12,6 +12,26 @@ class Rate < ApplicationRecord
   end
 
   
+  def self.best_prices
+  	 ActiveRecord::Base.connection.select_all(
+  	 	 	" select r.zone_id zone_id, min(r.price_min) price_min
+			from rates r, carriers c
+			where r.carrier_id = c.id
+			and c.status = 't'
+			group by r.zone_id "
+	  )
+  end  
+
+
+  def self.prices
+  	 ActiveRecord::Base.connection.select_all(
+  	 	 	" select r.zone_id || '-' || r.carrier_id id, max(r.price_min) price_min
+			from rates r
+			group by r.zone_id, r.carrier_id"
+	  )
+  end    
+  
+  
   def self.from_file(file, current_user, carrier_id)
   	 imported_rows = 0
      spreadsheet = Xls.get_spreadsheet(file);
