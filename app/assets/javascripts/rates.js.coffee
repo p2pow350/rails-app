@@ -6,3 +6,8 @@
 $('.ui.sidebar').sidebar 'toggle'
       
 
+$('#xls-export').click ->
+  $('#xls-table').table2excel
+    name: 'Comparison'
+    filename: 'comparison'
+  return

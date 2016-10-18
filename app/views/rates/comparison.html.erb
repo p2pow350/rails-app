@@ -3,13 +3,18 @@
 <div class="ui clearing segments">
 
   <div class="ui segment">
-    <h3>Comparison</h3>
+    <h3>Comparison
+       <button class="ui tiny right floated green button" id="xls-export">
+       	 <i class="download icon"></i>Export
+       </button>
+    </h3>
+    
   </div>
 
   <div class="ui secondary segment">
     
   	<!-- page content -->
-	<table class="ui sortable very compact striped table">
+	<table id="xls-table" class="ui sortable very compact striped table">
 	  <thead>
 		<tr>
 		  <th>Zone</th>
@@ -42,4 +47,5 @@
   
 </div>
 
+<%= javascript_include_tag "jquery.table2excel.min" %>
 <%= javascript_include_tag params[:controller] %>

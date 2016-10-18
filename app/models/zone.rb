@@ -4,7 +4,8 @@ class Zone < ActiveRecord::Base
   validates :name, :presence => true
   validates :name, uniqueness: true
   default_scope { order('name ASC') }
-    
+      
+  
   def self.from_file(file, current_user)
   	imported_rows = 0
       spreadsheet = Xls.get_spreadsheet(file); header = spreadsheet.row(1)                

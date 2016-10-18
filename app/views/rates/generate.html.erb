@@ -6,7 +6,10 @@
 
   <%= f.input :currency, collection: Currency.major_currencies(Money::Currency.table), input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Choose a Currency" %>
   <%= f.input :carriers, collection: Carrier.order(:name), input_html: { class: "ui multiple dropdown", maxlength: 60 }, prompt: "Choose a Carrier" %>
-  <%= f.input :zones, collection: Zone.order(:name), input_html: { class: "ui multiple dropdown", maxlength: 60 }, prompt: "Choose a Zone" %>
+  <%= f.input :zones, 
+  	collection: [Zone.new(id: 0, name: 'Select All')] + Zone.order(:name),
+  	input_html: { class: "ui multiple dropdown", maxlength: 60 }, prompt: "Choose a Zone" 
+  %>
   <%= f.input :criteria, collection: [ "min", "med", "max"], input_html: { class: "ui dropdown", maxlength: 60 }, prompt: "Price Criteria" %>
   <%= f.input :markup %>
   
