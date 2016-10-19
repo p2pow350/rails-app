@@ -49,24 +49,24 @@ class Rate < ApplicationRecord
         
 	  end
 	  
+	  Rate.spada(carrier_id)
+	  
 	  #return imported_rows
 	  JobNotificationMailer.job_status("Rate Import", current_user , "Success", "Subject", "Task completed, imported rows #{imported_rows}").deliver_now
   end
   
   
   
-  def self.spada
+  def self.spada(carrier_id)
   	  
-	Rate.all.each do |r|
-	c = Code.find_zone(r.prefix).pluck(:zone_id)
-	r.zone_id = c[0]
-	r.save!
-	end  
-  	  
-  
-  
+	 Rate.where(:carrier_id => carrier_id).each do |r|
+	   # Prima fase, match esatto!	
+	   c = Code.find_zone(r.prefix).pluck(:zone_id)
+	   r.zone_id = c[0]
+	   r.save!
+	 end
+	 
   end
-  
   
   
   

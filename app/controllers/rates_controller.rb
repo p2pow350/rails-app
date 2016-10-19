@@ -32,11 +32,15 @@ class RatesController < ApplicationController
   end 
 
   def comparison
-  	 #@rates = Rate.all.paginate(:per_page => @per_page, :page => params[:page]) 
+  	 s_filter = params[:q]
+  	 s_criteria = params[:search_criteria]
+  	   	   
+     if s_filter
+       @zones = Hash[Zone.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.pluck(:id, :name)]
+     else
+       @zones = Hash[Zone.pluck(:id, :name)]
+     end    
   	 
-  	 #@zones = Zone.order(:name)
-  	 @zones = Hash[Zone.pluck(:id, :name)]
-  	   	 
 	 @carriers = Hash[Carrier.enabled.pluck(:id, :name)]
 	 
 	 @best_rates = Hash[Rate.best_prices.rows]

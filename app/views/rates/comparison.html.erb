@@ -1,4 +1,4 @@
-<%= render 'layouts/page_search_form', search_criteria: ['name', 'prefix'] %>
+<%= render 'layouts/page_search_form', search_criteria: ['name'] %>
 
 <div class="ui clearing segments">
 
@@ -30,10 +30,10 @@
 		<% @zones.each do |z| %>
 		  <tr class="collapsing">
 			<td><%= z[1] %></td>
-			<td><%= @best_rates["#{z[0]}".to_i] %></td>
+			<td><%= empty_rate(@best_rates["#{z[0]}".to_i]) %></td>
 						
 			<% @carriers.each do |k,v| %>
-				<td><%= @rates["#{z[0]}-#{k}"] %></td>
+				<td><%= empty_rate(@rates["#{z[0]}-#{k}"]) %></td>
 			<% end %>
 			
 		  </tr>
