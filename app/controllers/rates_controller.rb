@@ -45,12 +45,6 @@ class RatesController < ApplicationController
 	 
 	 @best_rates = Hash[Rate.best_prices.rows]
 	 @rates = Hash[Rate.prices.rows]
-	 #@rates = Rate.all.map{ |r| [r.zone_id.to_s+'-'+r.carrier_id.to_s,r.price_min] }.to_h
-	 
-	 #@data = Hash[Rate.pluck(:search_key :price_min)]
-	 #
-	 #
-	 #@result carrier_h.map { |c| @data.find { |h| h["zone_id"] == zone_id} }
   	 
   end
   

@@ -5,6 +5,7 @@
   
   <%= f.input :name %>    
   <%= f.input :prefix %>
+  <%= f.input :start_date, input_html: { class: "ui calendar", id: "start_date" } %>
   <%= f.input :price_min %>
   
   <%= f.button :button, "Save" %>

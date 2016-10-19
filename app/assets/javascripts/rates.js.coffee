@@ -4,7 +4,8 @@
 
 
 $('.ui.sidebar').sidebar 'toggle'
-      
+
+$('#start_date').calendar type: 'date'
 
 $('#xls-export').click ->
   $('#xls-table').table2excel

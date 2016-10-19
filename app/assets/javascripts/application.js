@@ -19,6 +19,7 @@
 //= require semantic-ui
 //= require data-confirm-modal-semantic-ui
 //= require tablesort
+//= require calendar.min
 //= require highcharts
 //= require chartkick
 //= require gestionale
