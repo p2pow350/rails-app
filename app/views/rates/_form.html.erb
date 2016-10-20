@@ -5,9 +5,19 @@
   
   <%= f.input :name %>    
   <%= f.input :prefix %>
-  <%= f.input :start_date, input_html: { class: "ui calendar", id: "start_date" } %>
+  
+  <div class="field string optional ui calendar" id="start_date">
+	  <label class="string optional" for="rate[start_date]">Date</label>
+      <div class="ui fluid input left icon">
+        <i class="calendar icon"></i>
+        <input type="text" name="rate[start_date]" placeholder="Choose a Date" value="<%= (@rate.start_date || Date.today.to_s) %>">
+      </div>
+  </div>  
+  
   <%= f.input :price_min %>
   
   <%= f.button :button, "Save" %>
   <%= link_to 'Back', url_for(:back), class: "ui button" %>
 <% end %>
+
+<%= javascript_include_tag "date_calendar" %>

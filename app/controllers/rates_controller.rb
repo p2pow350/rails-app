@@ -102,6 +102,6 @@ class RatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rate_params
-      params.require(:rate).permit(:name, :prefix, :price_min, :zone_id, :carrier_id, :search_criteria, :q)
+      params.require(:rate).permit(:name, :prefix, :start_date, :price_min, :zone_id, :carrier_id, :search_criteria, :q)
     end
 end

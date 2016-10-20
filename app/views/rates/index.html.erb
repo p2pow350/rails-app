@@ -33,7 +33,7 @@
 			<td><%= record.name %></td>
 			<td><%= record.prefix %></td>
 			<td><%= record.zone.name unless record.zone_id.nil? %></td>
-			<td><%= record.start_date %></td>
+			<td><%= record.start_date.strftime("%Y-%m-%d") unless record.start_date.nil?  %></td>
 			<td><%= record.status %></td>
 			<td><%= record.price_min %></td>
 			<!--<td><%#= record.zone.name %></td>-->
