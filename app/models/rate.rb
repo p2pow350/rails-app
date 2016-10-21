@@ -3,7 +3,8 @@ class Rate < ApplicationRecord
   belongs_to :carrier, counter_cache: true
   
   enum status: [ :active, :pending, :expired ]
-  
+  default_value_for :status, 1
+ 
   default_scope { order('name ASC') }
   
   def price_min=(num)
