@@ -51,6 +51,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # ------------------------------------------------------------------------------
 # Additional Gems
+gem 'deep_merge'
 gem 'highline' #A higher level command-line oriented interface.
 gem 'devise', :git => 'https://github.com/plataformatec/devise.git'
 gem 'awesome_print'

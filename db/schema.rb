@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007151226) do
+ActiveRecord::Schema.define(version: 20161024102021) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -68,6 +68,9 @@ ActiveRecord::Schema.define(version: 20161007151226) do
     t.integer  "status"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+    t.string   "flag1"
+    t.string   "flag2"
+    t.string   "flag3"
     t.index ["carrier_id"], name: "index_rates_on_carrier_id"
     t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
