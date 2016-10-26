@@ -83,14 +83,14 @@ class RatesController < ApplicationController
   
   def upload
     file = Uploader.upload(params[:file])
-    @imported_rows = Rate.from_file(file, current_user.email, params[:carrier_id])
-     if @imported_rows > 0
-       redirect_to rates_url, notice: "File '#{params[:file].original_filename}' succesfully imported. #{@imported_rows} new record(s) added"
-     else                           
-       redirect_to rates_url, alert: "File '#{params[:file].original_filename}' not imported."
-     end
-    
-    #redirect_to rates_url, notice: "File '#{params[:file].original_filename}' will be imported in background"
+    @imported_rows = Rate.delay.from_file(file, current_user.email, params[:carrier_id])
+     #if @imported_rows > 0
+     #  redirect_to rates_url, notice: "File '#{params[:file].original_filename}' succesfully imported. #{@imported_rows} new record(s) added"
+     #else                           
+     #  redirect_to rates_url, alert: "File '#{params[:file].original_filename}' not imported."
+     #end
+     #
+    redirect_to rates_url, notice: "File '#{params[:file].original_filename}' will be imported in background"
   end   
   
   
