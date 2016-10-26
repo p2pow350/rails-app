@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161024102021) do
+ActiveRecord::Schema.define(version: 20161026062018) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20161024102021) do
 
   create_table "options", force: :cascade do |t|
     t.string   "area"
-    t.string   "key"
+    t.string   "o_key"
     t.string   "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

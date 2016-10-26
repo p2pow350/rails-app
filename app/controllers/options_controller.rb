@@ -29,7 +29,7 @@ class OptionsController < ApplicationController
 
   
   def edit
-  	 semantic_breadcrumb @option.key, option_path(@option)  	  
+  	 semantic_breadcrumb @option.o_key, option_path(@option)  	  
   end
 
   
@@ -37,7 +37,7 @@ class OptionsController < ApplicationController
     @option = Option.new(option_params)
 
     if @option.save
-      redirect_to action: :index, notice: "'#{@option.key}' was successfully created."
+      redirect_to action: :index, notice: "'#{@option.o_key}' was successfully created."
     else
       render :new, alert: @option.errors.full_messages  
     end
@@ -46,7 +46,7 @@ class OptionsController < ApplicationController
   
   def update
     if @option.update(option_params)
-      redirect_to options_url, notice: "'#{@option.key}' was successfully updated."
+      redirect_to options_url, notice: "'#{@option.o_key}' was successfully updated."
     else
       render :edit, alert: @option.errors.full_messages  
     end
@@ -55,7 +55,7 @@ class OptionsController < ApplicationController
   def destroy
     @option.destroy
     respond_to do |format|
-      format.html { redirect_to options_url, notice: "'#{@option.key}' was successfully deleted." }
+      format.html { redirect_to options_url, notice: "'#{@option.o_key}' was successfully deleted." }
       format.json { head :no_content }
     end
   end
@@ -69,6 +69,6 @@ class OptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def option_params
-      params.require(:option).permit(:key, :value, :area, :search_criteria, :q)
+      params.require(:option).permit(:o_key, :value, :area, :search_criteria, :q)
     end
 end
