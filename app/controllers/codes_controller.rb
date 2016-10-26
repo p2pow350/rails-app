@@ -23,6 +23,13 @@ class CodesController < ApplicationController
     else
       @codes = Code.all.paginate(:per_page => @per_page, :page => params[:page])
     end
+    
+    respond_to do |format|
+	  format.html
+	  format.xls { send_data(@codes.to_a.to_xls(:except => [:created_at, :updated_at])) }
+	  format.csv { send_data(@codes.to_a.to_csv(:except => [:created_at, :updated_at])) }
+    end    
+    
   end
   
   def new

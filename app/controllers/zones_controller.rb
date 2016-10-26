@@ -23,6 +23,12 @@ class ZonesController < ApplicationController
     else
       @zones = Zone.all.paginate(:per_page => @per_page, :page => params[:page])
     end
+    
+    respond_to do |format|
+	  format.html
+	  format.xls { send_data(@zones.to_a.to_xls(:except => [:created_at, :updated_at])) }
+	  format.csv { send_data(@zones.to_a.to_csv(:except => [:created_at, :updated_at])) }
+    end    
   end
 
   
