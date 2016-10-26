@@ -4,6 +4,7 @@ class Code < ActiveRecord::Base
   validates :name, :prefix, :zone_id, :presence => true
   validates :name, :prefix, uniqueness: true
   validates :prefix, numericality: { only_integer: true }
+  before_save :fix_counter_cache, :if => ->(er) { !er.new_record? && er.zone_id_changed? }
   
   default_scope { order('name ASC') }
   
@@ -23,7 +24,7 @@ class Code < ActiveRecord::Base
 	  end
 	  
 	  #return imported_rows
-	  JobNotificationMailer.job_status("Code Import", current_user , "Success", "Subject", "Task completed, imported rows #{imported_rows}").deliver_now
+	  JobNotificationMailer.job_status("Code Import", current_user , "Code Import", "Subject", "Task completed, imported rows #{imported_rows}").deliver_now
   end
   
   
@@ -51,3 +52,11 @@ class Code < ActiveRecord::Base
   
   
 end
+
+
+private
+
+    def fix_counter_cache
+        Zone.decrement_counter(:codes_count, self.zone_id_was)
+        Zone.increment_counter(:codes_count, self.zone_id)
+    end  
