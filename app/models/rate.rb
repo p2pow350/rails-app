@@ -1,6 +1,7 @@
 class Rate < ApplicationRecord
   belongs_to :zone
   belongs_to :carrier, counter_cache: true
+  before_save :fix_counter_cache, :if => ->(er) { !er.new_record? && er.carrier_id_changed? }
   
   enum status: [ :expired, :pending, :active ]
   default_value_for :status, 2
@@ -44,20 +45,14 @@ class Rate < ApplicationRecord
       header = spreadsheet.row(1)
       (2..spreadsheet.last_row).each do |i|
         row = Hash[[header, spreadsheet.row(i)].transpose]
-		#code = find_by_prefix(row["prefix"]) || new
-        #code.attributes = row.to_hash.slice(*row.to_hash.keys)
-        
-        #Rate.create(carrier_id: carrier_id, name: spreadsheet.row(i)[0], prefix: spreadsheet.row(i)[1], price_min: spreadsheet.row(i)[2])
         
         # ZONA, PREFISSO, PREZZO_MIN, DATA_VALIDITA
-        
-        if Rate.create_with(carrier_id: carrier_id, name: spreadsheet.row(i)[0], prefix: spreadsheet.row(i)[1], price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3]).find_or_create_by(prefix: spreadsheet.row(i)[1])
-        	imported_rows +=1
-        end
+        imported_rows +=1 if  Rate.create_with(carrier_id: carrier_id, name: spreadsheet.row(i)[0], prefix: spreadsheet.row(i)[1], price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3]).find_or_create_by(prefix: spreadsheet.row(i)[1])
         
 	  end
 	  
-	  Rate.spada(carrier_id)
+	  return imported_rows
+	  #Rate.spada(carrier_id)
 	  #Rate.spada_base(carrier_id)
 	  
 	  #return imported_rows
@@ -160,4 +155,13 @@ class Rate < ApplicationRecord
   end
   
   
-end
+end 
+
+
+
+private
+
+    def fix_counter_cache
+        Carrier.decrement_counter(:rates_count, self.carrier_id_was)
+        Carrier.increment_counter(:rates_count, self.carrier_id)
+    end  
