@@ -5,7 +5,7 @@ Rails.application.configure do
     config.action_mailer.delivery_method = :smtp 
 
 	# get database settings
-  	@smtp_settings = Hash[Option.where(:area => 'mail_out').pluck(:key, :value)] 
+  	@smtp_settings = Hash[Option.where(:area => 'mail_out').pluck(:o_key, :value)] 
 
     ActionMailer::Base.raise_delivery_errors = true    
     ActionMailer::Base.smtp_settings = {
