@@ -57,7 +57,7 @@ class Rate < ApplicationRecord
         
 	  end
 	  
-	  #Rate.spada(carrier_id)
+	  Rate.spada(carrier_id)
 	  #Rate.spada_base(carrier_id)
 	  
 	  #return imported_rows
@@ -67,6 +67,8 @@ class Rate < ApplicationRecord
   
   
   def self.spada(carrier_id)
+  	  unless Rate.where(:carrier_id => carrier_id).count == 0 
+
   	  spada = Hash.new
   	  
   	  Zone.select(:id).each do |z|
@@ -141,7 +143,7 @@ class Rate < ApplicationRecord
 
 	 
 	 
-	 
+ 	end #unless
   end
   
   def self.spada_base(carrier_id)
