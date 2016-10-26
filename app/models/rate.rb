@@ -48,15 +48,15 @@ class Rate < ApplicationRecord
        row = Hash[[header, spreadsheet.row(i)].transpose]
        
        # ZONA, PREFISSO, PREZZO_MIN, DATA_VALIDITA
-       imported_rows +=1 if Rate.create_with(carrier_id: carrier_id, name: spreadsheet.row(i)[0], prefix: spreadsheet.row(i)[1].to_s, price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3]).find_or_create_by(carrier_id: carrier_id, prefix: spreadsheet.row(i)[1].to_s)
+       imported_rows +=1 if Rate.create_with(carrier_id: carrier_id, name: spreadsheet.row(i)[0], prefix: spreadsheet.row(i)[1].to_s, price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3]).find_or_create_by(carrier_id: carrier_id, prefix: spreadsheet.row(i)[1].to_s, price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3])
        
 	 end
 	 
 	 #Rate.spada(carrier_id)
-	 #Rate.spada_base(carrier_id)
+	 Rate.spada_base(carrier_id)
 	 
-	 return imported_rows
-	 #JobNotificationMailer.job_status("Rate Import", current_user , "Success", "Subject", "Task completed, imported rows #{imported_rows}").deliver_now
+	 #return imported_rows
+	 JobNotificationMailer.job_status("Rate Import", current_user , "Success", "Subject", "Task completed, imported rows #{imported_rows}").deliver_now
   end
   
   

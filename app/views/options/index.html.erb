@@ -25,7 +25,7 @@
 		<% @options.each do |record| %>
 		  <tr class="collapsing">
 			<td><%= record.area %></td>
-			<td><%= record.key %></td>
+			<td><%= record.o_key %></td>
 			<td><%= record.value %></td>
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
 		  </tr>
