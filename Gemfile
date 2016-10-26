@@ -58,6 +58,7 @@ gem 'awesome_print'
 gem 'semantic-ui-sass', :git => 'https://github.com/doabit/semantic-ui-sass.git'	# Semantic UI gem (easy)
 gem 'data-confirm-modal-semantic-ui', :git => 'https://github.com/kntmrkm/data-confirm-modal-semantic-ui.git'	#Convert any alert into a Modal Window
 gem 'simple_form', :git => 'https://github.com/plataformatec/simple_form.git'	#Easy Form generation
+gem 'activerecord-import', :git => 'https://github.com/zdennis/activerecord-import.git'
 gem 'to_xls-rails'	#Export XLS
 gem 'to_csv-rails'	#Export CSV
 gem 'roo', :git => 'https://github.com/roo-rb/roo.git'
