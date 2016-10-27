@@ -34,6 +34,7 @@ class Rate < ApplicationRecord
 			from rates r, carriers c
 			where r.carrier_id = c.id
 			and c.status = '#{true_flag}'
+			and r.status = 2
 			group by r.zone_id "
 	  )
   end  
@@ -49,6 +50,7 @@ class Rate < ApplicationRecord
 				max(r.price_min) price_min
 			FROM
 				rates r
+			WHERE status=2
 			GROUP BY
 				r.zone_id ,
 				r.carrier_id "
@@ -57,6 +59,7 @@ class Rate < ApplicationRecord
 		ActiveRecord::Base.connection.select_all(
 			" select r.zone_id || '-' || r.carrier_id id, max(r.price_min) price_min
 			from rates r
+			WHERE status=2
 			group by r.zone_id, r.carrier_id"
 		)
 	 end  	  
@@ -78,12 +81,50 @@ class Rate < ApplicationRecord
 	 end
 	 
 	 #Rate.spada(carrier_id)
+	 Rate.change_rate_status(carrier_id)
 	 Rate.spada_base(carrier_id)
 	 
 	 #return imported_rows
 	 JobNotificationMailer.job_status("Rate Import", current_user , "Success", "Rate Import", "Task completed, imported rows #{imported_rows}").deliver_now
   end
   
+  
+  def self.change_rate_status(carrier_id)
+  	 
+		@zones = ActiveRecord::Base.connection.select_all(
+			" select zone_id, count(*)
+				from rates 
+				where carrier_id = #{carrier_id}
+				and zone_id is not null
+				group by zone_id
+			 "
+		)
+		
+		@zones.rows.each do |z|
+			r = Rate.find_by_zone_id(z[0])
+			if z[1] == 1 
+				r.status = 2
+				r.save!
+			else
+				_r = Rate.where(:zone_id=>z[0], :carrier_id=>carrier_id ).each do |rs|
+					
+					if rs.start_date.strftime("%Y-%m-%d") == DateTime.now.strftime("%Y-%m-%d")
+						rs.status = 2
+						rs.save!
+					elsif rs.start_date.strftime("%Y-%m-%d") < DateTime.now.strftime("%Y-%m-%d")
+						rs.status = 0
+						rs.save!
+					else
+						rs.status = 1
+						rs.save!
+					end
+				end
+				
+			end
+		end
+
+		
+  end
   
   
   def self.spada(carrier_id)
