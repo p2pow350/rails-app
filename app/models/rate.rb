@@ -81,8 +81,8 @@ class Rate < ApplicationRecord
 	 end
 	 
 	 #Rate.spada(carrier_id)
-	 Rate.change_rate_status(carrier_id)
 	 Rate.spada_base(carrier_id)
+	 Rate.change_rate_status(carrier_id)
 	 
 	 #return imported_rows
 	 JobNotificationMailer.job_status("Rate Import", current_user , "Success", "Rate Import", "Task completed, imported rows #{imported_rows}").deliver_now
