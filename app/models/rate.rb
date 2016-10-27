@@ -23,9 +23,9 @@ class Rate < ApplicationRecord
   def self.best_prices
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
-	 when :mysql2
+	 when "mysql2"
 	   true_flag = '1'
-	 when :sqlite
+	 when "sqlite3"
 	   true_flag = 't'
 	 end  	  
   	  
@@ -42,19 +42,18 @@ class Rate < ApplicationRecord
   def self.prices
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
-	 when :mysql2
+	 when "mysql2"
 		ActiveRecord::Base.connection.select_all(
-			"SELECT
+			" SELECT
 				concat(r.zone_id , '-' , r.carrier_id) id ,
 				max(r.price_min) price_min
 			FROM
 				rates r
 			GROUP BY
 				r.zone_id ,
-				r.carrier_id
-			"
+				r.carrier_id "
 		)
-	 when :sqlite
+	 when "sqlite3"
 		ActiveRecord::Base.connection.select_all(
 			" select r.zone_id || '-' || r.carrier_id id, max(r.price_min) price_min
 			from rates r
