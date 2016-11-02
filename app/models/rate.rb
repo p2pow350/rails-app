@@ -121,6 +121,17 @@ class Rate < ApplicationRecord
 				end
 				
 			end
+			
+			#latest active
+		    @upd = ActiveRecord::Base.connection.select_all(
+		    	" update rates set status=2 where zone_id = #{z[0]} and start_date in(
+					select max(start_date) from rates r2
+					where start_date <> (select max(start_date) from rates where zone_id = #{z[0]} )
+					)
+				 and zone_id = #{z[0]} 
+		    	 "
+		    )
+
 		end
 
 		
