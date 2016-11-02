@@ -11,8 +11,5 @@ end
 
 scheduler.cron '5 0 * * *' do
   # do something every day, five minutes after midnight
-  Carrier.pluck(:id).each do |c|
-  	  Rate.change_rate_status(c)
-  end
-  
+  system("rake rates_expiration")
 end

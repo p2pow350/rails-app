@@ -19,3 +19,14 @@ task rate_counter: :environment do
     Carrier.reset_counters c, :rates
   end
 end
+
+
+
+
+task rates_expiration: :environment do
+  p Time.now.to_s + " - Task: Updating Rates Expiration Date.."
+  
+  Carrier.pluck(:id).each do |c|
+  	  Rate.change_rate_status(c)
+  end
+end
