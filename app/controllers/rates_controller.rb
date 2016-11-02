@@ -6,15 +6,24 @@ class RatesController < ApplicationController
   def index
   	s_filter = params[:q]
   	s_criteria = params[:search_criteria]
+  	s_type = params[:search_type]
   	
   	@per_page = params[:per_page] || WillPaginate.per_page
   	  
     if s_filter
-      @rates = Rate.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+	  case s_type
+		  when "contain"
+			@rates = Rate.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+		  when "start"
+			@rates = Rate.where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+		  else
+			@rates = Rate.where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
+	  end    	
+      
     else
       @rates = Rate.all.paginate(:per_page => @per_page, :page => params[:page])
-    end    
-    
+    end
+  	      
     respond_to do |format|
 	  format.html
 	  format.xls { send_data(@rates.to_a.to_xls(:except => [:created_at, :updated_at, :id])) }
