@@ -108,10 +108,10 @@ class Rate < ApplicationRecord
 			else
 				_r = Rate.where(:zone_id=>z[0], :carrier_id=>carrier_id ).each do |rs|
 					
-					if rs.start_date.strftime("%Y-%m-%d") == DateTime.now.strftime("%Y-%m-%d")
+					if DateTime.now.strftime("%Y-%m-%d") >= rs.start_date.strftime("%Y-%m-%d")
 						rs.status = 2
 						rs.save!
-					elsif rs.start_date.strftime("%Y-%m-%d") < DateTime.now.strftime("%Y-%m-%d")
+					elsif DateTime.now.strftime("%Y-%m-%d") < rs.start_date.strftime("%Y-%m-%d")
 						rs.status = 0
 						rs.save!
 					else
