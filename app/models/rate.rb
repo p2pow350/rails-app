@@ -20,6 +20,12 @@ class Rate < ApplicationRecord
 	 Carrier.update_all rates_count: 0
   end    
     
+  def self.reset_zones
+  	 ActiveRecord::Base.connection.execute(
+  	 	 	" update rates set zone_id = NULL"
+	  )
+  end    
+  
   def self.best_prices
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
@@ -89,13 +95,19 @@ class Rate < ApplicationRecord
   end
   
   
-  def self.change_rate_status(carrier_id)
-  	 
+  def self.change_rate_status(carrier_id, *args)
+  	    options = args.extract_options!
+  	    param_zone = options[:zone]
+        if param_zone
+          additional_filter = " and zone_id = #{param_zone} "
+        end    
+  	    
 		@zones = ActiveRecord::Base.connection.select_all(
 			" select zone_id, count(*)
 				from rates 
 				where carrier_id = #{carrier_id}
 				and zone_id is not null
+				#{additional_filter}
 				group by zone_id
 			 "
 		)
@@ -190,7 +202,7 @@ class Rate < ApplicationRecord
   	  	   unless Code.find_by_prefix(match).nil?
   	  	   	f3=Code.find_by_prefix(match)
   	  	   	s3= {f3.zone_id => {:carrier_zone_name => r.name, :carrier_prefix => r.prefix, :price_min => r.price_min, :start_date => r.start_date, :flag1 => nil, :flag2 => nil, :flag3 => match} }
-  	  	   	spada.deep_merge!(s3) if spada[c.zone_id][:flag1] != 'EXACT'
+  	  	   	spada.deep_merge!(s3) if spada[f3.zone_id][:flag1] != 'EXACT'
   	  	   end
 		 
 		 counter-=1

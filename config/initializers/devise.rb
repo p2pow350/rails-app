@@ -12,7 +12,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = Option.where(:o_key=> 'user_name').pluck(:value)
+  config.mailer_sender = Option.where(:o_key=> 'user_name').pluck(:value) if defined?(Option)
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'

@@ -5,18 +5,21 @@ Rails.application.configure do
     config.action_mailer.delivery_method = :smtp 
 
 	# get database settings
-  	@smtp_settings = Hash[Option.where(:area => 'mail_out').pluck(:o_key, :value)] 
-
-    ActionMailer::Base.raise_delivery_errors = true    
-    ActionMailer::Base.smtp_settings = {
-      :from 				=> @smtp_settings["user_name"],	
-      :address              => @smtp_settings["address"],
-      :port                 => @smtp_settings["port"].to_i,
-      :domain               => @smtp_settings["domain"],
-      :user_name            => @smtp_settings["user_name"],
-      :password             => @smtp_settings["password"],
-      :authentication       => @smtp_settings["authentication"],
-      :enable_starttls_auto => @smtp_settings["enable_starttls_auto"]
-    }
+    if (defined?(Option)).nil? # will now return true or false
+  		@smtp_settings = Hash[Option.where(:area => 'mail_out').pluck(:o_key, :value)] 
+    	
+    	ActionMailer::Base.raise_delivery_errors = true    
+    	ActionMailer::Base.smtp_settings = {
+    	  :from 				=> @smtp_settings["user_name"],	
+    	  :address              => @smtp_settings["address"],
+    	  :port                 => @smtp_settings["port"].to_i,
+    	  :domain               => @smtp_settings["domain"],
+    	  :user_name            => @smtp_settings["user_name"],
+    	  :password             => @smtp_settings["password"],
+    	  :authentication       => @smtp_settings["authentication"],
+    	  :enable_starttls_auto => @smtp_settings["enable_starttls_auto"]
+    	}
+    end	
+	
     
 end
