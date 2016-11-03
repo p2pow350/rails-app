@@ -75,6 +75,7 @@ class Rate < ApplicationRecord
   
   
   def self.from_file(file, current_user, carrier_id)
+  	  
   	 imported_rows = 0
      spreadsheet = Xls.get_spreadsheet(file);
      header = spreadsheet.row(1)
@@ -86,8 +87,8 @@ class Rate < ApplicationRecord
        
 	 end
 	 
-	 #Rate.spada(carrier_id)
 	 Rate.spada_base(carrier_id)
+	 #Rate.spada(carrier_id)
 	 Rate.change_rate_status(carrier_id)
 	 
 	 #return imported_rows
