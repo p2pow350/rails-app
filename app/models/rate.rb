@@ -100,26 +100,25 @@ class Rate < ApplicationRecord
   	    options = args.extract_options!
   	    param_zone = options[:zone]
         if param_zone
-          additional_filter = " and zone_id = #{param_zone} "
+          additional_filter = " and prefix = '#{param_zone}' "
         end    
   	    
-		@zones = ActiveRecord::Base.connection.select_all(
-			" select zone_id, count(*)
+		@rates = ActiveRecord::Base.connection.select_all(
+			" select prefix, count(*)
 				from rates 
 				where carrier_id = #{carrier_id}
-				and zone_id is not null
 				#{additional_filter}
-				group by zone_id
+				group by prefix
 			 "
 		)
 		
-		@zones.rows.each do |z|
-			r = Rate.find_by_zone_id(z[0])
+		@rates.rows.each do |z|
+			r = Rate.find_by_prefix(z[0])
 			if z[1] == 1 
 				r.status = 2
 				r.save!
 			else
-				_r = Rate.where(:zone_id=>z[0], :carrier_id=>carrier_id ).each do |rs|
+				_r = Rate.where(:prefix=>z[0], :carrier_id=>carrier_id ).each do |rs|
 					
 					if rs.start_date.strftime("%Y-%m-%d") == DateTime.now.strftime("%Y-%m-%d")
 						rs.status = 2
@@ -137,11 +136,9 @@ class Rate < ApplicationRecord
 			
 			#latest active
 		    @upd = ActiveRecord::Base.connection.execute(
-		    	" update rates set status=2 where zone_id = #{z[0]} and start_date in(
-					select max(start_date) from rates r2
-					where start_date <> (select max(start_date) from rates where zone_id = #{z[0]} )
-					)
-				 and zone_id = #{z[0]} 
+		    	" update rates set status=2 where prefix = '#{z[0]}' and status <> 1 and start_date in(
+					select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1
+				  )
 		    	 "
 		    )
 
@@ -212,20 +209,53 @@ class Rate < ApplicationRecord
 	  
 	  
 	  
-  	  p spada
+  	  #spada.each do |key, value|
+  	  #	  puts value
+  	  #end
   	  
-	 ## Prima fase, match esatto!
-	 ## Ns Prefissi vs Carrier
-	 #Rate.where(:carrier_id => carrier_id).each do |r|
-	 #  unless Code.find_by_prefix(r.prefix.to_s).nil?
-	 #  	  c = Code.select(:zone_id).find_by_prefix(r.prefix.to_s)
-	 #  	  r.zone_id = c["zone_id"]
-	 #  	  r.flag1='ESATTO_MATCH'
-	 #  	  r.save
-	 #  end
-	 #end
-
-	 
+  	  
+#{1179=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
+# 1180=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
+# 1181=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
+# 1182=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
+# 1183=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
+# 1184=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
+# 1185=>
+#  {:carrier_zone_name=>"ALBANIA",
+#   :carrier_prefix=>"355",
+#   :price_min=>#<BigDecimal:7f9ebcfbb5f0,'0.1323E0',9(18)>,
+#   :start_date=>Fri, 02 Sep 2016 00:00:00 CEST +02:00,
+#   :flag1=>"EXACT",
+#   :flag2=>nil,
+#   :flag3=>nil},
+# 2375=>
+#  {:carrier_zone_name=>"ALBANIA",
+#   :carrier_prefix=>"355",
+#   :price_min=>#<BigDecimal:7f9ebc5732f0,'0.1323E0',9(18)>,
+#   :start_date=>Fri, 02 Sep 2016 00:00:00 CEST +02:00,
+#   :flag1=>nil,
+#   :flag2=>"SIMILAR",
+#   :flag3=>nil},
+# 1186=>
+#  {:carrier_zone_name=>"ALBANIA TIRANE",
+#   :carrier_prefix=>"355423",
+#   :price_min=>#<BigDecimal:7f9ebdb422c0,'0.1327E0',9(18)>,
+#   :start_date=>Fri, 02 Sep 2016 00:00:00 CEST +02:00,
+#   :flag1=>"EXACT",
+#   :flag2=>nil,
+#   :flag3=>nil},
+# 1187=>
+#  {:carrier_zone_name=>"ALBANIA",
+#   :carrier_prefix=>"355",
+#   :price_min=>#<BigDecimal:7f9eba9e6578,'0.1323E0',9(18)>,
+#   :start_date=>Fri, 02 Sep 2016 00:00:00 CEST +02:00,
+#   :flag1=>nil,
+#   :flag2=>"SIMILAR",
+#   :flag3=>nil},
+  	  
+  	  
+  	  
+  	  
 	 
  	end #unless
   end
