@@ -21,6 +21,7 @@
 		  <th>Date</th>
 		  <th>Status</th>
 		  <th>Price</th>
+		  <th>Currency</th>
 		  <th width="30px"></th>
 		</tr>
 	  </thead>
@@ -34,8 +35,18 @@
 			<td><%= record.prefix %></td>
 			<td><%= record.zone.name unless record.zone_id.nil? %></td>
 			<td><%= record.start_date.strftime("%Y-%m-%d") unless record.start_date.nil?  %></td>
-			<td><%= record.status %></td>
+			<td>
+				<% if record.status=="active" %>
+					<a class="ui tiny green label"><%= record.status %></a>
+				<% elsif record.status=="pending" %> 
+					<a class="ui tiny orange label"><%= record.status %></a>
+				<% else %> 
+					<%= record.status %>
+				<% end %>			
+			</td>
 			<td><%= record.price_min %></td>
+			<td><%= record.carrier.currency %></td>
+
 			<!--<td><%#= record.zone.name %></td>-->
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
 		  </tr>

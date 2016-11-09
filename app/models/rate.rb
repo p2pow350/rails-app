@@ -211,6 +211,8 @@ class Rate < ApplicationRecord
 	  
   	  #spada.each do |key, value|
   	  #	  puts value
+  	  #	  Rate.where(prefix: "355").update_all(flag1: "cacca")
+  	  #	  
   	  #end
   	  
   	  

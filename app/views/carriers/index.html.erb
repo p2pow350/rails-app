@@ -30,12 +30,18 @@
 			<td><%= record.name %></td>
 			<td>
 				<% if record.status %>
-					<a class="ui green label">Enabled</a>
+					<a class="ui tiny green label">Enabled</a>
 				<% else %> 
-					<a class="ui red label">Disabled</a>
+					<a class="ui tiny red label">Disabled</a>
 				<% end %>			
 			</td>
-			<td><%= record.currency %></td>
+			<td>
+				<% if record.currency != "eur" %>
+					<a class="ui tiny orange label"> <%= record.currency %> </a>
+				<% else %> 
+					<%= record.currency %>
+				<% end %>			
+			</td>
 			<td><%= record.is_customer %></td>
 			<td><%= record.is_supplier %></td>
 			<td> 

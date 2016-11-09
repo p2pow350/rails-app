@@ -17,7 +17,7 @@ ready = ->
 	
 	$ ->
 	  if $('.ui.dropdown').length
-		  $('.ui.dropdown').dropdown()
+		  $('.ui.dropdown').dropdown(fullTextSearch: true)
 		  return
 
 	$ ->
