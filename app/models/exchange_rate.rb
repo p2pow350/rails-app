@@ -12,7 +12,6 @@ class ExchangeRate < ApplicationRecord
 	@last_update.count == 0 ? last ='' : last = @last_update[0]["start_date"]
 	
   	@rate = ActiveRecord::Base.connection.select_all(" select rate from exchange_rates where currency= '#{currency}' and start_date ='#{last}' " )
-  	  
 	@rate.count == 0 ? 1 : @rate[0]["rate"]
   end
   
