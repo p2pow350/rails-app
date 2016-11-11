@@ -1,0 +1,41 @@
+<%= render 'layouts/page_search_form', search_criteria: ['name'] %>
+
+<div class="ui clearing segments">
+
+  <div class="ui segment">
+    <h3>Listing <%= controller.controller_name.titleize %> 
+    	<%= render 'layouts/page_action_buttons' %>
+    </h3>
+  </div>
+
+  <div class="ui secondary segment">
+  	<!-- page content -->
+	<table class="ui sortable very compact striped table">
+	  <thead>
+		<tr>
+		  <th>Date</th>
+		  <th>Currency</th>
+		  <th>Rate</th>
+		  <th width="30px"></th>
+		</tr>
+	  </thead>
+	
+	  <tbody>
+	  	<% @records = @exchange_rates %>
+		<% @exchange_rates.each do |record| %>
+		  <tr class="collapsing">
+			<td><%= record.start_date %></td>		  
+		    <td><%= record.currency %></td>       
+		    <td><%= record.rate %></td>     
+			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
+		  </tr>
+		<% end %>
+	  </tbody>
+	  <%= render 'layouts/table_paging', collection: @records, :locals => {:colspan => 3} %>
+	  
+	</table>
+	<!-- end page content -->
+  </div>
+  
+</div>
+

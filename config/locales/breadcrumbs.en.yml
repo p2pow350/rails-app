@@ -24,3 +24,6 @@ en:
 
     rates:
       index: Rates
+
+    exchange_rates:
+      index: "Exchange Rates"

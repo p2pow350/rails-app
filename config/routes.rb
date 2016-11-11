@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   resources :options
 	
   resources :users_admin, :controller => 'users'
-	
+
+  resources :exchange_rates do
+    collection { post :upload }
+  end  	
+
   resources :codes do
     collection { post :upload }
   end  	

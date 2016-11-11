@@ -22,6 +22,7 @@
 		  <th>Status</th>
 		  <th>Price</th>
 		  <th>Currency</th>
+		  <th>EUR</th>
 		  <th width="30px"></th>
 		</tr>
 	  </thead>
@@ -46,6 +47,7 @@
 			</td>
 			<td><%= record.price_min %></td>
 			<td><%= record.carrier.currency %></td>
+			<td><%= number_with_precision(record.price_min / ExchangeRate.exchange(record.carrier.currency.to_s), precision: 4)  %></td>
 
 			<!--<td><%#= record.zone.name %></td>-->
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>

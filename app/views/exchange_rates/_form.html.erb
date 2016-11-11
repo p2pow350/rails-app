@@ -1,0 +1,16 @@
+<%= simple_form_for(@exchange_rate) do |f| %>
+
+  <div class="field string optional ui calendar" id="start_date">
+	  <label class="string optional" for="exchange_rate[start_date]">Date</label>
+      <div class="ui fluid input left icon">
+        <i class="calendar icon"></i>
+        <input type="text" name="exchange_rate[start_date]" placeholder="Choose a Date" value="<%= (@exchange_rate.start_date || Date.today.to_s) %>">
+      </div>
+  </div>  
+
+  <%= f.input :currency, collection: Currency.major_currencies(Money::Currency.table), input_html: { class: "ui search selection dropdown", maxlength: 60 }, prompt: "Choose a Currency" %>
+  <%= f.input :rate %>
+
+  <%= f.button :button, "Save" %>
+  <%= link_to 'Back', url_for(:back), class: "ui button" %>
+<% end %>

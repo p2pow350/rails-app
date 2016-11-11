@@ -6,11 +6,11 @@
   <a><%= link_to '<i class="world icon"></i> Zones'.html_safe, zones_path, class: "item #{active_class('/zones')}" %></a>
   <a><%= link_to '<i class="unordered list icon"></i> Codes'.html_safe, codes_path, class: "item #{active_class('/codes')}" %></a>
   <a><%= link_to '<i class="euro icon"></i> Buy Rates'.html_safe, rates_path, class: "item #{active_class('/rates')}" %></a>
-  <a><%= link_to '<i class="euro icon"></i> Comparison'.html_safe, comparison_rates_path, class: "item #{active_class('/rates/comparison')}" %></a>
+  <a><%= link_to '<i class="puzzle icon"></i> Comparison'.html_safe, comparison_rates_path, class: "item #{active_class('/rates/comparison')}" %></a>
   <a><%#= link_to '<i class="settings icon"></i> Options'.html_safe, options_path, class: "item #{active_class('/options')}" %></a>
+  <a><%= link_to '<i class="calculator icon"></i> Exchange Rates'.html_safe, exchange_rates_path, class: "item #{active_class('/exchange_rates')}" %></a>
   <a><%= link_to '<i class="eject icon"></i> Logout'.html_safe, destroy_user_session_path, :method => :delete, class: 'item' %></a>
 </div>
-
 
 <!-- Top Fixed Menu -->
 <div class="ui top fixed menu">

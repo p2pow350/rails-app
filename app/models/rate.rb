@@ -147,9 +147,11 @@ class Rate < ApplicationRecord
   end
   
   
-  def self.spada(carrier_id)
+  def self.spada_rifare(carrier_id)
   	  unless Rate.where(:carrier_id => carrier_id).count == 0 
 
+  	  @codes = Hash[Code.pluck(:prefix, :zone_id)]
+	  
   	  spada = Hash.new
   	  
   	  Zone.select(:id).each do |z|
@@ -197,10 +199,10 @@ class Rate < ApplicationRecord
 		begin
 		 match = _substring[0..counter]
 		 
-  	  	   unless Code.find_by_prefix(match).nil?
-  	  	   	f3=Code.find_by_prefix(match)
-  	  	   	s3= {f3.zone_id => {:carrier_zone_name => r.name, :carrier_prefix => r.prefix, :price_min => r.price_min, :start_date => r.start_date, :flag1 => nil, :flag2 => nil, :flag3 => match} }
-  	  	   	spada.deep_merge!(s3) if spada[f3.zone_id][:flag1] != 'EXACT'
+  	  	   unless @codes[match].nil?
+  	  	   	f3=@codes[match]
+  	  	   	s3= {f3 => {:carrier_zone_name => r.name, :carrier_prefix => r.prefix, :price_min => r.price_min, :start_date => r.start_date, :flag1 => nil, :flag2 => nil, :flag3 => match} }
+  	  	   	spada.deep_merge!(s3) if spada[f3][:flag1] != 'EXACT'
   	  	   end
 		 
 		 counter-=1
@@ -208,6 +210,7 @@ class Rate < ApplicationRecord
 	  end
 	  
 	  
+	  p spada 
 	  
   	  #spada.each do |key, value|
   	  #	  puts value
@@ -261,6 +264,17 @@ class Rate < ApplicationRecord
 	 
  	end #unless
   end
+  
+  
+
+  def self.spada(carrier_id)
+  	  
+  	  
+  end
+
+  
+  
+  
   
   def self.spada_base(carrier_id)
 	 # Prima fase, match esatto!

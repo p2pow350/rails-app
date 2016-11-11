@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161026062018) do
+ActiveRecord::Schema.define(version: 20161110234640) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -23,6 +23,25 @@ ActiveRecord::Schema.define(version: 20161026062018) do
     t.string   "currency"
     t.integer  "type"
     t.boolean  "status"
+  end
+
+  create_table "code_processes", force: :cascade do |t|
+    t.integer  "zone_id"
+    t.string   "carrier_zone_name"
+    t.string   "prefix"
+    t.string   "carrier_prefix"
+    t.date     "start_date"
+    t.decimal  "carrier_price1"
+    t.string   "flag_update1"
+    t.decimal  "carrier_price2"
+    t.string   "flag_update2"
+    t.decimal  "carrier_price3"
+    t.string   "flag_update3"
+    t.decimal  "carrier_price4"
+    t.string   "flag_update4"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["zone_id"], name: "index_code_processes_on_zone_id"
   end
 
   create_table "codes", force: :cascade do |t|
@@ -49,6 +68,15 @@ ActiveRecord::Schema.define(version: 20161026062018) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "exchange_rates", force: :cascade do |t|
+    t.date     "start_date"
+    t.string   "currency"
+    t.decimal  "rate"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
+
   create_table "options", force: :cascade do |t|
     t.string   "area"
     t.string   "o_key"
@@ -71,7 +99,9 @@ ActiveRecord::Schema.define(version: 20161026062018) do
     t.string   "flag1"
     t.string   "flag2"
     t.string   "flag3"
+    t.integer  "code_id"
     t.index ["carrier_id"], name: "index_rates_on_carrier_id"
+    t.index ["code_id"], name: "index_rates_on_code_id"
     t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
 
