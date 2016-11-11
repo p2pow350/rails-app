@@ -9,7 +9,9 @@ class ExchangeRate < ApplicationRecord
       
   def self.exchange(currency)
   	@last_update = ActiveRecord::Base.connection.select_all(" select start_date from exchange_rates where '#{Date.today.to_s}' >= start_date and currency= '#{currency}' order by start_date desc limit 1 ")
-	@rate = ActiveRecord::Base.connection.select_all(" select rate from exchange_rates where start_date ='#{@last_update[0]["start_date"]}' " )
+	@last_update.count == 0 ? last ='' : last = @last_update[0]["start_date"]
+	
+  	@rate = ActiveRecord::Base.connection.select_all(" select rate from exchange_rates where currency= '#{currency}' and start_date ='#{last}' " )
   	  
 	@rate.count == 0 ? 1 : @rate[0]["rate"]
   end
