@@ -8,7 +8,11 @@ class CodesController < ApplicationController
   	s_criteria = params[:search_criteria]
   	s_type = params[:search_type]
   	
-  	@per_page = params[:per_page] || WillPaginate.per_page
+  	unless params[:per_page]=='All' 
+  		@per_page = params[:per_page] || WillPaginate.per_page 
+  	else
+  		@per_page = 1000000000000
+  	end
   	  
     if s_filter
 	  case s_type
