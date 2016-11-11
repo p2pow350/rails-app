@@ -20,6 +20,7 @@
 		  <th>Zone</th>
 		  <th>Date</th>
 		  <th>Status</th>
+		  <th>Original</th>
 		  <th>Price</th>
 		  <th>Currency</th>
 		  <th>EUR</th>
@@ -46,6 +47,7 @@
 				<% end %>			
 			</td>
 			<td><%= record.price_min %></td>
+			<td><%= record.found_price %></td>
 			<td><%= record.carrier.currency %></td>
 			<td><%= number_with_precision(record.price_min / ExchangeRate.exchange(record.carrier.currency.to_s), precision: 4)  %></td>
 

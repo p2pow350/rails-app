@@ -268,16 +268,185 @@ class Rate < ApplicationRecord
   
 
   def self.spada(carrier_id)
-  	  CodeProcess.delete_all
+  	  CodeProcess.delete_all(carrier_id: carrier_id)
   	  
   	  @codes = Hash[Code.pluck(:prefix, :zone_id)]
+  	  @zones = Hash[Zone.pluck(:id, :name)]
   	  
-	  @upd = ActiveRecord::Base.connection.execute(" INSERT into code_processes (zone_id, code_id, prefix, created_at, updated_at) select z.id, c.id, c.prefix, DATETIME('now'), DATETIME('now') from zones z, codes c where z.id=c.zone_id ")
+	  @ins = ActiveRecord::Base.connection.execute(" INSERT into code_processes (zone_id, code_id, carrier_id, prefix, created_at, updated_at) select z.id, c.id, '#{carrier_id}', c.prefix, DATETIME('now'), DATETIME('now') from zones z, codes c where z.id=c.zone_id ")
   	  
-	  #elab-listini-spada.cgi - 169
-	  @rates = Hash[Rate.where(:carrier_id => carrier_id, :status=>'active').pluck(:prefix, :name, :price_min)]
+	  @rates = Hash.new
+  	  Rate.where(:carrier_id => carrier_id, :status=>'active').each do |r|
+  	  	 s0 = {r.prefix => {:prefix => r.prefix, :name => r.name, :price_min => r.price_min} }
+  	  	 @rates.deep_merge!(s0)
+  	  end	  
+  	  
+	 # Prima fase, match esatto!
+	 # Ns Prefissi vs Carrier
+	 CodeProcess.where(:carrier_id => carrier_id).each do |c|
+	   unless @rates[c.prefix.to_s].nil?
+	   	  Rate.where(:carrier_id => carrier_id, :prefix => c.prefix.to_s).update_all(flag1: 'ESATTO_MATCH') 
+	   	  
+	   	  c.carrier_price1 = @rates[c.prefix.to_s][:price_min]
+	   	  c.carrier_prefix = c.prefix.to_s
+	   	  c.carrier_zone_name = @rates[c.prefix.to_s][:name]
+	   	  c.flag_update1='ESATTO_MATCH'
+	   	  c.save
+	   end
+	 end
+	 
+	 
+	  ## Seconda fase, match simile!
+	  ## Ns Prefissi vs Carrier
+  	  CodeProcess.where(:carrier_id => carrier_id).order("LENGTH(prefix) DESC").each do |c|
+  	  	_substring=c.prefix
+		counter=_substring.length
+		
+		begin
+		 match = _substring[0..counter]
+		 
+  	  	   unless @rates[match].nil?
+  	  	   	Rate.where(:carrier_id => carrier_id, :prefix => match).update_all(flag2: 'PREF_VICINO')    
+  	  	   	c.carrier_price1 = @rates[match][:price_min]
+	   	    c.carrier_prefix = match.to_s
+	   	    c.carrier_zone_name = @rates[match][:name]
+	   	    c.flag_update1='PREF_VICINO'
+	   	    c.save
+  	  	   end
+		 
+		 counter-=1
+		end while counter >= 0
+	  end
+	 
 	  
-  end
+	  ## Terza fase, match simile!
+	  ## Prefissi Carrier vs Nostri
+  	  Rate.where(:carrier_id => carrier_id, :flag1 => nil).each do |r|
+  	  	_substring=r.prefix
+		counter=_substring.length
+		
+		begin
+		 match = _substring[0..counter]
+		 
+  	  	   unless @codes[match].nil?
+  	  	   	r.flag3=match.to_s
+  	  	   	r.save
+  	  	   end
+		 
+		 counter-=1
+		end while counter >= 0
+	  end
+	 
+	  
+  	 @cross_upd = ActiveRecord::Base.connection.select_all(
+  	  	" SELECT flag3 prefix, MAX(price_min) max_price 
+		  FROM rates 
+		  WHERE flag3 is not null and carrier_id = #{carrier_id}
+		  GROUP BY flag3 "
+	 )
+	  
+	 @cross_upd.each do |row|
+	 	 CodeProcess.where(:carrier_id => carrier_id, :prefix => row['prefix']).update_all(carrier_price2: row['max_price'])
+	 end
+	  
+	  
+	  @zones.each do |k,v|
+	  	  
+	  	 @sql_check_previous_price = ActiveRecord::Base.connection.select_all(
+			"SELECT 
+			IFNULL(MAX(alt.carrier_price1), 'NO_FOUND') MAX_PREV
+			FROM code_processes AS alt
+			WHERE
+			carrier_id = #{carrier_id}
+			and alt.zone_id='#{k}' AND alt.carrier_price1 <> (SELECT MAX(alt2.carrier_price1) FROM code_processes AS alt2 WHERE carrier_id = #{carrier_id} and alt2.zone_id='#{k}') "
+		)
+		 
+	 	 @sql_check_previous_price.each do |row|
+	 	 	 max_prev = row['MAX_PREV']
+	 	 	 
+	 	 	 if row['MAX_PREV'] == 'NO_FOUND'
+				 @sql_check_previous_price2 = ActiveRecord::Base.connection.select_all(
+					"SELECT 
+					MAX(alt.carrier_price2) MAX_PREV
+					FROM code_processes AS alt
+					WHERE
+					carrier_id = #{carrier_id}
+					and alt.zone_id='#{k}'
+				 ")
+				 @sql_check_previous_price2.each do |row|
+				 	 max_prev = row['MAX_PREV']
+				 end
+				 
+	 	 	 end
+	 	 	 
+	 	 	 CodeProcess.where(:carrier_id => carrier_id, :zone_id => '#{k}').update_all(carrier_price4: max_prev.to_f)
+	 	 end
+
+	  end #zones.each
+	  
+	  	  
+	  @rates_p = ActiveRecord::Base.connection.select_all("
+			SELECT zone_id,
+			IFNULL(MAX(carrier_price1), 0) MAX,
+			IFNULL(MAX(carrier_price2), 0) MIN,
+			IFNULL(MAX(carrier_price4), 0) SPORCO 
+			FROM code_processes
+			WHERE carrier_id = #{carrier_id}
+			GROUP BY zone_id	
+	  ")
+	  @rates_parsed = Hash.new
+	  @rates_p.each do |row|
+	  	  s0 = {row['zone_id'] => {:max_price => row['MAX'], :min_price => row['MIN'], :dirty_price => row['SPORCO']} }
+	  	  @rates_parsed.deep_merge!(s0)
+	  end
+	  
+	  
+	  @rates_parsed2 = Hash.new
+	  @zones.each do |k,v|
+	  	  _prices = Array.new
+	  	  _prices.push @rates_parsed[k][:min_price] unless @rates_parsed[k].nil?
+	  	  _prices.push @rates_parsed[k][:max_price] unless @rates_parsed[k].nil?
+	  	  _prices.push @rates_parsed[k][:dirty_price] unless @rates_parsed[k].nil?
+	  	  
+	  	  sorted = _prices.uniq.sort_by(&:to_f).reverse
+
+	  	  prezzo_max = sorted[0]
+	  	  prezzo_min = sorted[1]
+	  	  
+	  	  if prezzo_min == 0 
+	  	  	  prezzo_min = prezzo_max
+	  	  end
+	  	  if prezzo_max == 0 
+	  	  	  prezzo_min = 0
+	  	  	  prezzo_max = 60
+	  	  end
+	  	  prezzo_max=60 if prezzo_max.nil?
+	  	  	  
+	  	  s0 = {k => {:max_price => prezzo_max, :min_price => prezzo_min} }
+	  	  @rates_parsed2.deep_merge!(s0)
+	  	  #{k}
+	  end	  
+	  
+
+	  
+	  @time_to_update = ActiveRecord::Base.connection.select_all("
+	  		SELECT prefix, zone_id
+			FROM code_processes
+			WHERE carrier_id = #{carrier_id}
+			GROUP BY prefix, zone_id
+	  ")
+	  @time_to_update.each do |row|
+	  	  
+	  	  Rate.where(:carrier_id => carrier_id, :prefix => row['prefix']).update_all(zone_id: row['zone_id'], found_price: @rates_parsed2[row['zone_id']][:max_price] )
+	  	  
+	  end
+
+	  
+	  
+	  
+	  
+	  
+  end #SPADA
 
   
   
