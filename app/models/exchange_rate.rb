@@ -8,16 +8,10 @@ class ExchangeRate < ApplicationRecord
   default_scope { order('start_date DESC') }
       
   def self.exchange(currency)
- 
-	@rates = ActiveRecord::Base.connection.select_all(
-		" select rate from exchange_rates
-			where start_date in (
-			select start_date from exchange_rates where '#{Date.today.to_s}' >= start_date and currency= '#{currency}' order by start_date desc limit 1
-			)
-		 "
-		 )
+  	@last_update = ActiveRecord::Base.connection.select_all(" select start_date from exchange_rates where '#{Date.today.to_s}' >= start_date and currency= '#{currency}' order by start_date desc limit 1 ")
+	@rate = ActiveRecord::Base.connection.select_all(" select rate from exchange_rates where start_date ='#{@last_update[0]["start_date"]}' " )
   	  
-	@rates.count == 0 ? 1 : @rates[0]["rate"]
+	@rate.count == 0 ? 1 : @rate[0]["rate"]
   end
   
   
