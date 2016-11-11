@@ -8,11 +8,8 @@ class RatesController < ApplicationController
   	s_criteria = params[:search_criteria]
   	s_type = params[:search_type]
   	
-  	unless params[:per_page]=='All' 
-  		@per_page = params[:per_page] || WillPaginate.per_page 
-  	else
-  		@per_page = 1000000000000
-  	end
+  	params[:per_page] = Rate.count if params[:per_page] == 'All'	
+  	@per_page = params[:per_page] || WillPaginate.per_page 
   	  
     if s_filter
 	  case s_type

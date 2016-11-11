@@ -7,6 +7,7 @@ class OptionsController < ApplicationController
   	s_filter = params[:q]
   	s_criteria = params[:search_criteria]
   	
+  	params[:per_page] = Option.count if params[:per_page] == 'All'
   	@per_page = params[:per_page] || WillPaginate.per_page
   	  
     if s_filter

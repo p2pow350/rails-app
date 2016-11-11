@@ -8,6 +8,7 @@ class ExchangeRatesController < ApplicationController
   	s_criteria = params[:search_criteria]
   	s_type = params[:search_type]
   	
+  	params[:per_page] = ExchangeRate.count if params[:per_page] == 'All'
   	@per_page = params[:per_page] || WillPaginate.per_page
   	  
     if s_filter
