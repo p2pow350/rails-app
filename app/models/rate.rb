@@ -268,8 +268,15 @@ class Rate < ApplicationRecord
   
 
   def self.spada(carrier_id)
+  	  CodeProcess.delete_all
   	  
+  	  @codes = Hash[Code.pluck(:prefix, :zone_id)]
   	  
+	  @upd = ActiveRecord::Base.connection.execute(" INSERT into code_processes (zone_id, code_id, prefix, created_at, updated_at) select z.id, c.id, c.prefix, DATETIME('now'), DATETIME('now') from zones z, codes c where z.id=c.zone_id ")
+  	  
+	  #elab-listini-spada.cgi - 169
+	  @rates = Hash[Rate.where(:carrier_id => carrier_id, :status=>'active').pluck(:prefix, :name, :price_min)]
+	  
   end
 
   
