@@ -442,28 +442,10 @@ class Rate < ApplicationRecord
 	  end
 
 	  
-	  
-	  
-	  
+	  CodeProcess.delete_all(carrier_id: carrier_id)
 	  
   end #SPADA
 
-  
-  
-  
-  
-  def self.spada_base(carrier_id)
-	 # Prima fase, match esatto!
-	 # Ns Prefissi vs Carrier
-	 Rate.where(:carrier_id => carrier_id).each do |r|
-	   unless Code.find_by_prefix(r.prefix.to_s).nil?
-	   	  c = Code.select(:zone_id).find_by_prefix(r.prefix.to_s)
-	   	  r.zone_id = c["zone_id"]
-	   	  r.flag1='ESATTO_MATCH'
-	   	  r.save
-	   end
-	 end
-  end
   
   
 end 

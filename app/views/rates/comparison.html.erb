@@ -31,9 +31,10 @@
 		  <tr class="collapsing">
 			<td><%= z[1] %></td>
 			<td><%= empty_rate(@best_rates["#{z[0]}".to_i]) %></td>
-						
+			<%# @carrier_currency[v] %>
+			
 			<% @carriers.each do |k,v| %>
-				<td><%= empty_rate(@rates["#{z[0]}-#{k}"]) %></td>
+				<td><%= empty_rate(@rates["#{z[0]}-#{k}"])%></td>
 			<% end %>
 			
 		  </tr>

@@ -51,6 +51,7 @@ class RatesController < ApplicationController
      end    
   	 
 	 @carriers = Hash[Carrier.enabled.pluck(:id, :name)]
+	 @carrier_currency = Hash[Carrier.enabled.pluck(:name, :currency)]
 	 
 	 @best_rates = Hash[Rate.best_prices.rows]
 	 @rates = Hash[Rate.prices.rows]
