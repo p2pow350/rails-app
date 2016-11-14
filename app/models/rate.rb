@@ -87,8 +87,7 @@ class Rate < ApplicationRecord
        
 	 end
 	 
-	 Rate.spada_base(carrier_id)
-	 #Rate.spada(carrier_id)
+	 Rate.spada(carrier_id)
 	 Rate.change_rate_status(carrier_id)
 	 
 	 #return imported_rows
