@@ -267,12 +267,23 @@ class Rate < ApplicationRecord
   
 
   def self.spada(carrier_id)
+  	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
+	 case adapter_type
+	 when "mysql2"
+	   _now = 'now()'
+	 when "sqlite3"
+	   _now = 'DATETIME('now')'
+	 end  	  
+  	  
+  	  
   	  CodeProcess.delete_all(carrier_id: carrier_id)
   	  
   	  @codes = Hash[Code.pluck(:prefix, :zone_id)]
   	  @zones = Hash[Zone.pluck(:id, :name)]
   	  
-	  @ins = ActiveRecord::Base.connection.execute(" INSERT into code_processes (zone_id, code_id, carrier_id, prefix, created_at, updated_at) select z.id, c.id, '#{carrier_id}', c.prefix, DATETIME('now'), DATETIME('now') from zones z, codes c where z.id=c.zone_id ")
+  	  
+  	  
+	  @ins = ActiveRecord::Base.connection.execute(" INSERT into code_processes (zone_id, code_id, carrier_id, prefix, created_at, updated_at) select z.id, c.id, '#{carrier_id}', c.prefix, #{_now}, #{_now} from zones z, codes c where z.id=c.zone_id ")
   	  
 	  @rates = Hash.new
   	  Rate.where(:carrier_id => carrier_id, :status=>'active').each do |r|
