@@ -270,9 +270,9 @@ class Rate < ApplicationRecord
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
 	 when "mysql2"
-	   _now = 'now()'
+	   _now = "now()"
 	 when "sqlite3"
-	   _now = 'DATETIME('now')'
+	   _now = "DATETIME('now')"
 	 end  	  
   	  
   	  
