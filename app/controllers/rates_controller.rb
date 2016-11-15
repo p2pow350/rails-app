@@ -14,15 +14,15 @@ class RatesController < ApplicationController
     if s_filter
 	  case s_type
 		  when "contain"
-			@rates = Rate.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
 		  when "start"
-			@rates = Rate.where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
 		  else
-			@rates = Rate.where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
+			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
 	  end    	
       
     else
-      @rates = Rate.all.paginate(:per_page => @per_page, :page => params[:page])
+      @rates = Rate.includes(:zone).includes(:carrier).all.paginate(:per_page => @per_page, :page => params[:page])
     end
   	      
     respond_to do |format|

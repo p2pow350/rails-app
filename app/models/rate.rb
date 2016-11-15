@@ -133,14 +133,28 @@ class Rate < ApplicationRecord
 				
 			end
 			
-			#latest active
-		    @upd = ActiveRecord::Base.connection.execute(
-		    	" update rates set status=2 where prefix = '#{z[0]}' and status <> 1 and start_date in(
-					select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1
-				  )
-		    	 "
-		    )
-
+			 #latest active
+				
+			 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
+			 case adapter_type
+			 when "mysql2"
+				   @upd = ActiveRecord::Base.connection.execute("
+					UPDATE rates
+					SET rates.status =2 where prefix = '#{z[0]}' and status <> 1 and start_date in
+						(
+							SELECT start_date
+							FROM (select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1) AS inner_table
+						)
+					")
+			 when "sqlite3"
+					@upd = ActiveRecord::Base.connection.execute(
+						" update rates set status=2 where prefix = '#{z[0]}' and status <> 1 and start_date in(
+							select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1
+						  )
+						 "
+					)
+			 end  	  
+					
 		end
 		
   end
@@ -217,50 +231,6 @@ class Rate < ApplicationRecord
   	  #	  
   	  #end
   	  
-  	  
-#{1179=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
-# 1180=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
-# 1181=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
-# 1182=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
-# 1183=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
-# 1184=>{:carrier_zone_name=>nil, :carrier_prefix=>nil, :price_min=>nil, :start_date=>nil, :flag1=>nil, :flag2=>nil, :flag3=>nil},
-# 1185=>
-#  {:carrier_zone_name=>"ALBANIA",
-#   :carrier_prefix=>"355",
-#   :price_min=>#<BigDecimal:7f9ebcfbb5f0,'0.1323E0',9(18)>,
-#   :start_date=>Fri, 02 Sep 2016 00:00:00 CEST +02:00,
-#   :flag1=>"EXACT",
-#   :flag2=>nil,
-#   :flag3=>nil},
-# 2375=>
-#  {:carrier_zone_name=>"ALBANIA",
-#   :carrier_prefix=>"355",
-#   :price_min=>#<BigDecimal:7f9ebc5732f0,'0.1323E0',9(18)>,
-#   :start_date=>Fri, 02 Sep 2016 00:00:00 CEST +02:00,
-#   :flag1=>nil,
-#   :flag2=>"SIMILAR",
-#   :flag3=>nil},
-# 1186=>
-#  {:carrier_zone_name=>"ALBANIA TIRANE",
-#   :carrier_prefix=>"355423",
-#   :price_min=>#<BigDecimal:7f9ebdb422c0,'0.1327E0',9(18)>,
-#   :start_date=>Fri, 02 Sep 2016 00:00:00 CEST +02:00,
-#   :flag1=>"EXACT",
-#   :flag2=>nil,
-#   :flag3=>nil},
-# 1187=>
-#  {:carrier_zone_name=>"ALBANIA",
-#   :carrier_prefix=>"355",
-#   :price_min=>#<BigDecimal:7f9eba9e6578,'0.1323E0',9(18)>,
-#   :start_date=>Fri, 02 Sep 2016 00:00:00 CEST +02:00,
-#   :flag1=>nil,
-#   :flag2=>"SIMILAR",
-#   :flag3=>nil},
-  	  
-  	  
-  	  
-  	  
-	 
  	end #unless
   end
   

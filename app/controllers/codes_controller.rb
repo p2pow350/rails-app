@@ -17,15 +17,15 @@ class CodesController < ApplicationController
     if s_filter
 	  case s_type
 		  when "contain"
-			@codes = Code.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+			@codes = Code.includes(:zone).where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
 		  when "start"
-			@codes = Code.where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+			@codes = Code.includes(:zone).where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
 		  else
-			@codes = Code.where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
+			@codes = Code.includes(:zone).where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
 	  end
       
     else
-      @codes = Code.all.paginate(:per_page => @per_page, :page => params[:page])
+      @codes = Code.all.includes(:zone).paginate(:per_page => @per_page, :page => params[:page])
     end
     
     respond_to do |format|

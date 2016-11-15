@@ -36,6 +36,8 @@ group :development, :test do
   gem 'faker'  
 end
 
+gem "bullet", :group => "development"
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   #gem 'web-console'
