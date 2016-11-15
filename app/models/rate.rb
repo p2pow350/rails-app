@@ -75,7 +75,8 @@ class Rate < ApplicationRecord
   
   
   def self.from_file(file, current_user, carrier_id)
-  	  
+  	 start = Time.now
+  	 
   	 imported_rows = 0
      spreadsheet = Xls.get_spreadsheet(file);
      header = spreadsheet.row(1)
@@ -91,7 +92,11 @@ class Rate < ApplicationRecord
 	 Rate.change_rate_status(carrier_id)
 	 
 	 #return imported_rows
-	 JobNotificationMailer.job_status("Rate Import", current_user , "Success", "Rate Import", "Task completed, imported rows #{imported_rows}").deliver_now
+	 finish = Time.now
+	 elapsed = (finish - start).to_i
+	 secs = elapsed % 60
+	 mins = elapsed / 60
+	 JobNotificationMailer.job_status("Rate Import", current_user , "Success", "Rate Import", "Task completed, imported rows #{imported_rows}\n\nElapsed sec: #{secs}, min: #{mins}").deliver_now
   end
   
   
@@ -245,25 +250,28 @@ class Rate < ApplicationRecord
 	   _now = "DATETIME('now')"
 	 end  	  
   	  
-  	  
+  	  Delayed::Worker.logger.debug "pulizia"
   	  CodeProcess.delete_all(carrier_id: carrier_id)
   	  
+  	  Delayed::Worker.logger.debug "hash zone e codici"
   	  @codes = Hash[Code.pluck(:prefix, :zone_id)]
   	  @zones = Hash[Zone.pluck(:id, :name)]
   	  
   	  
-  	  
+  	  Delayed::Worker.logger.debug "tabella con zone e prefissi nostri"
 	  @ins = ActiveRecord::Base.connection.execute(" INSERT into code_processes (zone_id, code_id, carrier_id, prefix, created_at, updated_at) select z.id, c.id, '#{carrier_id}', c.prefix, #{_now}, #{_now} from zones z, codes c where z.id=c.zone_id ")
   	  
+	  Delayed::Worker.logger.debug "hash tariffe del carrier active"
 	  @rates = Hash.new
-  	  Rate.where(:carrier_id => carrier_id, :status=>'active').each do |r|
+  	  Rate.where(:carrier_id => carrier_id, :status=>'active').find_each do |r|
   	  	 s0 = {r.prefix => {:prefix => r.prefix, :name => r.name, :price_min => r.price_min} }
   	  	 @rates.deep_merge!(s0)
   	  end	  
-  	  
+  	 
+  	  Delayed::Worker.logger.debug "prima fase"
 	 # Prima fase, match esatto!
 	 # Ns Prefissi vs Carrier
-	 CodeProcess.where(:carrier_id => carrier_id).each do |c|
+	 CodeProcess.where(:carrier_id => carrier_id).find_each do |c|
 	   unless @rates[c.prefix.to_s].nil?
 	   	  Rate.where(:carrier_id => carrier_id, :prefix => c.prefix.to_s).update_all(flag1: 'ESATTO_MATCH') 
 	   	  
@@ -275,10 +283,10 @@ class Rate < ApplicationRecord
 	   end
 	 end
 	 
-	 
+	 Delayed::Worker.logger.debug "seconda fase"
 	  ## Seconda fase, match simile!
 	  ## Ns Prefissi vs Carrier
-  	  CodeProcess.where(:carrier_id => carrier_id).order("LENGTH(prefix) DESC").each do |c|
+  	  CodeProcess.where(:carrier_id => carrier_id).order("LENGTH(prefix) DESC").find_each do |c|
   	  	_substring=c.prefix
 		counter=_substring.length
 		
@@ -298,10 +306,10 @@ class Rate < ApplicationRecord
 		end while counter >= 0
 	  end
 	 
-	  
+	  Delayed::Worker.logger.debug "terza fase"
 	  ## Terza fase, match simile!
 	  ## Prefissi Carrier vs Nostri
-  	  Rate.where(:carrier_id => carrier_id, :flag1 => nil).each do |r|
+  	  Rate.where(:carrier_id => carrier_id, :flag1 => nil).find_each do |r|
   	  	_substring=r.prefix
 		counter=_substring.length
 		
@@ -317,7 +325,7 @@ class Rate < ApplicationRecord
 		end while counter >= 0
 	  end
 	 
-	  
+	  Delayed::Worker.logger.debug "cross update"
   	 @cross_upd = ActiveRecord::Base.connection.select_all(
   	  	" SELECT flag3 prefix, MAX(price_min) max_price 
 		  FROM rates 
@@ -329,7 +337,7 @@ class Rate < ApplicationRecord
 	 	 CodeProcess.where(:carrier_id => carrier_id, :prefix => row['prefix']).update_all(carrier_price2: row['max_price'])
 	 end
 	  
-	  
+	  Delayed::Worker.logger.debug "each zone finale"
 	  @zones.each do |k,v|
 	  	  
 	  	 @sql_check_previous_price = ActiveRecord::Base.connection.select_all(
@@ -380,7 +388,7 @@ class Rate < ApplicationRecord
 	  	  @rates_parsed.deep_merge!(s0)
 	  end
 	  
-	  
+	  Delayed::Worker.logger.debug "min - max update"
 	  @rates_parsed2 = Hash.new
 	  @zones.each do |k,v|
 	  	  _prices = Array.new
@@ -408,7 +416,7 @@ class Rate < ApplicationRecord
 	  end	  
 	  
 
-	  
+	  Delayed::Worker.logger.debug "fine"
 	  @time_to_update = ActiveRecord::Base.connection.select_all("
 	  		SELECT prefix, zone_id
 			FROM code_processes
