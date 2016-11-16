@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116171412) do
+ActiveRecord::Schema.define(version: 20161116172752) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -45,6 +45,9 @@ ActiveRecord::Schema.define(version: 20161116171412) do
     t.integer  "carrier_id"
     t.index ["carrier_id"], name: "index_code_processes_on_carrier_id"
     t.index ["carrier_prefix"], name: "index_code_processes_on_carrier_prefix"
+    t.index ["carrier_price1"], name: "index_code_processes_on_carrier_price1"
+    t.index ["carrier_price2"], name: "index_code_processes_on_carrier_price2"
+    t.index ["carrier_price4"], name: "index_code_processes_on_carrier_price4"
     t.index ["code_id"], name: "index_code_processes_on_code_id"
     t.index ["prefix"], name: "index_code_processes_on_prefix"
     t.index ["start_date"], name: "index_code_processes_on_start_date"
@@ -115,6 +118,7 @@ ActiveRecord::Schema.define(version: 20161116171412) do
     t.index ["flag2"], name: "index_rates_on_flag2"
     t.index ["flag3"], name: "index_rates_on_flag3"
     t.index ["prefix"], name: "index_rates_on_prefix"
+    t.index ["price_min"], name: "index_rates_on_price_min"
     t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
 
