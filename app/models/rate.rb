@@ -5,7 +5,7 @@ class Rate < ApplicationRecord
   
   enum status: [ :expired, :pending, :active ]
   default_value_for :status, 2
-  default_scope { order('name ASC') }
+  #default_scope { order('name ASC') }
 
   
   def price_min=(num)
