@@ -121,6 +121,17 @@ class Rate < ApplicationRecord
 		)
 	 ")
 	 
+	 Delayed::Worker.logger.debug "import - update rates vecchie"
+     @upd = ActiveRecord::Base.connection.select_all(
+     	" SELECT carrier_zone_name, carrier_prefix, carrier_price1, start_date
+			FROM code_processes WHERE #{_concat1} in (
+				select #{_concat2} from rates where carrier_id = #{carrier_id}
+			)
+     ")
+		
+	@upd.rows.each do |r|
+		Rate.where(:carrier_id => carrier_id, :prefix => r[1], :start_date => r[3]).update_all(price_min: r[2], name: r[0] ) 	
+	end
 	 
 	 Delayed::Worker.logger.debug "spada"
 	 Rate.spada(carrier_id)

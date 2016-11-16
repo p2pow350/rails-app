@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111152254) do
+ActiveRecord::Schema.define(version: 20161116171412) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -44,7 +44,10 @@ ActiveRecord::Schema.define(version: 20161111152254) do
     t.integer  "code_id"
     t.integer  "carrier_id"
     t.index ["carrier_id"], name: "index_code_processes_on_carrier_id"
+    t.index ["carrier_prefix"], name: "index_code_processes_on_carrier_prefix"
     t.index ["code_id"], name: "index_code_processes_on_code_id"
+    t.index ["prefix"], name: "index_code_processes_on_prefix"
+    t.index ["start_date"], name: "index_code_processes_on_start_date"
     t.index ["zone_id"], name: "index_code_processes_on_zone_id"
   end
 
@@ -54,6 +57,7 @@ ActiveRecord::Schema.define(version: 20161111152254) do
     t.integer  "zone_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["prefix"], name: "index_codes_on_prefix"
     t.index ["zone_id"], name: "index_codes_on_zone_id"
   end
 
@@ -107,6 +111,10 @@ ActiveRecord::Schema.define(version: 20161111152254) do
     t.decimal  "found_price"
     t.index ["carrier_id"], name: "index_rates_on_carrier_id"
     t.index ["code_id"], name: "index_rates_on_code_id"
+    t.index ["flag1"], name: "index_rates_on_flag1"
+    t.index ["flag2"], name: "index_rates_on_flag2"
+    t.index ["flag3"], name: "index_rates_on_flag3"
+    t.index ["prefix"], name: "index_rates_on_prefix"
     t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
 
