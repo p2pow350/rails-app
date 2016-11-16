@@ -76,18 +76,51 @@ class Rate < ApplicationRecord
   
   def self.from_file(file, current_user, carrier_id)
   	 start = Time.now
+
+  	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
+	 case adapter_type
+	 when "mysql2"
+	   _now = "now()"
+	   _concat1 = "concat(carrier_prefix,start_date)"
+	   _concat2 = "concat(prefix,start_date)"
+	 when "sqlite3"
+	   _now = "DATETIME('now')"
+	   _concat1 = "(carrier_prefix||start_date)"
+	   _concat2 = "(prefix||start_date)"
+	 end  	  
   	 
-  	 Delayed::Worker.logger.debug "import"
+  	 
+
+  	 # pulizia 
+  	 Delayed::Worker.logger.debug "pulizia"
+  	 CodeProcess.delete_all(carrier_id: carrier_id)
+  	 
+  	 Delayed::Worker.logger.debug "import raw file"
   	 imported_rows = 0
      spreadsheet = Xls.get_spreadsheet(file);
      header = spreadsheet.row(1)
+     
+     rates = []
      (2..spreadsheet.last_row).each do |i|
        row = Hash[[header, spreadsheet.row(i)].transpose]
        
        # ZONA, PREFISSO, PREZZO_MIN, DATA_VALIDITA
-       imported_rows +=1 if Rate.create_with(carrier_id: carrier_id, name: spreadsheet.row(i)[0], prefix: spreadsheet.row(i)[1].to_s, price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3]).find_or_create_by(carrier_id: carrier_id, prefix: spreadsheet.row(i)[1].to_s, price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3])
+       #imported_rows +=1 if Rate.create_with(carrier_id: carrier_id, name: spreadsheet.row(i)[0], prefix: spreadsheet.row(i)[1].to_s, price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3]).find_or_create_by(carrier_id: carrier_id, prefix: spreadsheet.row(i)[1].to_s, price_min: spreadsheet.row(i)[2], start_date: spreadsheet.row(i)[3])
        
+       imported_rows +=1 if rate = CodeProcess.new(carrier_id: carrier_id, carrier_zone_name: spreadsheet.row(i)[0], carrier_prefix: spreadsheet.row(i)[1].to_s, carrier_price1: spreadsheet.row(i)[2], start_date: Chronic.parse(spreadsheet.row(i)[3]).beginning_of_day)
+       rates << rate
 	 end
+	 CodeProcess.import rates
+	 
+	 Delayed::Worker.logger.debug "import - inserimento nuove rates"
+     @ins = ActiveRecord::Base.connection.execute("
+		INSERT into rates (carrier_id, name, prefix, price_min, start_date,created_at, updated_at) 
+		SELECT carrier_id, carrier_zone_name, carrier_prefix, carrier_price1, start_date, #{_now}, #{_now}
+		FROM code_processes WHERE #{_concat1} not in (
+			select #{_concat2} from rates where carrier_id = #{carrier_id}
+		)
+	 ")
+	 
 	 
 	 Delayed::Worker.logger.debug "spada"
 	 Rate.spada(carrier_id)
