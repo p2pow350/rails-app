@@ -77,6 +77,7 @@ class Rate < ApplicationRecord
   def self.from_file(file, current_user, carrier_id)
   	 start = Time.now
   	 
+  	 Delayed::Worker.logger.debug "import"
   	 imported_rows = 0
      spreadsheet = Xls.get_spreadsheet(file);
      header = spreadsheet.row(1)
@@ -88,7 +89,10 @@ class Rate < ApplicationRecord
        
 	 end
 	 
+	 Delayed::Worker.logger.debug "spada"
 	 Rate.spada(carrier_id)
+	 
+	 Delayed::Worker.logger.debug "change_rate_status"
 	 Rate.change_rate_status(carrier_id)
 	 
 	 #return imported_rows
