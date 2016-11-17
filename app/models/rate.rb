@@ -29,7 +29,7 @@ class Rate < ApplicationRecord
   def self.best_prices
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
-	 when "mysql2"
+	 when "mysql2", "postgresql"
 	   true_flag = '1'
 	 when "sqlite3"
 	   true_flag = 't'
@@ -49,7 +49,7 @@ class Rate < ApplicationRecord
   def self.prices
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
-	 when "mysql2"
+	 when "mysql2", "postgresql"
 		ActiveRecord::Base.connection.select_all(
 			" SELECT
 				concat(r.zone_id , '-' , r.carrier_id) id ,
@@ -79,7 +79,7 @@ class Rate < ApplicationRecord
 
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
-	 when "mysql2"
+	 when "mysql2", "postgresql"
 	   _now = "now()"
 	   _concat1 = "concat(carrier_prefix,start_date)"
 	   _concat2 = "concat(prefix,start_date)"
@@ -133,7 +133,7 @@ class Rate < ApplicationRecord
 		Rate.where(:carrier_id => carrier_id, :prefix => r[1], :start_date => r[3]).update_all(price_min: r[2], name: r[0] ) 	
 	end
 	 
-	 Delayed::Worker.logger.debug "spada"
+	 Delayed::Worker.logger.debug "spada inizio"
 	 Rate.spada(carrier_id)
 	 
 	 Delayed::Worker.logger.debug "change_rate_status"
@@ -190,7 +190,7 @@ class Rate < ApplicationRecord
 				
 			 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 			 case adapter_type
-			 when "mysql2"
+			 when "mysql2", "postgresql"
 				   @upd = ActiveRecord::Base.connection.execute("
 					UPDATE rates
 					SET rates.status =2 where prefix = '#{z[0]}' and status <> 1 and start_date in
@@ -292,7 +292,7 @@ class Rate < ApplicationRecord
   def self.spada(carrier_id)
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
-	 when "mysql2"
+	 when "mysql2", "postgresql"
 	   _now = "now()"
 	 when "sqlite3"
 	   _now = "DATETIME('now')"
