@@ -49,7 +49,7 @@
 			<td><%= record.price_min %></td>
 			<td><%= record.found_price %></td>
 			<td><%= record.carrier.currency %></td>
-			<td><%= number_with_precision(record.price_min.to_d / ExchangeRate.exchange(record.carrier.currency.to_s), precision: 4)  %></td>
+			<td><%= number_with_precision(record.price_min.to_f / ExchangeRate.exchange(record.carrier.currency.to_s).to_f, precision: 4)  %></td>
 
 			<!--<td><%#= record.zone.name %></td>-->
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
