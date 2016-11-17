@@ -190,7 +190,7 @@ class Rate < ApplicationRecord
 				
 			 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 			 case adapter_type
-			 when "mysql2", "postgresql"
+			 when "mysql2"
 				   @upd = ActiveRecord::Base.connection.execute("
 					UPDATE rates
 					SET rates.status =2 where prefix = '#{z[0]}' and status <> 1 and start_date in
@@ -199,6 +199,16 @@ class Rate < ApplicationRecord
 							FROM (select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1) AS inner_table
 						)
 					")
+			when "postgresql"
+				   @upd = ActiveRecord::Base.connection.execute("
+					UPDATE rates
+					SET status =2 where prefix = '#{z[0]}' and status <> 1 and start_date in
+						(
+							SELECT start_date
+							FROM (select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1) AS inner_table
+						)
+					")
+				   
 			 when "sqlite3"
 					@upd = ActiveRecord::Base.connection.execute(
 						" update rates set status=2 where prefix = '#{z[0]}' and status <> 1 and start_date in(
