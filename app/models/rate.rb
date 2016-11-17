@@ -292,8 +292,11 @@ class Rate < ApplicationRecord
   def self.spada(carrier_id)
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
-	 when "mysql2", "postgresql"
+	 when "mysql2"
 	   _now = "now()"
+	 when "postgresql" 
+	 	_now = "now()"
+	    _casting = "::numeric::text"
 	 when "sqlite3"
 	   _now = "DATETIME('now')"
 	 end  	  
@@ -390,7 +393,7 @@ class Rate < ApplicationRecord
 	  	  
 	  	 @sql_check_previous_price = ActiveRecord::Base.connection.select_all(
 			"SELECT 
-			coalesce(MAX(alt.carrier_price1), 'NO_FOUND') MAX_PREV
+			coalesce(MAX(alt.carrier_price1#{_casting}), 'NO_FOUND') MAX_PREV
 			FROM code_processes AS alt
 			WHERE
 			carrier_id = #{carrier_id}
