@@ -390,7 +390,7 @@ class Rate < ApplicationRecord
 	  	  
 	  	 @sql_check_previous_price = ActiveRecord::Base.connection.select_all(
 			"SELECT 
-			IFNULL(MAX(alt.carrier_price1), 'NO_FOUND') MAX_PREV
+			coalesce(MAX(alt.carrier_price1), 'NO_FOUND') MAX_PREV
 			FROM code_processes AS alt
 			WHERE
 			carrier_id = #{carrier_id}
@@ -423,9 +423,9 @@ class Rate < ApplicationRecord
 	  	  
 	  @rates_p = ActiveRecord::Base.connection.select_all("
 			SELECT zone_id,
-			IFNULL(MAX(carrier_price1), 0) MAX,
-			IFNULL(MAX(carrier_price2), 0) MIN,
-			IFNULL(MAX(carrier_price4), 0) SPORCO 
+			coalesce(MAX(carrier_price1), 0) MAX,
+			coalesce(MAX(carrier_price2), 0) MIN,
+			coalesce(MAX(carrier_price4), 0) SPORCO 
 			FROM code_processes
 			WHERE carrier_id = #{carrier_id}
 			GROUP BY zone_id	
