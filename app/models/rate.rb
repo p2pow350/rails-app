@@ -8,6 +8,27 @@ class Rate < ApplicationRecord
   #default_scope { order('name ASC') }
 
   
+  def self.Faker  
+  	  
+	Carrier.enabled.each do | c |
+		Zone.all.each do | z |
+			
+			random = Faker::Number.between(1, 10);
+			if random >=5
+				_start_date = Faker::Time.backward
+			else
+				_start_date = Faker::Time.forward
+			end
+				
+			Rate.create(carrier_id: c.id, zone_id: z.id, price_min: Faker::Number.decimal(2, 3).to_f / 300, start_date: _start_date)
+		
+		end
+	
+	end  	  
+  	  
+  end
+  
+  
   def price_min=(num)
     num.gsub!(',','.') if num.is_a?(String)
     self[:price_min] = num.to_d

@@ -34,7 +34,16 @@
 			<%# @carrier_currency[v] %>
 			
 			<% @carriers.each do |k,v| %>
-				<td><%= empty_rate(@rates["#{z[0]}-#{k}"])%></td>
+			
+				<td>
+					<% if @best_rates["#{z[0]}".to_i] == @rates["#{z[0]}-#{k}"] %>
+						<a class="ui tiny blue label"><%= empty_rate(@rates["#{z[0]}-#{k}"]) %></a>
+					<% else %> 
+						<%= empty_rate(@rates["#{z[0]}-#{k}"]) %>
+					<% end %>			
+				</td>
+			
+				<!--<td><%= empty_rate(@rates["#{z[0]}-#{k}"])%></td>-->
 			<% end %>
 			
 		  </tr>
