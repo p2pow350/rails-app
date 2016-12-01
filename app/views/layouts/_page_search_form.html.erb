@@ -1,5 +1,4 @@
-<% c = request.fullpath %>
-<% params[:currency] = ':eur'  %>
+<% _p = request.fullpath %>
 
 <div class="nine wide column">
  <div class="ui form">
@@ -9,7 +8,7 @@
 
  	  	  <div class="two fields">
  	  	  
- 	  	  <% if c.include? "comparison" %>
+ 	  	  <% if _p.include? "comparison" %>
 	  	    <div class="field">
 	  		  <select name="currency" class="ui selection mini dropdown">
 			   <% Currency.major_currencies(Money::Currency.table).each do |c|%>
