@@ -17,12 +17,12 @@ class ExchangeRate < ApplicationRecord
       @rate = ActiveRecord::Base.connection.select_all(" 
   		select rate from exchange_rates where currency = '#{to_curr}' order by start_date desc limit 1
   		" )
-  	   rate = @rate[0]["rate"]
+  	   rate = @rate[0]["rate"].to_d
     elsif to_curr == base_currency
       @r= ActiveRecord::Base.connection.select_all(" 
   		select rate from exchange_rates where currency = '#{from_curr}' order by start_date desc limit 1
   		" )
-      rate = 1.0 / @r[0]["rate"]
+      rate = 1.0 / @r[0]["rate"].to_d
     else
       	@r_from= ActiveRecord::Base.connection.select_all(" 
   		select rate from exchange_rates where currency = '#{from_curr}' order by start_date desc limit 1
@@ -32,7 +32,7 @@ class ExchangeRate < ApplicationRecord
   		select rate from exchange_rates where currency = '#{to_curr}' order by start_date desc limit 1
   		" )
   		
-  		rate = @r_to[0]["rate"] * (1.0 / @r_from[0]["rate"])
+  		rate = @r_to[0]["rate"].to_d * (1.0 / @r_from[0]["rate"].to_d)
     end
 	
   end
