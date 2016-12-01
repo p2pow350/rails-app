@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :rates do
     collection { post :upload }
     get 'generate', :on => :collection
+    get 'generated_rates_view', :on => :collection
+    post 'generate', :on => :collection
     get 'comparison', :on => :collection
   end  	
 	

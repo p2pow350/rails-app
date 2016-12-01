@@ -47,7 +47,7 @@ class Rate < ApplicationRecord
 	  )
   end    
   
-  def self.best_prices
+  def self.best_prices(currency)
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
 	 when "mysql2", "postgresql"
@@ -56,42 +56,65 @@ class Rate < ApplicationRecord
 	   true_flag = 't'
 	 end  	  
   	  
-  	 ActiveRecord::Base.connection.select_all(
-  	 	 	" select r.zone_id zone_id, min(r.price_min) price_min
+  	 result = ActiveRecord::Base.connection.select_all(
+  	 	 	" select r.zone_id zone_id, c.currency, min(r.price_min) price_min
 			from rates r, carriers c
 			where r.carrier_id = c.id
 			and c.status = '#{true_flag}'
 			and r.status = 2
-			group by r.zone_id "
+			and r.zone_id is not null
+			group by r.zone_id, c.currency "
 	  )
+	 
+	 r = Array.new
+	 
+	 result.each do |row|
+	 	row['currency'] == currency ? rate = 1 : rate = ExchangeRate.exchange(row['currency'], currency)
+	 	r.push([row['zone_id'], row['price_min'] / rate ])
+	 end
+	 
+	 return r
   end  
 
 
-  def self.prices
+  def self.prices(currency)
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
 	 when "mysql2", "postgresql"
-		ActiveRecord::Base.connection.select_all(
+		result = ActiveRecord::Base.connection.select_all(
 			" SELECT
-				concat(r.zone_id , '-' , r.carrier_id) id ,
+				concat(r.zone_id , '-' , r.carrier_id) id, c.currency,
 				max(r.price_min) price_min
 			FROM
-				rates r
-			WHERE status=2
+				rates r, carriers c
+			WHERE r.status=2
+			AND c.id=r.carrier_id
+			AND r.zone_id is not null
 			GROUP BY
 				r.zone_id ,
-				r.carrier_id "
+				c.currency,
+				r.carrier_id"
 		)
 	 when "sqlite3"
-		ActiveRecord::Base.connection.select_all(
-			" select r.zone_id || '-' || r.carrier_id id, max(r.price_min) price_min
-			from rates r
-			WHERE status=2
-			group by r.zone_id, r.carrier_id"
+		result = ActiveRecord::Base.connection.select_all(
+			" select r.zone_id || '-' || r.carrier_id id, c.currency, max(r.price_min) price_min
+			  from rates r, carriers c
+			  WHERE r.status=2
+			  AND c.id=r.carrier_id
+			  AND r.zone_id is not null
+			  group by r.zone_id, c.currency, r.carrier_id "
 		)
 	 end  	  
   	  
-  	  
+	 r = Array.new
+	 
+	 result.each do |row|
+	 	row['currency'] == currency ? rate = 1 : rate = ExchangeRate.exchange(row['currency'], currency)
+		r.push([row['id'], row['price_min'] / rate ])
+	 end
+	 
+	 return r
+
   end    
   
   

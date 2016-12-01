@@ -26,30 +26,29 @@
 		</tr>
 	  </thead>
 	
-	  <tbody>
-		<% @zones.each do |z| %>
-		  <tr class="collapsing">
-			<td><%= z[1] %></td>
-			<td><%= empty_rate(@best_rates["#{z[0]}".to_i]) %></td>
-			<%# @carrier_currency[v] %>
-			
-			<% @carriers.each do |k,v| %>
-			
-				<td>
-					<% if @best_rates["#{z[0]}".to_i] == @rates["#{z[0]}-#{k}"] %>
-						<a class="ui tiny blue label"><%= empty_rate(@rates["#{z[0]}-#{k}"]) %></a>
-					<% else %> 
-						<%= empty_rate(@rates["#{z[0]}-#{k}"]) %>
-					<% end %>			
-				</td>
-			
-				<!--<td><%= empty_rate(@rates["#{z[0]}-#{k}"])%></td>-->
-			<% end %>
-			
-		  </tr>
-		<% end %>
-				
-	  </tbody>
+          <tbody>
+                <% @zones.each do |z| %>
+                  <tr class="collapsing">
+                        <td><%= z[1] %></td>
+                        <td><%= empty_rate(@best_rates["#{z[0]}".to_i]) %></td>
+
+                        <% @carriers.each do |k,v| %>
+                        
+                            <td>
+                                <% if @best_rates["#{z[0]}".to_i] == @rates["#{z[0]}-#{k}"] %>
+                                    <a class="ui tiny blue label"><%= empty_rate(@rates["#{z[0]}-#{k}"]) %></a>
+                                <% else %>
+                                    <%= empty_rate(@rates["#{z[0]}-#{k}"]) %>
+                                <% end %>
+                            </td>
+
+                            <!--<td><%= empty_rate(@rates["#{z[0]}-#{k}"])%></td>-->
+                        <% end %>
+
+                  </tr>
+                <% end %>
+
+          </tbody>
 	  
 	</table>
 	<!-- end page content -->

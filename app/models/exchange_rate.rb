@@ -7,12 +7,34 @@ class ExchangeRate < ApplicationRecord
   validates :start_date, :currency, :rate, :presence => true
   default_scope { order('start_date DESC') }
       
-  def self.exchange(currency)
-  	@last_update = ActiveRecord::Base.connection.select_all(" select start_date from exchange_rates where '#{Date.today.to_s}' >= start_date and currency= '#{currency}' order by start_date desc limit 1 ")
-	@last_update.count == 0 ? last ='1978-03-13' : last = @last_update[0]["start_date"]
+  
+  def self.exchange(from_curr, to_curr)
+  	base_currency = "eur"  		
 	
-  	@rate = ActiveRecord::Base.connection.select_all(" select rate from exchange_rates where currency= '#{currency}' and start_date ='#{last}' " )
-	@rate.count == 0 ? 1 : @rate[0]["rate"]
+    if from_curr == to_curr
+      rate = 1.0
+    elsif from_curr == base_currency
+      @rate = ActiveRecord::Base.connection.select_all(" 
+  		select rate from exchange_rates where currency = '#{to_curr}' order by start_date desc limit 1
+  		" )
+  	   rate = @rate[0]["rate"]
+    elsif to_curr == base_currency
+      @r= ActiveRecord::Base.connection.select_all(" 
+  		select rate from exchange_rates where currency = '#{from_curr}' order by start_date desc limit 1
+  		" )
+      rate = 1.0 / @r[0]["rate"]
+    else
+      	@r_from= ActiveRecord::Base.connection.select_all(" 
+  		select rate from exchange_rates where currency = '#{from_curr}' order by start_date desc limit 1
+  		" )
+  		
+    	@r_to= ActiveRecord::Base.connection.select_all(" 
+  		select rate from exchange_rates where currency = '#{to_curr}' order by start_date desc limit 1
+  		" )
+  		
+  		rate = @r_to[0]["rate"] * (1.0 / @r_from[0]["rate"])
+    end
+	
   end
   
   

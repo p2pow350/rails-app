@@ -37,14 +37,28 @@ class RatesController < ApplicationController
     @rate = Rate.new
   end
 
+  
   def generate
     
+	if request.post?
+	  render :generated_rates_view, alert: "error"
+	else
+	  #handle gets
+	end  	  
   end 
 
+  
+  def generated_rates_view
+    
+	
+  end
+  
+  
   def comparison
   	 s_filter = params[:q]
   	 s_criteria = params[:search_criteria]
-  	   	   
+  	 params[:currency] ||= 'eur'
+  	 
      if s_filter
        @zones = Hash[Zone.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.pluck(:id, :name)]
      else
@@ -54,8 +68,8 @@ class RatesController < ApplicationController
 	 @carriers = Hash[Carrier.enabled.pluck(:id, :name)]
 	 @carrier_currency = Hash[Carrier.enabled.pluck(:name, :currency)]
 	 
-	 @best_rates = Hash[Rate.best_prices.rows]
-	 @rates = Hash[Rate.prices.rows]
+	 @best_rates = Hash[Rate.best_prices(params[:currency].to_s)]
+	 @rates = Hash[Rate.prices(params[:currency].to_s)]
   	 
   end
   
@@ -113,6 +127,6 @@ class RatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rate_params
-      params.require(:rate).permit(:name, :prefix, :start_date, :price_min, :zone_id, :carrier_id, :search_criteria, :q)
+      params.require(:rate).permit(:name, :prefix, :start_date, :price_min, :currency, :zone_id, :carrier_id, :search_criteria, :q)
     end
 end

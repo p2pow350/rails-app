@@ -25,7 +25,7 @@
 		<% @exchange_rates.each do |record| %>
 		  <tr class="collapsing">
 			<td><%= record.start_date %></td>		  
-		    <td><%= record.currency %></td>       
+		    <td><%= record.currency %></td>   
 		    <td><%= record.rate %></td>     
 			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
 		  </tr>

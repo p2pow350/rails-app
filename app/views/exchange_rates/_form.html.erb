@@ -8,7 +8,7 @@
       </div>
   </div>  
 
-  <%= f.input :currency, collection: Currency.major_currencies(Money::Currency.table), input_html: { class: "ui search selection dropdown", maxlength: 60 }, prompt: "Choose a Currency" %>
+  <%= f.input :currency, collection: Currency.major_currencies(Money::Currency.table), input_html: { class: "ui search selection dropdown", maxlength: 60 }, prompt: "Choose a From Currency" %>
   <%= f.input :rate %>
 
   <%= f.button :button, "Save" %>

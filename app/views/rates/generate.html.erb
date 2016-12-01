@@ -11,7 +11,9 @@
   	input_html: { class: "ui search multiple dropdown", maxlength: 60 }, prompt: "Choose a Zone" 
   %>
   <%= f.input :criteria, collection: [ "min", "med", "max"], input_html: { class: "ui search dropdown", maxlength: 60 }, prompt: "Price Criteria" %>
-  <%= f.input :markup %>
+  <%= f.input :markup1, :label => 'Markup 0 - 0,10' %>
+  <%= f.input :markup2, :label => 'Markup 0,11 - 0,30' %>
+  <%= f.input :markup3, :label => 'Markup > 0,30' %>  
   
   <%= f.button :button, "Generate" %>
   <%= link_to 'Back', url_for(:back), class: "ui button" %>

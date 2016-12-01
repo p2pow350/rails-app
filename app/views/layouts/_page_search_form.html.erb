@@ -1,3 +1,6 @@
+<% c = request.fullpath %>
+<% params[:currency] = ':eur'  %>
+
 <div class="nine wide column">
  <div class="ui form">
    <div class="ui basic segment">
@@ -5,27 +8,38 @@
 	<%= form_tag({}, :method => "get") do %>
 
  	  	  <div class="two fields">
+ 	  	  
+ 	  	  <% if c.include? "comparison" %>
+	  	    <div class="field">
+	  		  <select name="currency" class="ui selection mini dropdown">
+			   <% Currency.major_currencies(Money::Currency.table).each do |c|%>
+				 <option value="<%= c %>" <%= 'selected' if c==params[:currency] %> > <%= c %></option>
+			   <% end %> 	  
+	  		  </select> 		  	    
+	  	    </div>
+	  	  <% end %> 
+ 	  	  
 	  	    <div class="field">
 	  		  <select name="search_criteria" class="ui selection dropdown">
 			   <% search_criteria.each do |s|%>
 				 <option value="<%= s %>" <%= 'selected' if s==params[:search_criteria] %> >Filter by <%= s.titleize %></option>
 			   <% end %> 	  
 	  		  </select> 	  
-	  	  </div>
-	  	  <div class="field">
-	  		<div class="ui action input">
-	  		  <input type="text" name="q" value="<%= params[:q] %>" placeholder="Value...">
-	  		  
- 				<select name="search_type" class="ui compact selection dropdown">
- 				   <option value="contain" <%= 'selected' if params[:search_type]=='contain' %>>Contain</option>
- 				   <option value="start" <%= 'selected' if params[:search_type]=='start' %>>Start</option>
- 				   <option value="equal" <%= 'selected' if params[:search_type]=='equal' %>>Equal</option>
- 				 </select>	  		  
-	  		  
-	  		  <button class="ui blue button">Search</button>
-	  		</div> 	 
-	  	  </div>	
- 	  </div>
+	  	    </div>
+	  	    <div class="field">
+	  		   <div class="ui action input">
+	  		     <input type="text" name="q" value="<%= params[:q] %>" placeholder="Value...">
+	  		     
+ 			   	<select name="search_type" class="ui compact selection dropdown">
+ 			   	   <option value="contain" <%= 'selected' if params[:search_type]=='contain' %>>Contain</option>
+ 			   	   <option value="start" <%= 'selected' if params[:search_type]=='start' %>>Start</option>
+ 			   	   <option value="equal" <%= 'selected' if params[:search_type]=='equal' %>>Equal</option>
+ 			   	 </select>	  		  
+	  		     
+	  		     <button class="ui blue button">Search</button>
+	  		   </div> 	 
+	  	    </div>	
+	  	   </div>
  	  
 	<% end %> 
 	
