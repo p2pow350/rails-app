@@ -12,11 +12,11 @@
   %>
   <%= f.input :criteria, collection: [ "min", "med", "max"], input_html: { class: "ui search dropdown", maxlength: 60 }, prompt: "Price Criteria" %>
 
-  <%= f.input :markup1, :label => 'Markup 0 - 0,05', input_html: {value: f.object.markup1 || '30'} %>
-  <%= f.input :markup2, :label => 'Markup 0,06 - 0,10', input_html: {value: f.object.markup1 || '15'}  %>
-  <%= f.input :markup3, :label => 'Markup 0,11 - 0,20', input_html: {value: f.object.markup1 || '10'}  %>
-  <%= f.input :markup4, :label => 'Markup 0,21 - 0,30', input_html: {value: f.object.markup1 || '5'}  %>
-  <%= f.input :markup5, :label => 'Markup > 0,30', input_html: {value: f.object.markup1 || '3'}  %>  
+  <%= f.input :markup1, :label => 'Markup 0 - 0,05', input_html: {value: '30'} %>
+  <%= f.input :markup2, :label => 'Markup 0,06 - 0,10', input_html: {value: '15'}  %>
+  <%= f.input :markup3, :label => 'Markup 0,11 - 0,20', input_html: {value: '10'}  %>
+  <%= f.input :markup4, :label => 'Markup 0,21 - 0,30', input_html: {value: '5'}  %>
+  <%= f.input :markup5, :label => 'Markup > 0,30', input_html: {value: '3'}  %>  
   
   <%= f.button :button, "Generate" %>
   <%= link_to 'Back', url_for(:back), class: "ui button" %>
