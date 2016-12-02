@@ -362,6 +362,7 @@ class Rate < ApplicationRecord
   	  Delayed::Worker.logger.debug "pulizia"
   	  CodeProcess.delete_all(carrier_id: carrier_id)
   	  
+  	  
   	  Delayed::Worker.logger.debug "hash zone e codici"
   	  @codes = Hash[Code.pluck(:prefix, :zone_id)]
   	  @zones = Hash[Zone.pluck(:id, :name)]
@@ -370,8 +371,8 @@ class Rate < ApplicationRecord
   	  Delayed::Worker.logger.debug "tabella con zone e prefissi nostri"
 	  @ins = ActiveRecord::Base.connection.execute("
 	  	  INSERT into code_processes 
-	  	  (zone_id, zone_name, code_id, carrier_id, prefix, created_at, updated_at) 
-	  	  select z.id, z.name, c.id, '#{carrier_id}', c.prefix, #{_now}, #{_now} from zones z, codes c 
+	  	  (zone_id, zone_name, code_id, carrier_id, prefix, created_at, updated_at, flag_update1) 
+	  	  select z.id, z.name, c.id, '#{carrier_id}', c.prefix, #{_now}, #{_now}, NULL from zones z, codes c 
 	  	  where z.id=c.zone_id 
 	  ")
   	  
@@ -418,7 +419,7 @@ class Rate < ApplicationRecord
   	  	   unless @rates[match].nil?
   	  	   	 Rate.where(:carrier_id => carrier_id, :prefix => match).update_all(flag2: 'PREF_VICINO')    
   	  	   	 c.carrier_price1 = @rates[match][:price_min]
-  	  	   	 c.start_date = @rates[c.prefix.to_s][:start_date]
+  	  	   	 #c.start_date = @rates[c.prefix.to_s][:start_date]
 	   	     c.carrier_prefix = match.to_s
 	   	     c.carrier_zone_name = @rates[match][:name]
 	   	     c.flag_update1='PREF_VICINO'
