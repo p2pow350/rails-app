@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130233753) do
+ActiveRecord::Schema.define(version: 20161202133416) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 20161130233753) do
     t.datetime "updated_at",        null: false
     t.integer  "code_id"
     t.integer  "carrier_id"
+    t.string   "zone_name"
+    t.decimal  "price_min"
     t.index ["carrier_id"], name: "index_code_processes_on_carrier_id"
     t.index ["carrier_prefix"], name: "index_code_processes_on_carrier_prefix"
     t.index ["carrier_price1"], name: "index_code_processes_on_carrier_price1"

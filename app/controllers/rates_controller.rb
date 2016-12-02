@@ -5,6 +5,13 @@ class RatesController < ApplicationController
 
   def index
   	s_filter = params[:q]
+  	
+  	if params[:carrier_id]
+  		s_carrier_filter =  " carrier_id = #{params[:carrier_id]} "
+  	else
+  		s_carrier_filter =  " carrier_id IS NOT NULL "
+  	end
+  	
   	s_criteria = params[:search_criteria]
   	s_type = params[:search_type]
   	
@@ -14,11 +21,11 @@ class RatesController < ApplicationController
     if s_filter
 	  case s_type
 		  when "contain"
-			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) =~ "%#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) =~ "%#{s_filter}%" }.where("#{s_carrier_filter}").paginate(:per_page => @per_page, :page => params[:page])
 		  when "start"
-			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) =~ "#{s_filter}%" }.paginate(:per_page => @per_page, :page => params[:page])
+			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) =~ "#{s_filter}%" }.where("#{s_carrier_filter}").paginate(:per_page => @per_page, :page => params[:page])
 		  else
-			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) == "#{s_filter}" }.paginate(:per_page => @per_page, :page => params[:page])
+			@rates = Rate.includes(:zone).includes(:carrier).where.has { sql(s_criteria) == "#{s_filter}" }.where("#{s_carrier_filter}").paginate(:per_page => @per_page, :page => params[:page])
 	  end    	
       
     else
@@ -30,8 +37,7 @@ class RatesController < ApplicationController
 	  format.xls { send_data(@rates.to_a.to_xls(:except => [:created_at, :updated_at, :id])) }
 	  format.csv { send_data(@rates.to_a.to_csv(:except => [:created_at, :updated_at, :id])) }
     end    
-  end
-
+  end  
   
   def new
     @rate = Rate.new
