@@ -391,7 +391,7 @@ class Rate < ApplicationRecord
 	 Delayed::Worker.logger.debug "seconda fase"
 	  ## Seconda fase, match simile!
 	  ## Ns Prefissi vs Carrier
-  	  CodeProcess.where(:carrier_id => carrier_id).order("LENGTH(prefix) DESC").find_each do |c|
+  	  CodeProcess.where(:carrier_id => carrier_id, :flag_update1 => nil).order("LENGTH(prefix) DESC").find_each do |c|
   	  	_substring=c.prefix
 		counter=_substring.length
 		
