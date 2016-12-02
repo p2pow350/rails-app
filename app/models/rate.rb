@@ -378,7 +378,7 @@ class Rate < ApplicationRecord
 	  Delayed::Worker.logger.debug "hash tariffe del carrier active"
 	  @rates = Hash.new
   	  Rate.where(:carrier_id => carrier_id, :status=>'active').find_each do |r|
-  	  	 s0 = {r.prefix => {:prefix => r.prefix, :name => r.name, :price_min => r.price_min} }
+  	  	 s0 = {r.prefix => {:prefix => r.prefix, :name => r.name, :price_min => r.price_min, :start_date => r.start_date} }
   	  	 @rates.deep_merge!(s0)
   	  end	  
   	 
@@ -390,6 +390,7 @@ class Rate < ApplicationRecord
 	   	  Rate.where(:carrier_id => carrier_id, :prefix => c.prefix.to_s).update_all(flag1: 'ESATTO_MATCH') 
 	   	  
 	   	  c.carrier_price1 = @rates[c.prefix.to_s][:price_min]
+	   	  c.start_date = @rates[c.prefix.to_s][:start_date]
 	   	  c.carrier_prefix = c.prefix.to_s
 	   	  c.carrier_zone_name = @rates[c.prefix.to_s][:name]
 	   	  c.flag_update1='ESATTO_MATCH'
@@ -412,11 +413,12 @@ class Rate < ApplicationRecord
 		   	   LIMIT 1
 		   ")
 	  	     
-		   match = @code_search[0]['prefix']
+		   match = @code_search[0]['prefix'] unless @code_search[0].nil?
 		
   	  	   unless @rates[match].nil?
   	  	   	 Rate.where(:carrier_id => carrier_id, :prefix => match).update_all(flag2: 'PREF_VICINO')    
   	  	   	 c.carrier_price1 = @rates[match][:price_min]
+  	  	   	 c.start_date = @rates[c.prefix.to_s][:start_date]
 	   	     c.carrier_prefix = match.to_s
 	   	     c.carrier_zone_name = @rates[match][:name]
 	   	     c.flag_update1='PREF_VICINO'
