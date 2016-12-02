@@ -71,7 +71,7 @@ class Rate < ApplicationRecord
 	 
 	 result.each do |row|
 	 	row['currency'] == currency ? rate = 1.0 : rate = ExchangeRate.exchange(row['currency'], currency)
-	 	r.push([row['zone_id'], row['price_min'].to_d / rate.to_f ])
+	 	r.push([row['zone_id'], row['price_min'].to_f / rate.to_f ])
 	 end
 	 
 	 return r
@@ -102,7 +102,7 @@ class Rate < ApplicationRecord
 	 
 	 result.each do |row|
 	 	row['currency'] == currency ? rate = 1.0 : rate = ExchangeRate.exchange(row['currency'], currency)
-	 	r.push([row['zone_id'], row['price_min'].to_d / rate.to_f ])
+	 	r.push([row['zone_id'], row['price_min'].to_f / rate.to_f ])
 	 end
 	 
 	 return r
