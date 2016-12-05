@@ -474,7 +474,7 @@ class Rate < ApplicationRecord
 		 
 	 	 max_prev = @sql_check_previous_price[0]['MAX_PREV']
 	 	 	 
-	 	 if max_prev == 0
+	 	 if max_prev.to_f == 0.0
 			 @sql_check_previous_price2 = ActiveRecord::Base.connection.select_all(
 				"SELECT 
 				MAX(alt.carrier_price2) MAX_PREV
