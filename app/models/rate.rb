@@ -465,7 +465,7 @@ class Rate < ApplicationRecord
 	  	  
 	  	 @sql_check_previous_price = ActiveRecord::Base.connection.select_all(
 			"SELECT 
-			coalesce(MAX(alt.carrier_price1#{_casting}), 'NO_FOUND') MAX_PREV
+			coalesce(MAX(alt.carrier_price1), 0) MAX_PREV
 			FROM code_processes AS alt
 			WHERE
 			carrier_id = #{carrier_id}
@@ -474,7 +474,7 @@ class Rate < ApplicationRecord
 		 
 	 	 max_prev = @sql_check_previous_price[0]['MAX_PREV']
 	 	 	 
-	 	 if max_prev == 'NO_FOUND'
+	 	 if max_prev == 0
 			 @sql_check_previous_price2 = ActiveRecord::Base.connection.select_all(
 				"SELECT 
 				MAX(alt.carrier_price2) MAX_PREV
