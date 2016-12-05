@@ -503,7 +503,7 @@ class Rate < ApplicationRecord
 	  ")
 	  @rates_parsed = Hash.new
 	  @rates_p.each do |row|
-	  	  s0 = {row['zone_name'] => {:max_price => row['MAX'], :min_price => row['MIN'], :dirty_price => row['SPORCO']} }
+	  	  s0 = {row['zone_name'] => {:max_price => row['max'], :min_price => row['min'], :dirty_price => row['sporco']} }
 	  	  @rates_parsed.deep_merge!(s0)
 	  end
 	  
