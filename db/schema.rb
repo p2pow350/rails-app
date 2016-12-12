@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20161202133416) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
     t.boolean  "is_customer"
@@ -21,7 +24,6 @@ ActiveRecord::Schema.define(version: 20161202133416) do
     t.string   "email"
     t.integer  "rates_count", default: 0
     t.string   "currency"
-    t.integer  "type"
     t.boolean  "status"
   end
 
@@ -45,15 +47,15 @@ ActiveRecord::Schema.define(version: 20161202133416) do
     t.integer  "carrier_id"
     t.string   "zone_name"
     t.decimal  "price_min"
-    t.index ["carrier_id"], name: "index_code_processes_on_carrier_id"
-    t.index ["carrier_prefix"], name: "index_code_processes_on_carrier_prefix"
-    t.index ["carrier_price1"], name: "index_code_processes_on_carrier_price1"
-    t.index ["carrier_price2"], name: "index_code_processes_on_carrier_price2"
-    t.index ["carrier_price4"], name: "index_code_processes_on_carrier_price4"
-    t.index ["code_id"], name: "index_code_processes_on_code_id"
-    t.index ["prefix"], name: "index_code_processes_on_prefix"
-    t.index ["start_date"], name: "index_code_processes_on_start_date"
-    t.index ["zone_id"], name: "index_code_processes_on_zone_id"
+    t.index ["carrier_id"], name: "index_code_processes_on_carrier_id", using: :btree
+    t.index ["carrier_prefix"], name: "index_code_processes_on_carrier_prefix", using: :btree
+    t.index ["carrier_price1"], name: "index_code_processes_on_carrier_price1", using: :btree
+    t.index ["carrier_price2"], name: "index_code_processes_on_carrier_price2", using: :btree
+    t.index ["carrier_price4"], name: "index_code_processes_on_carrier_price4", using: :btree
+    t.index ["code_id"], name: "index_code_processes_on_code_id", using: :btree
+    t.index ["prefix"], name: "index_code_processes_on_prefix", using: :btree
+    t.index ["start_date"], name: "index_code_processes_on_start_date", using: :btree
+    t.index ["zone_id"], name: "index_code_processes_on_zone_id", using: :btree
   end
 
   create_table "codes", force: :cascade do |t|
@@ -62,8 +64,8 @@ ActiveRecord::Schema.define(version: 20161202133416) do
     t.integer  "zone_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["prefix"], name: "index_codes_on_prefix"
-    t.index ["zone_id"], name: "index_codes_on_zone_id"
+    t.index ["prefix"], name: "index_codes_on_prefix", using: :btree
+    t.index ["zone_id"], name: "index_codes_on_zone_id", using: :btree
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -78,17 +80,16 @@ ActiveRecord::Schema.define(version: 20161202133416) do
     t.string   "queue"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
   create_table "exchange_rates", force: :cascade do |t|
     t.date     "start_date"
     t.string   "currency"
     t.decimal  "rate"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "name"
-    t.string   "currency_to"
   end
 
   create_table "options", force: :cascade do |t|
@@ -104,25 +105,25 @@ ActiveRecord::Schema.define(version: 20161202133416) do
     t.integer  "carrier_id"
     t.string   "name"
     t.string   "prefix"
-    t.decimal  "price_min",   precision: 5, scale: 6
+    t.decimal  "price_min"
     t.integer  "step"
     t.datetime "start_date"
     t.integer  "status"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "flag1"
     t.string   "flag2"
     t.string   "flag3"
     t.integer  "code_id"
     t.decimal  "found_price"
-    t.index ["carrier_id"], name: "index_rates_on_carrier_id"
-    t.index ["code_id"], name: "index_rates_on_code_id"
-    t.index ["flag1"], name: "index_rates_on_flag1"
-    t.index ["flag2"], name: "index_rates_on_flag2"
-    t.index ["flag3"], name: "index_rates_on_flag3"
-    t.index ["prefix"], name: "index_rates_on_prefix"
-    t.index ["price_min"], name: "index_rates_on_price_min"
-    t.index ["zone_id"], name: "index_rates_on_zone_id"
+    t.index ["carrier_id"], name: "index_rates_on_carrier_id", using: :btree
+    t.index ["code_id"], name: "index_rates_on_code_id", using: :btree
+    t.index ["flag1"], name: "index_rates_on_flag1", using: :btree
+    t.index ["flag2"], name: "index_rates_on_flag2", using: :btree
+    t.index ["flag3"], name: "index_rates_on_flag3", using: :btree
+    t.index ["prefix"], name: "index_rates_on_prefix", using: :btree
+    t.index ["price_min"], name: "index_rates_on_price_min", using: :btree
+    t.index ["zone_id"], name: "index_rates_on_zone_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -140,8 +141,8 @@ ActiveRecord::Schema.define(version: 20161202133416) do
     t.datetime "updated_at",                          null: false
     t.string   "default_locale"
     t.string   "name"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "zones", force: :cascade do |t|
@@ -151,4 +152,11 @@ ActiveRecord::Schema.define(version: 20161202133416) do
     t.integer  "codes_count", default: 0
   end
 
+  add_foreign_key "code_processes", "carriers"
+  add_foreign_key "code_processes", "codes"
+  add_foreign_key "code_processes", "zones"
+  add_foreign_key "codes", "zones"
+  add_foreign_key "rates", "carriers"
+  add_foreign_key "rates", "codes"
+  add_foreign_key "rates", "zones"
 end
