@@ -306,8 +306,9 @@ class Rate < ApplicationRecord
 		)
 		
 		@rates.rows.each do |p, c|
+			
+			r = Rate.where(:prefix=>p, :carrier_id=>carrier_id )
 			if c == 1 
-				r = Rate.where(:prefix=>p, :carrier_id=>carrier_id )
 				r.status = 2
 				r.save!
 			else
