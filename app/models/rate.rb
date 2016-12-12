@@ -300,6 +300,7 @@ class Rate < ApplicationRecord
 				from rates 
 				where carrier_id = #{carrier_id}
 				#{additional_filter}
+				and prefix is not null
 				group by prefix
 			 "
 		)
