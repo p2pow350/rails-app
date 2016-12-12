@@ -305,8 +305,8 @@ class Rate < ApplicationRecord
 		)
 		
 		@rates.rows.each do |p, c|
-			r = Rate.where(:prefix=>p, :carrier_id=>carrier_id )
 			if c == 1 
+				r = Rate.where(:prefix=>p, :carrier_id=>carrier_id )
 				r.status = 2
 				r.save!
 			else
@@ -328,35 +328,35 @@ class Rate < ApplicationRecord
 			
 			 #latest active
 				
-			 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
-			 case adapter_type
-			 when "mysql2"
-				   @upd = ActiveRecord::Base.connection.execute("
-					UPDATE rates
-					SET rates.status =2 where prefix = '#{p}' and status <> 1 and start_date in
-						(
-							SELECT start_date
-							FROM (select max(start_date) from rates where prefix = '#{p}' and status <> 1) AS inner_table
-						)
-					")
-			when "postgresql"
-				   @upd = ActiveRecord::Base.connection.execute("
-					UPDATE rates
-					SET status =2 where prefix = '#{p}' and status <> 1 and start_date in
-						(
-							SELECT start_date
-							FROM (select max(start_date) from rates where prefix = '#{p}' and status <> 1) AS inner_table
-						)
-					")
-				   
-			 when "sqlite3"
-					@upd = ActiveRecord::Base.connection.execute(
-						" update rates set status=2 where prefix = '#{p}' and status <> 1 and start_date in(
-							select max(start_date) from rates where prefix = '#{p}' and status <> 1
-						  )
-						 "
-					)
-			 end  	  
+			#adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
+			#case adapter_type
+			#when "mysql2"
+			#   @upd = ActiveRecord::Base.connection.execute("
+			#	UPDATE rates
+			#	SET rates.status =2 where prefix = '#{p}' and status <> 1 and start_date in
+			#		(
+			#			SELECT start_date
+			#			FROM (select max(start_date) from rates where prefix = '#{p}' and status <> 1) AS inner_table
+			#		)
+			#	")
+			#hen "postgresql"
+			#   @upd = ActiveRecord::Base.connection.execute("
+			#	UPDATE rates
+			#	SET status =2 where prefix = '#{p}' and status <> 1 and start_date in
+			#		(
+			#			SELECT start_date
+			#			FROM (select max(start_date) from rates where prefix = '#{p}' and status <> 1) AS inner_table
+			#		)
+			#	")
+			#   
+			#when "sqlite3"
+			#	@upd = ActiveRecord::Base.connection.execute(
+			#		" update rates set status=2 where prefix = '#{p}' and status <> 1 and start_date in(
+			#			select max(start_date) from rates where prefix = '#{p}' and status <> 1
+			#		  )
+			#		 "
+			#	)
+			#end  	  
 					
 		end
 		
