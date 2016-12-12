@@ -120,7 +120,7 @@ class Rate < ApplicationRecord
 	    if base_price.between? 0.21, 0.30 then _mk = markup4 end
 	    if base_price > 0.31 then _mk = markup5 end
 	 	
-		_base_price = base_price + (base_price * _mk/100)
+		_base_price = (base_price + (base_price * _mk.to_f/100))
 	 	r.push([row['zone_id'], base_price.to_f / rate.to_f, _base_price.to_f / rate.to_f ])
 	 end
 	 

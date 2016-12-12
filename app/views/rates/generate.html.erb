@@ -2,7 +2,7 @@
 	<h2 class="ui header">Generate Sell Rates</h2>
 </div>
 
-<%= simple_form_for :rate, path: 'generated_rates_path' do |f| %>
+<%= simple_form_for :rate, :url => generated_rates_view_rates_path do |f| %>
 
   <%= f.input :currency, collection: Currency.major_currencies(Money::Currency.table), input_html: { class: "ui search selection dropdown", maxlength: 60 }, prompt: "Choose a Currency" %>
   <%= f.input :carriers, 

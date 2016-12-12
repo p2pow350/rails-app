@@ -46,19 +46,24 @@ class RatesController < ApplicationController
   
   def generate
 	if request.post?
-	  render :generated_rates
+	  #render :generated_rates, :generated_prices => @generated_prices
+
+	  @generated_prices = Rate.prices_generator(params[:rate][:currency].to_s, params[:rate][:carriers], params[:rate][:zones], params[:rate][:criteria], 
+  	  	  params[:rate][:markup1], params[:rate][:markup2], params[:rate][:markup3], params[:rate][:markup4], params[:rate][:markup5]
+  	  )  
+
+	  
 	else
 	  #handle gets
 	end  	  
   end 
 
   
-  def generated_rates
-  	  
-  	  @generated_prices = Rate.prices_generator(params[:rate][:currency].to_s, params[:rate][:carriers], params[:rate][:zones], params[:rate][:criteria], 
+  def generated_rates_view
+	  @generated_prices = Rate.prices_generator(params[:rate][:currency].to_s, params[:rate][:carriers], params[:rate][:zones], params[:rate][:criteria], 
   	  	  params[:rate][:markup1], params[:rate][:markup2], params[:rate][:markup3], params[:rate][:markup4], params[:rate][:markup5]
   	  )  
-  	  	  
+  	  
   end
   
   
