@@ -45,18 +45,20 @@ class RatesController < ApplicationController
 
   
   def generate
-    
 	if request.post?
-	  render :generated_rates_view, alert: "error"
+	  render :generated_rates
 	else
 	  #handle gets
 	end  	  
   end 
 
   
-  def generated_rates_view
-    
-	
+  def generated_rates
+  	  
+  	  @generated_prices = Rate.prices_generator(params[:rate][:currency].to_s, params[:rate][:carriers], params[:rate][:zones], params[:rate][:criteria], 
+  	  	  params[:rate][:markup1], params[:rate][:markup2], params[:rate][:markup3], params[:rate][:markup4], params[:rate][:markup5]
+  	  )  
+  	  	  
   end
   
   
@@ -133,6 +135,6 @@ class RatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rate_params
-      params.require(:rate).permit(:name, :prefix, :start_date, :price_min, :currency, :zone_id, :carrier_id, :search_criteria, :q)
+      params.require(:rate).permit(:name, :prefix, :start_date, :price_min, :currency, :criteria, :zone_id, :carrier_id, :search_criteria, :q)
     end
 end

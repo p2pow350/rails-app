@@ -1,0 +1,43 @@
+<%= render 'layouts/page_search_form', search_criteria: ['name'] %>
+
+<div class="ui clearing segments">
+
+  <div class="ui segment">
+    <h3>Sell Rate - Currency: <%= params[:rate][:currency].upcase %>
+       <button class="ui tiny right floated green button" id="xls-export">
+       	 <i class="download icon"></i>Export
+       </button>
+    </h3>
+    
+  </div>
+
+  <div class="ui secondary segment">
+  
+  	<!-- page content -->
+	<table id="xls-table" class="ui sortable very compact striped table">
+	  <thead>
+		<tr>
+		  <th>Zone</th>
+		  <th><%= params[:rate][:criteria].upcase %></th>
+		  <th>Price</th>
+		</tr>
+	  </thead>
+	
+          <tbody>
+             <% @generated_prices.each do |z| %>
+               <tr class="collapsing">
+				<td><%= z[0] %></td>
+				<td><%= empty_rate( z[1] ) %></td>
+				<td><%= empty_rate( z[2] ) %></td>
+               </tr>
+             <% end %>
+          </tbody>
+	  
+	</table>
+	<!-- end page content -->
+  </div>
+  
+</div>
+
+<%= javascript_include_tag "jquery.table2excel.min" %>
+<%= javascript_include_tag params[:controller] %>

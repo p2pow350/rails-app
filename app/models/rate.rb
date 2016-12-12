@@ -77,9 +77,7 @@ class Rate < ApplicationRecord
 	 return r
   end  
   
-  
-  
-  def self.best_prices_id(currency)
+  def self.prices_generator(currency, carriers, zones, criteria, markup1, markup2, markup3, markup4, markup5)
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
 	 when "mysql2", "postgresql"
@@ -88,26 +86,47 @@ class Rate < ApplicationRecord
 	   true_flag = 't'
 	 end  	  
   	  
+	 if carriers == "0"
+	 	 carrier_filter = " AND r.carrier_id is not NULL "
+	 else
+	 	 carrier_filter = " AND r.carrier_id in (#{carriers}) "
+	 end
+	 
+	 if zones == "0"
+	 	 zone_filter = " AND r.zone_name is not NULL "
+	 else
+	 	 zone_filter = " AND r.zone_name in (#{zones}) "
+	 end
+	 
   	 result = ActiveRecord::Base.connection.select_all(
-  	 	 	" select r.zone_id zone_id, c.currency, min(r.price_min) price_min
-			from rates r, carriers c
+  	 	 	" select r.zone_name zone_id, c.currency, #{criteria}(r.price_min) price_min
+			from code_processes r, carriers c
 			where r.carrier_id = c.id
 			and c.status = '#{true_flag}'
-			and r.status = 2
-			and r.zone_id is not null
-			group by r.zone_id, c.currency "
+			#{carrier_filter}
+			#{zone_filter}
+			group by r.zone_name, c.currency "
 	  )
 	 
 	 r = Array.new
 	 
 	 result.each do |row|
 	 	row['currency'] == currency ? rate = 1.0 : rate = ExchangeRate.exchange(row['currency'], currency)
-	 	r.push([row['zone_id'], row['price_min'].to_f / rate.to_f ])
+	 	
+	 	base_price = row['price_min'].to_f
+	    if base_price.between? 0.0,  0.05 then _mk = markup1 end
+	    if base_price.between? 0.06, 0.10 then _mk = markup2 end
+	    if base_price.between? 0.11, 0.20 then _mk = markup3 end
+	    if base_price.between? 0.21, 0.30 then _mk = markup4 end
+	    if base_price > 0.31 then _mk = markup5 end
+	 	
+		_base_price = base_price + (base_price * _mk/100)
+	 	r.push([row['zone_id'], base_price.to_f / rate.to_f, _base_price.to_f / rate.to_f ])
 	 end
 	 
 	 return r
   end  
-
+  
   
   def self.prices(currency)
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
@@ -254,12 +273,12 @@ class Rate < ApplicationRecord
 		Rate.where(:carrier_id => carrier_id, :prefix => r[1], :start_date => r[3]).update_all(price_min: r[2], name: r[0] ) 	
 	end
 	 
-	 Delayed::Worker.logger.debug "spada inizio"
-	 Rate.spada(carrier_id)
-	 
 	 Delayed::Worker.logger.debug "change_rate_status"
 	 Rate.change_rate_status(carrier_id)
-	 
+	
+	 Delayed::Worker.logger.debug "spada inizio"
+	 Rate.spada(carrier_id)
+	 	 
 	 #return imported_rows
 	 finish = Time.now
 	 elapsed = (finish - start).to_i
@@ -285,13 +304,13 @@ class Rate < ApplicationRecord
 			 "
 		)
 		
-		@rates.rows.each do |z|
-			r = Rate.find_by_prefix(z[0])
-			if z[1] == 1 
+		@rates.rows.each do |p, c|
+			r = Rate.find_by_prefix(p)
+			if c == 1 
 				r.status = 2
 				r.save!
 			else
-				_r = Rate.where(:prefix=>z[0], :carrier_id=>carrier_id ).each do |rs|
+				_r = Rate.where(:prefix=>p, :carrier_id=>carrier_id ).each do |rs|
 					
 					if rs.start_date.strftime("%Y-%m-%d") == DateTime.now.strftime("%Y-%m-%d")
 						rs.status = 2
@@ -314,26 +333,26 @@ class Rate < ApplicationRecord
 			 when "mysql2"
 				   @upd = ActiveRecord::Base.connection.execute("
 					UPDATE rates
-					SET rates.status =2 where prefix = '#{z[0]}' and status <> 1 and start_date in
+					SET rates.status =2 where prefix = '#{p}' and status <> 1 and start_date in
 						(
 							SELECT start_date
-							FROM (select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1) AS inner_table
+							FROM (select max(start_date) from rates where prefix = '#{p}' and status <> 1) AS inner_table
 						)
 					")
 			when "postgresql"
 				   @upd = ActiveRecord::Base.connection.execute("
 					UPDATE rates
-					SET status =2 where prefix = '#{z[0]}' and status <> 1 and start_date in
+					SET status =2 where prefix = '#{p}' and status <> 1 and start_date in
 						(
 							SELECT start_date
-							FROM (select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1) AS inner_table
+							FROM (select max(start_date) from rates where prefix = '#{p}' and status <> 1) AS inner_table
 						)
 					")
 				   
 			 when "sqlite3"
 					@upd = ActiveRecord::Base.connection.execute(
-						" update rates set status=2 where prefix = '#{z[0]}' and status <> 1 and start_date in(
-							select max(start_date) from rates where prefix = '#{z[0]}' and status <> 1
+						" update rates set status=2 where prefix = '#{p}' and status <> 1 and start_date in(
+							select max(start_date) from rates where prefix = '#{p}' and status <> 1
 						  )
 						 "
 					)
