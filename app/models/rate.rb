@@ -305,7 +305,7 @@ class Rate < ApplicationRecord
 		)
 		
 		@rates.rows.each do |p, c|
-			r = Rate.find_by_prefix(p)
+			r = Rate.where(:prefix=>p, :carrier_id=>carrier_id )
 			if c == 1 
 				r.status = 2
 				r.save!
