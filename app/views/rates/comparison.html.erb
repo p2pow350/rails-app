@@ -35,7 +35,7 @@
                         <% @carriers.each do |k,v| %>
                         
                             <td>
-                                <% if (@best_rates["#{z[1]}"] == @rates["#{z[1]}-#{k}"]) && (@rates["#{z[1]}-#{k}"] != 0) %>
+                                <% if (@best_rates["#{z[1]}"] == @rates["#{z[1]}-#{k}"]) && (@rates["#{z[1]}-#{k}"] != 0) && (@rates["#{z[1]}-#{k}"] != nil)%>
                                     <a class="ui tiny blue label"><%= empty_rate(@rates["#{z[1]}-#{k}"]) %></a>
                                 <% else %>
                                     <%= empty_rate(@rates["#{z[1]}-#{k}"]) %>

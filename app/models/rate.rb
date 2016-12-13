@@ -65,17 +65,25 @@ class Rate < ApplicationRecord
 			and r.price_min <> 0
 			-- and r.status = 2
 			and r.zone_name is not null
-			group by r.zone_name, c.currency "
+			group by r.zone_name, c.currency 
+			order by 1, 3
+			"
 	  )
 	 
-	 r = Array.new
+	  @r = Hash.new
+	  
+	  result.each do |row|
+	  	row['currency'] == currency ? rate = 1.0 : rate = ExchangeRate.exchange(row['currency'], currency)
+	  	old_price = @r[row['zone_id']]
+	  	
+	  	if (old_price.nil? || old_price > row['price_min'].to_f / rate.to_f)
+	  		s0 = { row['zone_id'] => row['price_min'].to_f / rate.to_f  }
+	  		@r.deep_merge!(s0)
+	  	end
+	  
+	  end
 	 
-	 result.each do |row|
-	 	row['currency'] == currency ? rate = 1.0 : rate = ExchangeRate.exchange(row['currency'], currency)
-	 	r.push([row['zone_id'], row['price_min'].to_f / rate.to_f ])
-	 end
-	 
-	 return r
+	 return @r
   end  
   
   def self.prices_generator(currency, carriers, zones, criteria, markup1, markup2, markup3, markup4, markup5)
