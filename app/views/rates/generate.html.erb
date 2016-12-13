@@ -12,7 +12,7 @@
   	collection: [Zone.new(id: 0, name: 'Select All')] + Zone.order(:name),
   	input_html: { class: "ui search multiple dropdown", maxlength: 60 }, prompt: "Choose a Zone" 
   %>
-  <%= f.input :criteria, collection: [ "min", "avg", "max"], input_html: { class: "ui search dropdown", maxlength: 60 }, prompt: "Price Criteria" %>
+  <%= f.input :criteria, :label => 'Base Price Criteria', collection: [ "min", "avg", "max"], input_html: { class: "ui search dropdown", maxlength: 60 }, prompt: "Price Criteria" %>
 
   <%= f.input :markup1, :label => '% Markup 0 - 0,05', input_html: {value: '30'} %>
   <%= f.input :markup2, :label => '% Markup 0,06 - 0,10', input_html: {value: '15'}  %>

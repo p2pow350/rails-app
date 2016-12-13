@@ -4,6 +4,7 @@
 
   <div class="ui segment">
     <h3>Comparison - Currency: <%= params[:currency].upcase %>
+       <%= link_to '<i class="shipping icon"></i> Generate Sell Rates'.html_safe, {:controller => "rates", :action => "generate" }, class: "ui tiny right floated orange button" %>
        <button class="ui tiny right floated green button" id="xls-export">
        	 <i class="download icon"></i>Export
        </button>
