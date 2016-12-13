@@ -163,14 +163,20 @@ class Rate < ApplicationRecord
 			r.carrier_id"
 	)
   	  
-	 r = Array.new
+	 @r = Hash.new
 	 
 	 result.each do |row|
-	 	row['currency'] == currency ? rate = 1.0 : rate = ExchangeRate.exchange(row['currency'], currency)
-		r.push([row['id'], row['price_min'].to_f / rate.to_f ])
+	 	row['currency'] == currency ? rate = 1.0 : rate = ExchangeRate.exchange(row['currency'], currency)		
+	  	old_price = @r[row['id']]
+	  	
+	  	if (old_price.nil? || old_price > row['price_min'].to_f / rate.to_f)
+	  		s0 = { row['id'] => row['price_min'].to_f / rate.to_f  }
+	  		@r.deep_merge!(s0)
+	  	end
+		
 	 end
 	 
-	 return r
+	 return @r
 
   end    
   
