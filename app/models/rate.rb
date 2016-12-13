@@ -31,7 +31,7 @@ class Rate < ApplicationRecord
   
   def price_min=(num)
     num.gsub!(',','.') if num.is_a?(String)
-    self[:price_min] = num.to_d
+    self[:price_min] = num.to_f
   end
 
   def self.truncate
@@ -62,6 +62,7 @@ class Rate < ApplicationRecord
 			from code_processes r, carriers c
 			where r.carrier_id = c.id
 			and c.status = '#{true_flag}'
+			and r.price_min <> 0
 			-- and r.status = 2
 			and r.zone_name is not null
 			group by r.zone_name, c.currency "
@@ -132,34 +133,27 @@ class Rate < ApplicationRecord
   	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
 	 case adapter_type
 	 when "mysql2", "postgresql"
-	 	 
-	 	 
-		result = ActiveRecord::Base.connection.select_all(
-			" SELECT
-				concat(r.zone_name , '-' , r.carrier_id) id, c.currency,
-				max(r.price_min) price_min
-			FROM
-				code_processes r, carriers c
-			WHERE
-			c.id=r.carrier_id
-			-- AND r.status =2
-			AND r.zone_name is not null
-			GROUP BY
-				r.zone_name ,
-				c.currency,
-				r.carrier_id"
-		)
+	   true_flag = '1'
 	 when "sqlite3"
-		result = ActiveRecord::Base.connection.select_all(
-			" select r.zone_name || '-' || r.carrier_id id, c.currency, max(r.price_min) price_min
-			  from code_processes r, carriers c
-			  WHERE
-			   c.id=r.carrier_id
-			  -- AND r.status =2
-			  AND r.zone_name is not null
-			  group by r.zone_name, c.currency, r.carrier_id "
-		)
-	 end  	  
+	   true_flag = 't'
+	 end  	    	  
+  	  
+	result = ActiveRecord::Base.connection.select_all(
+		" SELECT
+			concat(r.zone_name , '-' , r.carrier_id) id, c.currency,
+			max(r.price_min) price_min
+		FROM
+			code_processes r, carriers c
+		WHERE
+		c.id=r.carrier_id
+		and c.status = '#{true_flag}'
+		-- AND r.status =2
+		AND r.zone_name is not null
+		GROUP BY
+			r.zone_name ,
+			c.currency,
+			r.carrier_id"
+	)
   	  
 	 r = Array.new
 	 
@@ -174,34 +168,21 @@ class Rate < ApplicationRecord
   
 
   def self.prices_id(currency)
-  	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
-	 case adapter_type
-	 when "mysql2", "postgresql"
-		result = ActiveRecord::Base.connection.select_all(
-			" SELECT
-				concat(r.zone_id , '-' , r.carrier_id) id, c.currency,
-				max(r.price_min) price_min
-			FROM
-				rates r, carriers c
-			WHERE r.status=2
-			AND c.id=r.carrier_id
-			AND r.zone_id is not null
-			GROUP BY
-				r.zone_id ,
-				c.currency,
-				r.carrier_id"
-		)
-	 when "sqlite3"
-		result = ActiveRecord::Base.connection.select_all(
-			" select r.zone_id || '-' || r.carrier_id id, c.currency, max(r.price_min) price_min
-			  from rates r, carriers c
-			  WHERE r.status=2
-			  AND c.id=r.carrier_id
-			  AND r.zone_id is not null
-			  group by r.zone_id, c.currency, r.carrier_id "
-		)
-	 end  	  
-  	  
+	result = ActiveRecord::Base.connection.select_all(
+		" SELECT
+			concat(r.zone_id , '-' , r.carrier_id) id, c.currency,
+			max(r.price_min) price_min
+		FROM
+			rates r, carriers c
+		WHERE r.status=2
+		AND c.id=r.carrier_id
+		AND r.zone_id is not null
+		GROUP BY
+			r.zone_id ,
+			c.currency,
+			r.carrier_id"
+	)
+    
 	 r = Array.new
 	 
 	 result.each do |row|
@@ -228,7 +209,6 @@ class Rate < ApplicationRecord
 	   _concat1 = "(carrier_prefix||start_date)"
 	   _concat2 = "(prefix||start_date)"
 	 end  	  
-  	 
   	 
 
   	 # pulizia 
@@ -329,33 +309,14 @@ class Rate < ApplicationRecord
 			
 			 #latest active
 				
-			adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
-			case adapter_type
-			when "mysql2"
-			   @upd = ActiveRecord::Base.connection.execute("
-				UPDATE rates
-				SET rates.status =2 where prefix = '#{p}' and carrier_id = #{carrier_id} and status <> 1 and date(start_date) in
-					( SELECT start_date
-						FROM (select max(date(start_date)) from rates where prefix = '#{p}' and status <> 1) AS inner_table
-					)
-				")
-			when "postgresql"
-			   @upd = ActiveRecord::Base.connection.execute("
+		     @upd = ActiveRecord::Base.connection.execute("
 				UPDATE rates
 				SET status =2 where prefix = '#{p}' and carrier_id = #{carrier_id} and status <> 1 and date(start_date) in
 					( SELECT start_date
 						FROM (select max(date(start_date)) from rates where prefix = '#{p}' and carrier_id = #{carrier_id} and status <> 1) AS inner_table
 					)
-				")
+			 ")
 			   
-			when "sqlite3"
-				@upd = ActiveRecord::Base.connection.execute(
-					" update rates set status=2 where prefix = '#{p}' and status <> 1 and date(start_date) in(
-						select max(date(start_date)) from rates where prefix = '#{p}' and carrier_id = #{carrier_id} and status <> 1
-					  )
-					 "
-				)
-			end  	  
 					
 		end
 		
