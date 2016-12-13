@@ -4,7 +4,7 @@ module ApplicationHelper
 		
 	# Comparison View
 	def empty_rate(value)
-		_v = number_with_precision(value, precision: 4)
+		_v = number_with_precision(value, precision: 4) unless value == 0
 		_v ||= '--'
 	end	
   	

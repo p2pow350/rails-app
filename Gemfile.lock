@@ -13,6 +13,13 @@ GIT
       rails (> 4)
 
 GIT
+  remote: https://github.com/ankane/groupdate.git
+  revision: 672569b9db063f668835456da03d3ee4526186ed
+  specs:
+    groupdate (3.1.1)
+      activesupport (>= 3)
+
+GIT
   remote: https://github.com/doabit/semantic-ui-sass.git
   revision: 0405e7002c7dc40915e8bf4f059f35585a9352eb
   specs:
@@ -298,6 +305,7 @@ DEPENDENCIES
   devise!
   eu_central_bank
   faker
+  groupdate!
   highline
   jbuilder (~> 2.5)
   jquery-rails

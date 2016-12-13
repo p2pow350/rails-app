@@ -75,7 +75,7 @@ gem 'default_value_for', :git => 'https://github.com/FooBarWidget/default_value_
 gem 'baby_squeel', :git => 'https://github.com/rzane/baby_squeel.git'		#ActiveRecord enhancements
 
 gem "chartkick"
-#gem "groupdate", :git => 'https://github.com/ankane/groupdate.git' #Mysql + Postgres
+gem "groupdate", :git => 'https://github.com/ankane/groupdate.git' #Mysql + Postgres
 gem 'dateslices', :git => 'https://github.com/HappyFunCorp/dateslices.git' #SQLITE
 
 # Useful Log changes
