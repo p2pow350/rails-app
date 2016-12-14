@@ -19,7 +19,6 @@
 		<tr>
 		  <th>Zone</th>
 		  <th><%= params[:rate][:criteria].upcase %></th>
-		  <th>Price</th>
 		</tr>
 	  </thead>
 	
@@ -28,7 +27,6 @@
                <tr class="collapsing">
 				<td><%= z[0] %></td>
 				<td><%= empty_rate( z[1] ) %></td>
-				<td><%= empty_rate( z[2] ) %></td>
                </tr>
              <% end %>
           </tbody>

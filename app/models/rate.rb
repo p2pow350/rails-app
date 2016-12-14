@@ -112,12 +112,13 @@ class Rate < ApplicationRecord
 			from code_processes r, carriers c
 			where r.carrier_id = c.id
 			and c.status = '#{true_flag}'
+			and r.price_min <> 0
 			#{carrier_filter}
 			#{zone_filter}
 			group by r.zone_name, c.currency "
 	  )
 	 
-	 r = Array.new
+	 @r = Hash.new
 	 
 	 result.each do |row|
 	 	row['currency'] == currency ? rate = 1.0 : rate = ExchangeRate.exchange(row['currency'], currency)
@@ -130,10 +131,17 @@ class Rate < ApplicationRecord
 	    if base_price > 0.31 then _mk = markup5 end
 	 	
 		_base_price = (base_price + (base_price * _mk.to_f/100))
-	 	r.push([row['zone_id'], base_price.to_f / rate.to_f, _base_price.to_f / rate.to_f ])
+	  	old_price = @r[row['zone_id']]
+	  	
+	  	if (old_price.nil?)
+	  		s0 = { row['zone_id'] => _base_price.to_f / rate.to_f  }
+	  		@r.deep_merge!(s0)
+	  	end
+		
+	 	#r.push([row['zone_id'], base_price.to_f / rate.to_f, _base_price.to_f / rate.to_f ])
 	 end
 	 
-	 return r
+	 return @r
   end  
   
   
