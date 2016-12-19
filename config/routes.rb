@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     get 'comparison', :on => :collection
   end  	
 	
+  resources :templates
+
   resources :options
 	
   resources :users_admin, :controller => 'users'

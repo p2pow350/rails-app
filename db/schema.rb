@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161202133416) do
+ActiveRecord::Schema.define(version: 20161219123656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,18 @@ ActiveRecord::Schema.define(version: 20161202133416) do
     t.index ["prefix"], name: "index_rates_on_prefix", using: :btree
     t.index ["price_min"], name: "index_rates_on_price_min", using: :btree
     t.index ["zone_id"], name: "index_rates_on_zone_id", using: :btree
+  end
+
+  create_table "templates", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "header_rows"
+    t.integer  "sheet"
+    t.integer  "zone_col"
+    t.integer  "prefix_col"
+    t.integer  "price_col"
+    t.integer  "date_col"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users", force: :cascade do |t|

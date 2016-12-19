@@ -27,3 +27,6 @@ en:
 
     exchange_rates:
       index: "Exchange Rates"
+
+    templates:
+      index: Templates

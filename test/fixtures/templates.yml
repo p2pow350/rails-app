@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  header_rows: 1
+  sheet: 1
+  zone_col: 1
+  prefix_col: 1
+  price_col: 1
+  date_col: 1
+
+two:
+  name: MyString
+  header_rows: 1
+  sheet: 1
+  zone_col: 1
+  prefix_col: 1
+  price_col: 1
+  date_col: 1

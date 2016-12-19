@@ -1,0 +1,50 @@
+<%= render 'layouts/page_search_form', search_criteria: ['name'] %>
+
+<div class="ui clearing segments">
+
+  <div class="ui segment">
+    <h3>Listing <%= controller.controller_name.titleize %> 
+    	<%= render 'layouts/page_action_buttons' %>
+    </h3>
+  </div>
+
+  <div class="ui secondary segment">
+  	<!-- page content -->
+	<table class="ui sortable very compact striped table">
+	  <thead>
+		<tr>
+		  <th>Name</th>
+		  <th>Header Rows</th>
+		  <th>Sheet Number</th>
+		  <th>Zone Col</th>
+		  <th>Prefix Col</th>
+		  <th>Price Col</th>
+		  <th>Date Col</th>
+		  <th width="30px"></th>
+		</tr>
+	  </thead>
+
+	  
+	  <tbody>
+	  	<% @records = @templates %>
+		<% @templates.each do |record| %>
+		  <tr class="collapsing">
+		  	<td><%= record.name %></td>
+			<td><%= record.header_rows %></td>
+			<td><%= record.sheet %></td>
+			<td><%= record.zone_col %></td>
+			<td><%= record.prefix_col %></td>
+			<td><%= record.price_col %></td>
+			<td><%= record.date_col %></td>
+			<%= render 'layouts/table_row_action_buttons', collection: @records, row: record %>
+		  </tr>
+		<% end %>
+	  </tbody>
+	  <%= render 'layouts/table_paging', collection: @records, :locals => {:colspan => 6} %>
+	  
+	</table>
+	<!-- end page content -->
+  </div>
+  
+</div>
+

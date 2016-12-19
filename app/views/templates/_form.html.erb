@@ -1,0 +1,13 @@
+<%= simple_form_for(@template) do |f| %>
+
+  <%= f.input :name %>
+  <%= f.input :header_rows %>
+  <%= f.input :sheet %>
+  <%= f.input :zone_col %>
+  <%= f.input :prefix_col %>
+  <%= f.input :price_col %>
+  <%= f.input :date_col %>
+  
+  <%= f.button :button, "Save" %>
+  <%= link_to 'Back', url_for(:back), class: "ui button" %>
+<% end %>
