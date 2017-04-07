@@ -20,6 +20,18 @@ GIT
       activesupport (>= 3)
 
 GIT
+  remote: https://github.com/damln/localtower.git
+  revision: 3da8078971f2f285ee7025eea059cc46717da297
+  specs:
+    localtower (0.1.7)
+      active_link_to
+      pg
+      rails (>= 4.2.0)
+      rubyzip
+      sqlite3
+      thor
+
+GIT
   remote: https://github.com/doabit/semantic-ui-sass.git
   revision: 0405e7002c7dc40915e8bf4f059f35585a9352eb
   specs:
@@ -101,6 +113,9 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    active_link_to (1.0.4)
+      actionpack
+      addressable
     activejob (5.0.0.1)
       activesupport (= 5.0.0.1)
       globalid (>= 0.3.6)
@@ -115,6 +130,8 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     arel (7.1.4)
     awesome_print (1.7.0)
     bcrypt (3.1.11)
@@ -194,6 +211,7 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
+    public_suffix (2.0.5)
     puma (3.6.0)
     quiet_safari (1.0.0)
       railties (>= 3.1.0)
@@ -310,6 +328,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
+  localtower!
   lograge
   money
   pg

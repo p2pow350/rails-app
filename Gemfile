@@ -97,6 +97,11 @@ group :development, :test do
   gem 'pry-rails'
 end
 
+group :development do
+  # /localtower model admin
+  gem "localtower", :git => 'https://github.com/damln/localtower.git'
+end
+
 require 'rbconfig'
 if RbConfig::CONFIG['target_os'] =~ /darwin(1[0-3])/i
   gem 'rb-fsevent', '<= 0.9.4'

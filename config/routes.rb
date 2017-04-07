@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  # http://localhost:3000/localtower
+  # if Rails.env.development?
+  #   mount Localtower::Engine, at: "localtower"
+  # end	
 	
   resources :rates do
     collection { post :upload }
