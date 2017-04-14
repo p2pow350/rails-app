@@ -71,7 +71,7 @@ class RatesController < ApplicationController
   	 s_filter = params[:q]
   	 s_criteria = params[:search_criteria]
   	 params[:currency] ||= 'eur'
-  	 
+
      if s_filter
        @zones = Hash[Zone.where.has { sql(s_criteria) =~ "%#{s_filter}%" }.pluck(:id, :name)]
      else
