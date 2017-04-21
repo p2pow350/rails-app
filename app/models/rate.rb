@@ -307,7 +307,7 @@ class Rate < ApplicationRecord
 			 "
 		)
 		
-		@rates.rows.find do |p, c|
+		@rates.rows.each do |p, c|
 			
 			#r = Rate.where(:prefix=>p, :carrier_id=>carrier_id )
 			if c == 1 
