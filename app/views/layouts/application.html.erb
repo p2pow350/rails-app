@@ -14,15 +14,17 @@
 <body>
 
 	<% if user_signed_in? %>
-	
+		
 		<%= render 'layouts/navigation' %>
 
 		<div class="pusher">
+		
 			<!-- Page Content Here-->
 			<%= semantic_flash %>
 
 			<h5 class="ui horizontal divider header"> <%= semantic_breadcrumbs %> </h5>			
 			<br>
+			
 			<%= yield %>
 		</div>  		
 		

@@ -286,7 +286,7 @@ class Rate < ApplicationRecord
 	 elapsed = (finish - start).to_i
 	 secs = elapsed % 60
 	 mins = elapsed / 60
-	 JobNotificationMailer.job_status("Rate Import", current_user , "Success", "Rate Import", "Task completed, imported rows #{imported_rows}\n\nElapsed sec: #{secs}, min: #{mins}").deliver_now
+	 JobNotificationMailer.job_status("#{Carrier.find(carrier_id).name} - Rate Import", current_user , "Success", "#{Carrier.find(carrier_id).name} - Rate Import", "Task completed, imported rows #{imported_rows}\n\nElapsed sec: #{secs}, min: #{mins}").deliver_now
   end
   
   
@@ -307,7 +307,7 @@ class Rate < ApplicationRecord
 			 "
 		)
 		
-		@rates.rows.each do |p, c|
+		@rates.rows.find do |p, c|
 			
 			#r = Rate.where(:prefix=>p, :carrier_id=>carrier_id )
 			if c == 1 
@@ -317,13 +317,13 @@ class Rate < ApplicationRecord
 					
 					if rs.start_date.strftime("%Y-%m-%d") == DateTime.now.strftime("%Y-%m-%d")
 						rs.status = 2
-						rs.save!
+						rs.save(:validate => false)
 					elsif rs.start_date.strftime("%Y-%m-%d") < DateTime.now.strftime("%Y-%m-%d")
 						rs.status = 0
-						rs.save!
+						rs.save(:validate => false)
 					else
 						rs.status = 1
-						rs.save!
+						rs.save(:validate => false)
 					end
 				end
 				
