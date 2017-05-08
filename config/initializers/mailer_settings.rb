@@ -5,7 +5,7 @@ Rails.application.configure do
     config.action_mailer.delivery_method = :smtp 
 
 	# get database settings
-    if (defined?(Option)).nil? # will now return true or false
+   	begin
   		@smtp_settings = Hash[Option.where(:area => 'mail_out').pluck(:o_key, :value)] 
     	
     	ActionMailer::Base.raise_delivery_errors = true    
@@ -19,6 +19,8 @@ Rails.application.configure do
     	  :authentication       => @smtp_settings["authentication"],
     	  :enable_starttls_auto => @smtp_settings["enable_starttls_auto"]
     	}
+    rescue
+    	
     end	
 	
     
