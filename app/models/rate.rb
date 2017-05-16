@@ -9,7 +9,6 @@ class Rate < ApplicationRecord
 
   
   def self.Faker  
-  	  
 	Carrier.enabled.each do | c |
 		Zone.all.each do | z |
 			
@@ -25,7 +24,6 @@ class Rate < ApplicationRecord
 		end
 	
 	end  	  
-  	  
   end
   
   

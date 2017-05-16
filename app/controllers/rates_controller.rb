@@ -29,7 +29,7 @@ class RatesController < ApplicationController
 	  end    	
       
     else
-      @rates = Rate.includes(:carrier).includes(:zone).all.paginate(:per_page => @per_page, :page => params[:page])
+      @rates = Rate.includes(:carrier).includes(:zone).all.order("name, carrier_id").paginate(:per_page => @per_page, :page => params[:page])
     end
   	      
     respond_to do |format|

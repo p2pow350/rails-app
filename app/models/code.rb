@@ -2,7 +2,7 @@ class Code < ActiveRecord::Base
   belongs_to :zone, counter_cache: true
   
   validates :name, :prefix, :zone_id, :presence => true
-  validates :name, :prefix, uniqueness: true
+  validates :name, uniqueness: { scope: [:prefix] }
   validates :prefix, numericality: { only_integer: true }
   before_save :fix_counter_cache, :if => ->(er) { !er.new_record? && er.zone_id_changed? }
   
@@ -14,10 +14,8 @@ class Code < ActiveRecord::Base
       header = spreadsheet.row(1)
       (2..spreadsheet.last_row).each do |i|
         row = Hash[[header, spreadsheet.row(i)].transpose]
-		#code = find_by_prefix(row["prefix"]) || new
-        #code.attributes = row.to_hash.slice(*row.to_hash.keys)
         
-        if Code.create_with(:name => row["name"].to_s, :prefix => row["prefix"].to_s, :zone_id => row["zone"].to_i).find_or_create_by(prefix: row["prefix"].to_s)
+        if Code.create_with(:name => row["Zone"].to_s, :prefix => row["Code"].to_s, :zone_id => Zone.where(name: row["Zone"].to_s).pluck(:id)[0].to_i).find_or_create_by(prefix: row["Code"].to_s)
         	imported_rows +=1
         end
         
