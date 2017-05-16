@@ -549,6 +549,72 @@ class Rate < ApplicationRecord
 
   end #SPADA
 
+
+  
+  def self.find_nearest_by_prefix(carrier_id, prefix)
+  	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
+	 case adapter_type
+	 when "mysql2"
+	   _now = "now()"
+	 when "postgresql" 
+	 	_now = "now()"
+	    _casting = "::numeric::text"
+	    _concat = " LIKE CONCAT(prefix,'%') "
+	 when "sqlite3"
+	    _now = "DATETIME('now')"
+	    _concat = " LIKE prefix ||'%' "
+	 end  	  
+	 
+    @code_search = ActiveRecord::Base.connection.select_all("
+	     SELECT prefix FROM rates
+	     WHERE '#{prefix}' #{_concat}
+	     AND prefix like '#{prefix[0..0]}%'
+	     AND carrier_id = #{carrier_id}
+	     ORDER BY length(prefix) DESC
+	     LIMIT 1
+    ")
+	   
+    match = @code_search[0]['prefix'] unless @code_search[0].nil?
+  end
+  
+  
+  
+  
+  
+  
+  
+  
+  def self.spada2(carrier_id)
+	adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
+	case adapter_type
+	when "mysql2"
+		_now = "now()"
+	when "postgresql" 
+		_now = "now()"
+		_casting = "::numeric::text"
+		_concat = " LIKE CONCAT(prefix,'%') "
+	when "sqlite3"
+		_now = "DATETIME('now')"
+		_concat = " LIKE prefix ||'%' "
+	end  	  
+	
+	Delayed::Worker.logger.debug "pulizia"
+	#CodeProcess.delete_all(carrier_id: carrier_id)
+  	
+	Delayed::Worker.logger.debug "carrier_vs_nostri"
+	Rate.where(:carrier_id => carrier_id).find_each do |r|
+		r.update_columns(flag1: 'ESATTO_MATCH', zone_id: Zone.find_zone_by_prefix(r.prefix))
+  	end	  
+
+	Delayed::Worker.logger.debug "nostri_vs_carrier"
+	Code.find_each do |c|
+		Rate.where(:carrier_id => carrier_id, :prefix => Rate.find_nearest_by_prefix(carrier_id, c.prefix)).update_all(flag2: 'PREF_VICINO', flag3: Rate.find_nearest_by_prefix(carrier_id, c.prefix) )
+  	end	  
+	
+	
+  end
+  
+  
   
   
 end 

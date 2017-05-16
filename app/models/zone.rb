@@ -4,7 +4,36 @@ class Zone < ActiveRecord::Base
   validates :name, :presence => true
   validates :name, uniqueness: true
   default_scope { order('name ASC') }
-      
+  
+
+  def self.find_zone_by_prefix(prefix)
+  	 adapter_type = ActiveRecord::Base.configurations[Rails.env]['adapter']
+	 case adapter_type
+	 when "mysql2"
+	   _now = "now()"
+	 when "postgresql" 
+	 	_now = "now()"
+	    _casting = "::numeric::text"
+	    _concat = " LIKE CONCAT(prefix,'%') "
+	 when "sqlite3"
+	    _now = "DATETIME('now')"
+	    _concat = " LIKE prefix ||'%' "
+	 end  	  
+	 
+    @code_search = ActiveRecord::Base.connection.select_all("
+	     SELECT zone_id FROM codes
+	     WHERE '#{prefix}' #{_concat}
+	     AND zone_id is not NULL
+	     AND prefix like '#{prefix[0..0]}%'
+	     ORDER BY length(prefix) DESC
+	     LIMIT 1
+    ")
+	   
+    match = @code_search[0]['zone_id'] unless @code_search[0].nil?
+  end
+
+  
+  
   
   def self.from_file_header_columns(file, current_user)
   	imported_rows = 0
